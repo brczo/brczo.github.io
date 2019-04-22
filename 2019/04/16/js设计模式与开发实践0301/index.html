@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>第三章 闭包 | 进化</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="变量有作用域和生存周期，如果函数内的变量在函数执行完后没有被销毁，这就产生了闭包  变量的作用域变量的作用域指的是变量的有效范围 变量的生存周期全局变量，局部变量。12345var func = function()&amp;#123;    var a = 1; //退出函数后局部变量a将被销毁    console.log(a);&amp;#125;;func(); 闭包，函数执行完后变量未被销毁123456">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第三章 闭包">
+<meta property="og:url" content="brczo.github.io/2019/04/16/js设计模式与开发实践0301/index.html">
+<meta property="og:site_name" content="进化">
+<meta property="og:description" content="变量有作用域和生存周期，如果函数内的变量在函数执行完后没有被销毁，这就产生了闭包  变量的作用域变量的作用域指的是变量的有效范围 变量的生存周期全局变量，局部变量。12345var func = function()&amp;#123;    var a = 1; //退出函数后局部变量a将被销毁    console.log(a);&amp;#125;;func(); 闭包，函数执行完后变量未被销毁123456">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-16T14:16:09.416Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第三章 闭包">
+<meta name="twitter:description" content="变量有作用域和生存周期，如果函数内的变量在函数执行完后没有被销毁，这就产生了闭包  变量的作用域变量的作用域指的是变量的有效范围 变量的生存周期全局变量，局部变量。12345var func = function()&amp;#123;    var a = 1; //退出函数后局部变量a将被销毁    console.log(a);&amp;#125;;func(); 闭包，函数执行完后变量未被销毁123456">
+  
+    <link rel="alternate" href="/atom.xml" title="进化" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">进化</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="brczo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js设计模式与开发实践0301" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/16/js设计模式与开发实践0301/" class="article-date">
+  <time datetime="2019-04-16T07:53:47.892Z" itemprop="datePublished">2019-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第三章 闭包
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>变量有作用域和生存周期，如果函数内的变量在函数执行完后没有被销毁，这就产生了闭包 </p>
+<h2 id="变量的作用域"><a href="#变量的作用域" class="headerlink" title="变量的作用域"></a>变量的作用域</h2><p>变量的作用域指的是变量的有效范围</p>
+<h2 id="变量的生存周期"><a href="#变量的生存周期" class="headerlink" title="变量的生存周期"></a>变量的生存周期</h2><p>全局变量，局部变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var func = function()&#123;</span><br><span class="line">    var a = 1; //退出函数后局部变量a将被销毁</span><br><span class="line">    console.log(a);</span><br><span class="line">&#125;;</span><br><span class="line">func();</span><br></pre></td></tr></table></figure></p>
+<p>闭包，函数执行完后变量未被销毁<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var func = function()&#123;</span><br><span class="line">    var a = 1;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        a++;</span><br><span class="line">        console.log(a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var f = func();</span><br><span class="line">f(); //输出：2</span><br><span class="line">f(); //输出：3</span><br><span class="line">f(); //输出：4</span><br><span class="line">f(); //输出：</span><br></pre></td></tr></table></figure></p>
+<p>经典应用，js的onclick事件是异步的，是在for循环后执行的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div&gt;1&lt;/div&gt;</span><br><span class="line">        &lt;div&gt;2&lt;/div&gt;</span><br><span class="line">        &lt;div&gt;3&lt;/div&gt;</span><br><span class="line">        &lt;div&gt;4&lt;/div&gt;</span><br><span class="line">        &lt;div&gt;5&lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var nodes = document.getElementsByTagName(&apos;div&apos;);</span><br><span class="line">        //不使用闭包</span><br><span class="line">        for(var i = 0, len = nodes.length; i &lt; len; i ++)&#123;</span><br><span class="line">            nodes[i].onclick = function()&#123;</span><br><span class="line">                console.log(i); //全部输出5</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //使用闭包</span><br><span class="line">        for(var i = 0, len = nodes.length; i &lt; len; i ++)&#123;</span><br><span class="line">            (funcion(i)&#123;</span><br><span class="line">                nodes[i].onclick = function()&#123;</span><br><span class="line">                    console.log(i); //全部输出 0,1,2,3,4</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="闭包的更多作用"><a href="#闭包的更多作用" class="headerlink" title="闭包的更多作用"></a>闭包的更多作用</h2><h3 id="封装变量"><a href="#封装变量" class="headerlink" title="封装变量"></a>封装变量</h3><p>闭包可以把一些不需要暴露在全局的变量封装成私有变量，假设有一个计算乘积的简单函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var mult = function()&#123;</span><br><span class="line">    var a = 1;</span><br><span class="line">    for(var i = 0, l = arguments.length; i &lt; 1; i++)&#123;</span><br><span class="line">        a = a * arguments[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return a;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>mult函数接受一些number类型的参数，并返回这些参数类型的乘积。现在我们觉得对于那么相同的参数来说，每次都进行计算是一种浪费，我们可以加入缓存机制来提高这个函数的性能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var cache = &#123;&#125;;</span><br><span class="line">var mult = function()&#123;</span><br><span class="line">    var args = Array.prototype.join.call(arguments, &apos;,&apos;);</span><br><span class="line">    if(cache[args])&#123;</span><br><span class="line">        return cache[args];</span><br><span class="line">    &#125;</span><br><span class="line">    var a = 1;</span><br><span class="line">    for(var i = 0, l = arguments.length; i &lt; l; i++)&#123;</span><br><span class="line">        a = a * arguments[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return cache[args] = a;</span><br><span class="line">&#125;;</span><br><span class="line">alert(mult(1,2,3)); //输出6</span><br><span class="line">alert(mult(1,2,3)); //输出6</span><br></pre></td></tr></table></figure></p>
+<p>我们看到这个变量仅仅在mult函数中被使用，我们可以通过使用闭包将变量放到函数内部<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var mult = (function()&#123;</span><br><span class="line">    var cache = &#123;&#125;;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var args = Array.prototype.join.call(arguments, &apos;,&apos;);</span><br><span class="line">        if(args in cache)&#123;</span><br><span class="line">            return cache[args];</span><br><span class="line">        &#125;</span><br><span class="line">        var a = 1;</span><br><span class="line">        for(var i = 0, l = arguments.length; i &lt; l; i++)&#123;</span><br><span class="line">            a = a * arguments[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return cache[args] = a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>提炼函数是代码重构中的一种常见技巧。如果在一个大函数中，有一些代码能够独立出来，我们常常把这些代码封装在独立的小函数里面。独立出来的小函数有利于代码复用，如果这些小函数有一个良好的命名，它们本身也起到了注释的作用。如果这些小函数不需要在程序的其他地方使用，最好是把他们用闭包封闭起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var mult = (function()&#123;</span><br><span class="line">    var cache = &#123;&#125;;</span><br><span class="line">    var calculate = function()&#123; //封闭calculate函数</span><br><span class="line">        var a = 1;</span><br><span class="line">        for (var i = 0, l = arguments.length; i &lt; l; i ++) &#123;</span><br><span class="line">            a = a * arguments[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return a;</span><br><span class="line">    &#125;;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var args = Array.prototype.join.call(arguments, &apos;,&apos;);</span><br><span class="line">        if(args in cache)&#123;</span><br><span class="line">            return cache[args];</span><br><span class="line">        &#125;</span><br><span class="line">        return cache[args] = calculate.apply(null, arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<h3 id="延续局部变量的寿命"><a href="#延续局部变量的寿命" class="headerlink" title="延续局部变量的寿命"></a>延续局部变量的寿命</h3><p>img对象经常用于进行数据上报，如下所示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var report = function(src) &#123;</span><br><span class="line">    var img = new Image();</span><br><span class="line">    img.src = src;</span><br><span class="line">&#125;;</span><br><span class="line">report( &apos;http://xxx.com/getUserInfo&apos; );</span><br></pre></td></tr></table></figure></p>
+<p>但是有些情况下，report函数并不是每一次都成功发起了http请求。丢失数据的原因是img是report函数的局部变量，当report调用结束后，img局部变量随即被销毁，而此时或许还没来得及发出http请求。现在我们把img变量用闭包封闭起来，便能解决请求丢失的问题：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var report = (function()&#123;</span><br><span class="line">    var imgs = [];</span><br><span class="line">    return function(src)&#123;</span><br><span class="line">        var img = new Image();</span><br><span class="line">        imgs.push(img);</span><br><span class="line">        imgs.src = src;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0301/" data-id="cjurvjbu8000qkx4myt59tddo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/16/js设计模式与开发实践0302/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第三章 闭包和面向对象设计
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/15/js设计模式与开发实践0203/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第二章 call和apply</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/20/富爸爸穷爸爸/">富爸爸穷爸爸</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/19/php设计模式01/">单例模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/原则-生活原则03/">生活原则（三） 做到头脑极度开放</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/原则-生活原则02/">生活原则（二） 用五步实现你的人生愿望</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/js设计模式与开发实践0401/">第四章 单例模式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 brczo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/scripts/love.js"></script>
+
+
+
+  </div>
+</body>
+</html>

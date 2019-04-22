@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>socket 创建 命名... | 进化</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="创建socket1234567891011#include &amp;lt;sys/types.h&amp;gt;#include &amp;lt;sys/socket.h&amp;gt;/**    @param domain 协议族 包括PF_INET（IPv4）、PF_INET6（IPv6）或PF_UNIX    @param type 服务类型 包括流服务（SOCK_STREAM）、数据包服务（SOCK_DGRAM）、">
+<meta property="og:type" content="article">
+<meta property="og:title" content="socket 创建 命名...">
+<meta property="og:url" content="brczo.github.io/2019/04/10/linux高性能服务器编程-socket-02/index.html">
+<meta property="og:site_name" content="进化">
+<meta property="og:description" content="创建socket1234567891011#include &amp;lt;sys/types.h&amp;gt;#include &amp;lt;sys/socket.h&amp;gt;/**    @param domain 协议族 包括PF_INET（IPv4）、PF_INET6（IPv6）或PF_UNIX    @param type 服务类型 包括流服务（SOCK_STREAM）、数据包服务（SOCK_DGRAM）、">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-14T14:37:42.556Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="socket 创建 命名...">
+<meta name="twitter:description" content="创建socket1234567891011#include &amp;lt;sys/types.h&amp;gt;#include &amp;lt;sys/socket.h&amp;gt;/**    @param domain 协议族 包括PF_INET（IPv4）、PF_INET6（IPv6）或PF_UNIX    @param type 服务类型 包括流服务（SOCK_STREAM）、数据包服务（SOCK_DGRAM）、">
+  
+    <link rel="alternate" href="/atom.xml" title="进化" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">进化</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="brczo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-linux高性能服务器编程-socket-02" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/10/linux高性能服务器编程-socket-02/" class="article-date">
+  <time datetime="2019-04-10T06:05:50.000Z" itemprop="datePublished">2019-04-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux高性能服务器/">linux高性能服务器</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      socket 创建 命名...
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="创建socket"><a href="#创建socket" class="headerlink" title="创建socket"></a>创建socket</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param domain 协议族 包括PF_INET（IPv4）、PF_INET6（IPv6）或PF_UNIX</span><br><span class="line">    @param type 服务类型 包括流服务（SOCK_STREAM）、数据包服务（SOCK_DGRAM）、</span><br><span class="line">    SOCK_NONBLOCK和SOCK_CLOEXEC。后两者表示将新创建的socket设为非阻塞的，以及用</span><br><span class="line">    fork调用创建子进程时在子进程中关闭socket。</span><br><span class="line">    @param protocol 选择子协议 默认为0</span><br><span class="line">    @return socket文件描述符|-1并设置errno</span><br><span class="line">**/</span><br><span class="line">int socket(int domain, int type, int protocol);</span><br></pre></td></tr></table></figure>
+<h2 id="命名socket"><a href="#命名socket" class="headerlink" title="命名socket"></a>命名socket</h2><p>创建socket时，指定了地址族，但是并未指定使用该地址族中的哪个具体的socket地址。将一个socket与socket地址绑定称为命名。<br>在服务器端通常需要命名socket，客户端通常不需要，而是采用匿名的方式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd socket文件描述符</span><br><span class="line">    @param addr socket地址</span><br><span class="line">    @param addrlen 指定地址长度</span><br><span class="line">    @return 0 成功|-1 并设置errno。其中两种常见的errno是EACCES和EADDRINUSE</span><br><span class="line">    EACCES 被绑定的地址是受保护的地址，仅超级用户能够访问。比如普通用户将socket</span><br><span class="line">    绑定到知名服务端口（端口号为0~1023）上时，bind将返回EACCES错误</span><br><span class="line">    EADDRINUSE 被绑定的地址正在使用中。比如将socket绑定到一个处于TIME_WAIT</span><br><span class="line">    状态的socket地址。</span><br><span class="line">**/</span><br><span class="line">int bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure></p>
+<h2 id="监听socket"><a href="#监听socket" class="headerlink" title="监听socket"></a>监听socket</h2><p>socket被命名后，还不能马上接受客户连接，我们需要使用如下系统调用来创建一个监听队列以存放待处理的客户连接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd socket文件描述符</span><br><span class="line">    @param backlog 提示内核监听队列的最大长度 监听队列的长度如果超过最大长度</span><br><span class="line">    服务器将不受理新的客户连接。客户端也将收到ECONNREFUSED</span><br><span class="line">    @return 0|-1</span><br><span class="line">**/</span><br><span class="line">int listen(int sockfd, int backlog);</span><br></pre></td></tr></table></figure></p>
+<h2 id="接受连接"><a href="#接受连接" class="headerlink" title="接受连接"></a>接受连接</h2><p>从listen监听队列中接受一个连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd 执行过listen系统调用的监听socket。</span><br><span class="line">    @param addr 用来获取被接受连接的远程socket地址</span><br><span class="line">    @param addrlen socket地址的长度</span><br><span class="line">    @return socket 该socket唯一的标识了被接收的这个连接|-1</span><br><span class="line">**/</span><br><span class="line">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</span><br></pre></td></tr></table></figure></p>
+<p><strong>accept只是从监听队列中取出连接，而不论连接处于何种状态，更不关心任何网络状况的变化。</strong></p>
+<h2 id="发起连接"><a href="#发起连接" class="headerlink" title="发起连接"></a>发起连接</h2><p>主动与服务器建立连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd socket系统调用返回一个socket。</span><br><span class="line">    @param serv_addr 服务器监听的socket地址</span><br><span class="line">    @param addrlen 指定地址长度</span><br><span class="line">    @return 0|-1 并设置errno </span><br><span class="line">    ECONNREFUSED 目标端口不存在，连接被拒绝</span><br><span class="line">    ETIMEOUT 连接超时</span><br><span class="line">**/</span><br><span class="line">int connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure></p>
+<h2 id="关闭连接"><a href="#关闭连接" class="headerlink" title="关闭连接"></a>关闭连接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param fd 待关闭的socket</span><br><span class="line">**/</span><br><span class="line">int close(int fd);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/10/linux高性能服务器编程-socket-02/" data-id="cjurvjbui0014kx4mq3ke64qt" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/10/心流-如何在日常生活中寻找心流/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第四章 如何在日常生活中寻找心流
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/10/linux高性能服务器编程-tcp&ip/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">tcp&amp;ip</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/20/富爸爸穷爸爸/">富爸爸穷爸爸</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/19/php设计模式01/">单例模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/原则-生活原则03/">生活原则（三） 做到头脑极度开放</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/原则-生活原则02/">生活原则（二） 用五步实现你的人生愿望</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/js设计模式与开发实践0401/">第四章 单例模式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 brczo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/scripts/love.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>头文件 | 进化</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="tinyhttpd.h头文件。源码阅读方式 main-&amp;gt;startup-&amp;gt;accept_request-&amp;gt;execute_cgi123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657#include &amp;lt;stdio.h&amp;g">
+<meta property="og:type" content="article">
+<meta property="og:title" content="头文件">
+<meta property="og:url" content="brczo.github.io/2019/04/12/tinyhttpd源码分析-头文件/index.html">
+<meta property="og:site_name" content="进化">
+<meta property="og:description" content="tinyhttpd.h头文件。源码阅读方式 main-&amp;gt;startup-&amp;gt;accept_request-&amp;gt;execute_cgi123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657#include &amp;lt;stdio.h&amp;g">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-14T06:23:24.662Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="头文件">
+<meta name="twitter:description" content="tinyhttpd.h头文件。源码阅读方式 main-&amp;gt;startup-&amp;gt;accept_request-&amp;gt;execute_cgi123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657#include &amp;lt;stdio.h&amp;g">
+  
+    <link rel="alternate" href="/atom.xml" title="进化" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">进化</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="brczo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tinyhttpd源码分析-头文件" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/12/tinyhttpd源码分析-头文件/" class="article-date">
+  <time datetime="2019-04-12T05:58:22.316Z" itemprop="datePublished">2019-04-12</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      头文件
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>tinyhttpd.h头文件。源码阅读方式 main-&gt;startup-&gt;accept_request-&gt;execute_cgi<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt; </span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;ctype.h&gt;</span><br><span class="line">#include &lt;strings.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;pthread.h&gt;</span><br><span class="line">#include &lt;sys/wait.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdint.h&gt;</span><br><span class="line"></span><br><span class="line">#define ISspace(x) isspace((int)(x))</span><br><span class="line"></span><br><span class="line">#define SERVER_STRING &quot;Server: jdbhttpd/0.1.0\r\n&quot;</span><br><span class="line">#define STDIN 0</span><br><span class="line">#define STDOUT 1</span><br><span class="line">#define STDERR 2</span><br><span class="line"></span><br><span class="line">处理从套接字上监听到的一个HTTP请求，在这里可以很大一部分地体现服务器处理请求流程</span><br><span class="line">void accept_request(void *);</span><br><span class="line"></span><br><span class="line">返回给客户端这是个错误请求，HTTP状态码 400 BAD_REQUEST</span><br><span class="line">void bad_request(int);</span><br><span class="line"></span><br><span class="line">读取服务器上某个文件写到socket套接字</span><br><span class="line">void cat(int, FILE *);</span><br><span class="line"></span><br><span class="line">主要处理发生在执行cgi程序时出现的错误</span><br><span class="line">void cannot_execute(int);</span><br><span class="line"></span><br><span class="line">把错误信息写到perror并退出</span><br><span class="line">void error_die(const char *);</span><br><span class="line"></span><br><span class="line">运行cgi程序的处理，也是个主要函数</span><br><span class="line">void execute_cgi(int, const char *, const char *, const char *);</span><br><span class="line"></span><br><span class="line">读取套接字的一行，把回车换行等情况都统一为换行符结束</span><br><span class="line">int get_line(int, char *, int);</span><br><span class="line"></span><br><span class="line">把HTTP响应的头部写到套接字</span><br><span class="line">void headers(int, const char *);</span><br><span class="line"></span><br><span class="line">主要处理找不到请求时的情况</span><br><span class="line">void not_found(int);</span><br><span class="line"></span><br><span class="line">调用cat把服务器文件返回给浏览器</span><br><span class="line">void serve_file(int, const char *);</span><br><span class="line"></span><br><span class="line">初始化httpd服务，包括建立套接字，绑定端口，进行监听等</span><br><span class="line">int startup(u_short *);</span><br><span class="line"></span><br><span class="line">返回给浏览器表明收到的HTTP请求所用的method不被支持</span><br><span class="line">void unimplemented(int);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/12/tinyhttpd源码分析-头文件/" data-id="cjurvjbuv001rkx4mg1h7s2s0" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/12/CMake简单教程01/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          CMake简单教程 第一步
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/12/linux高性能服务器编程-socket-03/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">socket 数据读写</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/20/富爸爸穷爸爸/">富爸爸穷爸爸</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/19/php设计模式01/">单例模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/原则-生活原则03/">生活原则（三） 做到头脑极度开放</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/原则-生活原则02/">生活原则（二） 用五步实现你的人生愿望</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/18/js设计模式与开发实践0401/">第四章 单例模式</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 brczo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/scripts/love.js"></script>
+
+
+
+  </div>
+</body>
+</html>
