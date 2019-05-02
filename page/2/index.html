@@ -62,6 +62,87 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-php设计模式05" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/27/php设计模式05/" class="article-date">
+  <time datetime="2019-04-27T10:46:13.603Z" itemprop="datePublished">2019-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/27/php设计模式05/">发布-订阅模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Subscriber&#123;</span><br><span class="line">    public function update()&#123;</span><br><span class="line">        echo &apos;更新&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Distributor&#123;</span><br><span class="line">    private $subscribers = [];</span><br><span class="line"></span><br><span class="line">    public function register(Subscriber $sub)&#123;</span><br><span class="line">        array_push($subscribers, $sub);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function notice()&#123;</span><br><span class="line">        foreach($this-&gt;subscribers as $sub) &#123;</span><br><span class="line">            $sub-&gt;update();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$a = new Subcriber();</span><br><span class="line">$b = new Subcriber();</span><br><span class="line">$dis = new Distributor();</span><br><span class="line">$dis-&gt;register($a);</span><br><span class="line">$dis-&gt;register($b);</span><br><span class="line">$dis-&gt;notice();</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/27/php设计模式05/" data-id="cjv6d1dhq002k5cjbbgmz09s3" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-php设计模式04" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/27/php设计模式04/" class="article-date">
+  <time datetime="2019-04-27T09:20:31.889Z" itemprop="datePublished">2019-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/27/php设计模式04/">迭代器模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>php内置了iterator迭代器接口，可以通过iterator接口自定义迭代器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class myIterator implements Iterator &#123;</span><br><span class="line">    private $position;</span><br><span class="line">    private $array = [</span><br><span class="line">        &apos;first&apos;,</span><br><span class="line">        &apos;second&apos;,</span><br><span class="line">        &apos;third&apos;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">        $this-&gt;position = 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function current()&#123;</span><br><span class="line">        return $array[$this-&gt;position];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function next()&#123;</span><br><span class="line">        ++ $this-&gt;position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function key()&#123;</span><br><span class="line">        return $this-&gt;position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function rewind()&#123;</span><br><span class="line">        $this-&gt;position = 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function valid()&#123;</span><br><span class="line">        return isset($this-&gt;array[$this-&gt;position]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$it = new myIterator();</span><br><span class="line"></span><br><span class="line">foreach($it as $k=&gt;$v)&#123;</span><br><span class="line">    var_dump($k, $v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/27/php设计模式04/" data-id="cjv6d1dhr002m5cjbqy13fx40" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-js设计模式与开发实践0702" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/27/js设计模式与开发实践0702/" class="article-date">
@@ -97,7 +178,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/27/js设计模式与开发实践0702/" data-id="cjv61432f001oeqjd2b4eezet" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/27/js设计模式与开发实践0702/" data-id="cjv6d1dh8001p5cjbz1hs9ecn" class="article-share-link">Share</a>
       
       
     </footer>
@@ -156,7 +237,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/26/小狗钱钱/" data-id="cjv61434c003jeqjdhr8dh5py" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/26/小狗钱钱/" data-id="cjv6d1dim003j5cjbi2ff9vbv" class="article-share-link">Share</a>
       
       
     </footer>
@@ -203,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0701/" data-id="cjv61432g001qeqjdapd26p45" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0701/" data-id="cjv6d1dh6001n5cjbt6pedfrl" class="article-share-link">Share</a>
       
       
     </footer>
@@ -246,7 +327,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/25/php设计模式03/" data-id="cjv614331002feqjdrm1o1yu4" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/25/php设计模式03/" data-id="cjv6d1dhu002p5cjb0bpt58mq" class="article-share-link">Share</a>
       
       
     </footer>
@@ -300,7 +381,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0604/" data-id="cjv614329001geqjdrf1a7z4h" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0604/" data-id="cjv6d1dh4001j5cjbgxcd452p" class="article-share-link">Share</a>
       
       
     </footer>
@@ -342,7 +423,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0603/" data-id="cjv614325001ceqjdqefgfvwm" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0603/" data-id="cjv6d1dgx001d5cjbpquhyh9i" class="article-share-link">Share</a>
       
       
     </footer>
@@ -391,7 +472,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0602/" data-id="cjv614327001eeqjdmdd15919" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0602/" data-id="cjv6d1dh2001h5cjb7ms4pmm5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -437,95 +518,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0601/" data-id="cjv61432b001ieqjd02mfabzj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-php设计模式02" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/24/php设计模式02/" class="article-date">
-  <time datetime="2019-04-24T11:28:04.144Z" itemprop="datePublished">2019-04-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/php设计模式02/">策略模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>策略类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">class Strategies &#123;</span><br><span class="line">    public funciton php()&#123;</span><br><span class="line">        echo &apos;用php解决&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    public function go()&#123;</span><br><span class="line">        echo &apos;用go解决&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function python()&#123;</span><br><span class="line">        echo &apos;用python解决&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>context类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">class Context &#123;</span><br><span class="line">    public $strategy;</span><br><span class="line">    public function setStrategy($strategy)&#123;</span><br><span class="line">        $this-&gt;strategy = $strategy;</span><br><span class="line">    &#125;</span><br><span class="line">    public function web() &#123;</span><br><span class="line">        (new Strategy)-&gt;&#123;$this-&gt;strategy&#125;();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/24/php设计模式02/" data-id="cjv61432x002ceqjdgxq8m8te" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0503" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/24/js设计模式与开发实践0503/" class="article-date">
-  <time datetime="2019-04-24T01:19:08.639Z" itemprop="datePublished">2019-04-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/js设计模式与开发实践0503/">第五章 策略模式03 表单校验</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="版本一"><a href="#版本一" class="headerlink" title="版本一"></a>版本一</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;form action=&quot;#&quot; id=&quot;registerForm&quot; method=&quot;post&quot;&gt;</span><br><span class="line">            请输入用户名：&lt;input type=&quot;text&quot; name=&quot;userName&quot;/&gt;</span><br><span class="line">            请输入密码：&lt;input type=&quot;text&quot; name=&quot;password&quot;/&gt;</span><br><span class="line">            请输入手机号码：&lt;input type=&quot;text&quot; name=&quot;phoneNumber&quot; /&gt;</span><br><span class="line">            &lt;button&gt;提交&lt;/button&gt;</span><br><span class="line">        &lt;/form&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var registerForm = document.getElementById(&apos;registerForm&apos;);</span><br><span class="line">        registerForm.onsubmit = function()&#123;</span><br><span class="line">            if(registerForm.userName.value === &apos;&apos;)&#123;</span><br><span class="line">                console.log(&apos;用户名不能为空&apos;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            if(registerForm.password.value.length &lt; 6)&#123;</span><br><span class="line">                console.log(&apos;密码长度不能少于6位&apos;);</span><br><span class="line">                return fasle;</span><br><span class="line">            &#125;</span><br><span class="line">            if(!/(1[358])[0-9]&#123;9&#125;$)/.test(registerForm.phoneNumber.value)&#123;</span><br><span class="line">                console.log(&apos;手机号码格式不正确&apos;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
-<p>代码编写方式的缺点：</p>
-<blockquote>
-<p>函数庞大<br>缺乏弹性<br>算法复用性差</p>
-</blockquote>
-<h2 id="用策略模式重构表单"><a href="#用策略模式重构表单" class="headerlink" title="用策略模式重构表单"></a>用策略模式重构表单</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br></pre></td><td class="code"><pre><span class="line">var strategies = &#123;</span><br><span class="line">    isNonEmpty: function(value, errorMsg)&#123; //不为空</span><br><span class="line">        if(value === &apos;&apos;)&#123;</span><br><span class="line">            return errorMsg;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    minLength: function(value, errorMsg)&#123; //限制最小长度</span><br><span class="line">        if(value.length &lt; 6)&#123;</span><br><span class="line">            return errorMsg;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    isPhoneNumber: function(value, errorMsg)&#123; //判断是否为正确的手机号</span><br><span class="line">        if(!/(^1[358][0-9]&#123;9&#125;$)/.test(value)) &#123;</span><br><span class="line">            return errorMsg;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var validateFunc = function()&#123;</span><br><span class="line">    var validator = new Validator();  //创建一个validator对象</span><br><span class="line">    /************* 添加一些校验规则 ***************/</span><br><span class="line">    validator.add(registerForm.userName,&apos;isNonEmpty&apos;, &apos;用户名不能为空&apos;);</span><br><span class="line">    validator.add(registerForm.password,&apos;minLength:6&apos;, &apos;密码长度不能少于6位&apos;);</span><br><span class="line">    validator.add(registerForm.phoneNumber,&apos;isPhoneNumber&apos;, &apos;手机号码格式不正确&apos;);</span><br><span class="line">    </span><br><span class="line">    var errorMsg = validator.start(); //获得校验结果</span><br><span class="line">    return errorMsg; //返回校验结果</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var registerForm = document.getELementById(&apos;registerFrom&apos;);</span><br><span class="line">registerForm.onsubmit = function()&#123;</span><br><span class="line">    var errorMsg = validatorFunc(); //如果errorMsg有确切的返回值，说明未通过校验</span><br><span class="line">    if(errorMsg) &#123;</span><br><span class="line">        console.log(errorMsg);</span><br><span class="line">        return false; //组织表单提交</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var Validator = function()&#123;</span><br><span class="line">    this.cache = []; //保存校验规则</span><br><span class="line">&#125;;</span><br><span class="line">Validator.prototype.add = function(dom, rule, errorMsg) &#123;</span><br><span class="line">    var arr = rule.split(&apos;:&apos;); //把strategy和参数分开</span><br><span class="line">    this.cache.push(function()&#123; //把校验的步骤用空函数包装起来，并且放入cache</span><br><span class="line">        var strategy = arr.shift(); //用户挑选的strategy</span><br><span class="line">        arr.unshift(dom.value); //把input的value添加进参数列表</span><br><span class="line">        arr.push(errorMsg); // 把errorMsg添加进参数列表</span><br><span class="line">        return strategies[strategy].apply(dom, arr);</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;;</span><br><span class="line">Validator.prototype.start = function()&#123;</span><br><span class="line">    for(var i = 0, validatorFunc; validatorFunc = this.cache[i++];) &#123;</span><br><span class="line">        var msg = validatorFunc(); //开始校验，并取得校验后的返回信息</span><br><span class="line">        if(msg)&#123; //如果有确切的返回值，说明校验没有通过</span><br><span class="line">            return msg;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0503/" data-id="cjv61431w0014eqjdxqjr657p" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0601/" data-id="cjv6d1dgz001f5cjbf1hjzu33" class="article-share-link">Share</a>
       
       
     </footer>
@@ -539,7 +532,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -565,7 +558,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
     </div>
   </div>
 
@@ -578,23 +571,23 @@
       <ul>
         
           <li>
+            <a href="/2019/05/02/js设计模式与开发实践0903/">第九章 宏命令</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/02/js设计模式与开发实践0902/">第九章 js中的命令模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/02/js设计模式与开发实践0901/">第九章 命令模式</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
           </li>
         
           <li>
             <a href="/2019/04/29/优势谈判/">开局谈判技巧</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
           </li>
         
       </ul>

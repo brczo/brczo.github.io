@@ -62,6 +62,115 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-linux高性能服务器编程-tcp&amp;ip" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/10/linux高性能服务器编程-tcp&ip/" class="article-date">
+  <time datetime="2019-04-10T06:03:13.189Z" itemprop="datePublished">2019-04-10</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/linux高性能服务器/">linux高性能服务器</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/10/linux高性能服务器编程-tcp&ip/">tcp&amp;ip</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><img src="/images/TCP:IP协议族体系结构及主要协议.png" alt="TCP/IP协议族体系结构及主要协议"></p>
+<h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><p>数据链路层的两个常用协议是ARP协议（Address Resolve Protocol）地址解析协议和RARP（Reverse Address Resolve Protocol）逆地址解析协议。实现IP地址与机器物理地址之间的相互转换。</p>
+<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><p>网络层实现数据包的选路和转发。网络层最核心的协议是<strong>IP协议</strong>。IP协议根据数据包的目的IP地址来决定如何投递它。如果数据包不能直接投递给目标主机，那么IP协议就为它寻找下一个合适的下一跳路由器，并将数据包交付给该路由器来转发。多次重复这一过程，数据包最终到达目标主机，或者发送失败而丢弃。<br>网络层的另一重要协议是ICMP协议，主要用于检测网络连接。</p>
+<h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><p>传输层为两台主机上的应用提供端到端的通信，只关心通信的起始端和目的端，而不在乎数据包的中转过程。<br><img src="/images/网络层与传输层的区别
+.png" alt="网络层与传输层的区别"></p>
+<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><p>应用层负责处理应用程序逻辑。</p>
+<h2 id="socket和tcp-ip协议族的关系"><a href="#socket和tcp-ip协议族的关系" class="headerlink" title="socket和tcp/ip协议族的关系"></a>socket和tcp/ip协议族的关系</h2><p>数据链路层、网络层、传输层协议是在内核中实现的。因此操作系统需要实现一组系统调用，使得应用程序能访问这些协议提供的服务。实现这些系统调用的api主要是socket。<br>由socket定义的这一组API提供以下两点功能：</p>
+<ul>
+<li>一是将应用程序数据从用户缓冲区中复制到TCP/IP内核发送缓冲区，以交付内核来发送数据，或者从内核TCP/UDP接收缓冲区中复制数据到用户缓冲区，以读取数据。</li>
+<li>二是应用程序可以通过它们来修改内核中各层协议的某些头部信息或其他数据结构，从而精细的控制底层通信行为。比如可以通过setsockopt函数来设置IP数据报在网络上的存活时间。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/10/linux高性能服务器编程-tcp&ip/" data-id="cjv6d1dhn002f5cjbsurckjyy" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-心流-心流的要素" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/09/心流-心流的要素/" class="article-date">
+  <time datetime="2019-04-09T15:24:59.281Z" itemprop="datePublished">2019-04-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/心流/">心流</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/09/心流-心流的要素/">第三章：心流的构成要素</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>改善生活品质的主要策略有两种：一是使外在条件符合我们的目标；而是改变我们体验外在条件的方式，使他与我们的目标相契合。</p>
+<h2 id="幸福的假象"><a href="#幸福的假象" class="headerlink" title="幸福的假象"></a>幸福的假象</h2><p>有钱不一定幸福，幸福一定要有钱。</p>
+<h2 id="享乐与乐趣"><a href="#享乐与乐趣" class="headerlink" title="享乐与乐趣"></a>享乐与乐趣</h2><p>享乐是高水准生活的重要一环，但享乐本身并不能带来幸福。睡眠、休息、食物与性，都属于恢复“均衡的体验”，在肉体需要引起精神熵后，重整意识的秩序。它们并不能带动心灵的成长，也不能增加自我的复杂性。换言之，享乐虽有助于维持意识的秩序，却无法在意识中创造新秩序。</p>
+<h3 id="享乐转瞬即逝，乐趣回味无穷"><a href="#享乐转瞬即逝，乐趣回味无穷" class="headerlink" title="享乐转瞬即逝，乐趣回味无穷"></a>享乐转瞬即逝，乐趣回味无穷</h3><p>乐趣具有向前发展的特性，并蕴涵新鲜感和成就感。在网球赛中险胜，通过考验证明自己的能力；阅读一本书，发掘新观点；在谈话中发表过去甚至不自知的观点——这都是乐趣横生的事。谈成一笔竞争激烈的生意，或做好任何一份工作，乐趣自在其中。这些事在进行的过程中，谈不上什么享乐，但事后回想起来，我们会情不自禁地说：“真有意思！”而且，盼望一切能重演。经历过有乐趣的事，我们就感觉自己有了改变，自我有了成长；在某些方面，这次体验已使我们变得更复杂、更丰富。</p>
+<h2 id="构成心流体验的要素"><a href="#构成心流体验的要素" class="headerlink" title="构成心流体验的要素"></a>构成心流体验的要素</h2><h3 id="具挑战性的活动"><a href="#具挑战性的活动" class="headerlink" title="具挑战性的活动"></a>具挑战性的活动</h3><ul>
+<li>敌人也是我们的好帮手</li>
+<li>化无趣为乐趣</li>
+</ul>
+<h3 id="挑战与技巧的黄金比例"><a href="#挑战与技巧的黄金比例" class="headerlink" title="挑战与技巧的黄金比例"></a>挑战与技巧的黄金比例</h3><h3 id="知行合一"><a href="#知行合一" class="headerlink" title="知行合一"></a>知行合一</h3><p>当情况要求一个人运用相关技巧来应付挑战时，这个人的注意力就会完全投入，不剩一丝精神能量处理与挑战无关的资讯，而完全集中于相关的刺激上。。最优体验最普遍、最清晰的特质就会在此时呈现：当事人全神贯注，一切行动都不假思索，几乎完全自动自发；他们的知觉甚至泯灭，人与行动完全合一。</p>
+<h3 id="明确目标和即时回馈"><a href="#明确目标和即时回馈" class="headerlink" title="明确目标和即时回馈"></a>明确目标和即时回馈</h3><h3 id="目标主导回馈"><a href="#目标主导回馈" class="headerlink" title="目标主导回馈"></a>目标主导回馈</h3><p>学者确立目标，辨认与评估回馈，否则无法从任何活动中发觉乐趣。</p>
+<h3 id="回馈因人而异"><a href="#回馈因人而异" class="headerlink" title="回馈因人而异"></a>回馈因人而异</h3><p>回馈只要和我们用精神能量追求的目标有合理的关联，就能产生乐趣。</p>
+<h3 id="全神贯注"><a href="#全神贯注" class="headerlink" title="全神贯注"></a>全神贯注</h3><p>在平凡的日常生活中，我们受任意闯进意识的思想和忧虑驱使，由于大多数工作和普通的家庭生活，要求都不及心流体验那么高，也不需要全神贯注，因此悬念和 焦虑才有了乘虚而入的机会。这就导致在一般状态下，心灵常会受到精神熵的突如其来的干扰，精神能量不能流转自如。也正因为如此，心流才能提升体验的品质；这类需要全心投入的活动，要求分明，秩序井然，根本不容外来因素介入与破坏。</p>
+<h3 id="掌控自如"><a href="#掌控自如" class="headerlink" title="掌控自如"></a>掌控自如</h3><p>心流中有高度控制感。</p>
+<h3 id="危险是心流的契机"><a href="#危险是心流的契机" class="headerlink" title="危险是心流的契机"></a>危险是心流的契机</h3><p>真正给人带来乐趣的不是控制本身，而是在艰难状况下行驶控制权的感觉。除非放弃生活常规所提供的保护，否则不可能体会到控制的感觉。只有在个人力量能左右结果时，才能确知自己拥有控制权。</p>
+<h3 id="心流会上瘾"><a href="#心流会上瘾" class="headerlink" title="心流会上瘾"></a>心流会上瘾</h3><h3 id="浑然忘我"><a href="#浑然忘我" class="headerlink" title="浑然忘我"></a>浑然忘我</h3><h3 id="与大我合一"><a href="#与大我合一" class="headerlink" title="与大我合一"></a>与大我合一</h3><p>自我的执着很耗费精神能量，因为它使我们在日常生活中，经常觉得备受威胁。一受到威胁，我们就必须用知觉检视自我，以了解威胁是否真正存在，应该如何应付。比方说，在街上漫步时，我发现有人回头笑嘻嘻的向我张望，正常人的反应是开始担心：“有什么不对吗？我是否显得很可笑？我走路的样子很奇怪，或是脸上有污点？”，每天好几百次我们都得到类似的提醒，察觉自己浑身上下都是缺点。这种事情没发生一次，精神能量就为重建意识秩序而消耗一次。<br>暂时忘我，似乎是件很愉快的事，不再一心一意的想着自己，才有机会扩充对自我的概念。消除自我意思可以带来自我超越，产生一种自我疆界向外扩展的感觉。这种感觉并非幻想，而是跟某种“大我”亲密接触的实质体验；这种互动关系使我们跟那些通常相当遥远的实体，产生极为难得的一体验。在漫长的守夜中，孤单的水手开始觉得船是自我的延伸，循同样的节奏，朝同样的目标前进。小提琴家在努力创造的乐声中载沉载浮，自觉是“和谐天籁”的一部分。登山者全神贯注于岩块上😊的凹凸处，找寻落足点，在手指与岩石，脆弱的人体与石块、天、风的组合中，发展出一种有如血缘般的亲密关系。</p>
+<h3 id="超越自我"><a href="#超越自我" class="headerlink" title="超越自我"></a>超越自我</h3><p>在心流中失去自我的感觉，以及之后以更坚强的面貌再度出现，两者之间有一种非常重要、乍看却仿佛矛盾的关系。偶尔放弃自我意识，对建立更强大的自我意识，似乎有其必要性。道理很简单：在心流中，一个人面临做出最佳表现、须不断改善技巧的挑战，在这期间，他没有机会反省这么做对自我有什么意义-如果自我意识能即使恢复，这次体验就不可能太深刻。要等事后，一切活动都告一段落时，自我意识逐渐复苏，而这时的自我已经和经历心流前的自我不一样了：新技巧和新成就使得他变得丰更富。</p>
+<h2 id="目标不假外求"><a href="#目标不假外求" class="headerlink" title="目标不假外求"></a>目标不假外求</h2><p>最有体验的一大特色在于它本身就是目标。<strong>自成目标</strong>指的是做一件事不追求未来的报酬，做这件事本身就是最大的回馈。我们所做的事，大多既不是纯粹的自成目标，也不是纯粹的外求目标，而是两者的综合。</p>
+<h3 id="从被迫的体验中顿悟"><a href="#从被迫的体验中顿悟" class="headerlink" title="从被迫的体验中顿悟"></a>从被迫的体验中顿悟</h3><h3 id="没有绝对的好"><a href="#没有绝对的好" class="headerlink" title="没有绝对的好"></a>没有绝对的好</h3><p>心流体验跟世间所有的事一样，不可能绝对的好。它的好在于它具有使人生更丰富、更紧凑、更有意义的潜力，在于它能加强自我的力量与复杂性。但心流的结果是好是坏，必须应用于较广泛的社会标准加以讨论和评估。举凡人类的活动，不论是科学、宗教、还是政治，都是如此。一种特定的宗教信仰或许对一个人或一个团队有益，而对其他人或团体而言却是横加压迫。基督教有助于整合罗马帝国治下分奔离析的各民族，却瓦解了它之后接触到的弱势文化。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/09/心流-心流的要素/" data-id="cjv6d1dir003u5cjbk2ofpgat" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-心流-控制意识，改善体验" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/09/心流-控制意识，改善体验/" class="article-date">
@@ -102,7 +211,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/09/心流-控制意识，改善体验/" data-id="cjv61434g003qeqjd10sqfmrl" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/09/心流-控制意识，改善体验/" data-id="cjv6d1dis003w5cjbyask55em" class="article-share-link">Share</a>
       
       
     </footer>
@@ -138,7 +247,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/07/写给大家看的设计书/" data-id="cjv61433x0037eqjdrzkrtzat" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/07/写给大家看的设计书/" data-id="cjv6d1dih003b5cjbeghg3x5e" class="article-share-link">Share</a>
       
       
     </footer>
@@ -181,7 +290,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/06/心流-快乐的源泉/" data-id="cjv61434f003neqjd2i9c2n91" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/06/心流-快乐的源泉/" data-id="cjv6d1div00405cjbbfiek1z7" class="article-share-link">Share</a>
       
       
     </footer>
@@ -236,7 +345,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/04/tcpdump/" data-id="cjv61433c002oeqjdlytisuld" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/04/tcpdump/" data-id="cjv6d1di9002y5cjbijmwrlsp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -282,7 +391,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/04/js设计模式与开发实践0101/" data-id="cjv61431d000ceqjdlt211cey" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/04/js设计模式与开发实践0101/" data-id="cjv6d1dga000d5cjbtuas6824" class="article-share-link">Share</a>
       
       
     </footer>
@@ -329,7 +438,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/03/七周七语言/" data-id="cjv61433t0032eqjdhxrnnb40" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/03/七周七语言/" data-id="cjv6d1die00375cjbf2rwtduc" class="article-share-link">Share</a>
       
       
     </footer>
@@ -365,7 +474,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/02/promise解决的问题/" data-id="cjv61433f002reqjdtf6n9q1t" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/02/promise解决的问题/" data-id="cjv6d1di8002v5cjb6uhrvbsg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -401,226 +510,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/01/委托/" data-id="cjv614347003feqjdxhd2a9l8" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-人工智能" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/03/31/人工智能/" class="article-date">
-  <time datetime="2019-03-31T07:43:12.000Z" itemprop="datePublished">2019-03-31</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/31/人工智能/">《人工智能 一种现代化方法》</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="人工智能四类定义"><a href="#人工智能四类定义" class="headerlink" title="人工智能四类定义"></a>人工智能四类定义</h2><table>
-<thead>
-<tr>
-<th>像人一样行动</th>
-<th>合理地思考</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>像人一样思考</td>
-<td>合理的行动</td>
-</tr>
-</tbody>
-</table>
-<p>左侧的定义根据与人类表现的逼真度来衡量成功与否；右侧定义依据合理性的理想表现量来衡量。</p>
-<h3 id="像人一样行动，-计算机须具备以下能力："><a href="#像人一样行动，-计算机须具备以下能力：" class="headerlink" title="像人一样行动， 计算机须具备以下能力："></a>像人一样行动， 计算机须具备以下能力：</h3><ul>
-<li>自然语言处理（natural languageprocessing）使之能成功的用语言交流。</li>
-<li>知识表示（knowledge representation）以存储它知道的或听到的信息。</li>
-<li>自动推理（automated reasoning）以运用存储的信息来回答问题或得出结论。</li>
-<li>机器学习（machine learning）以适应新情况并检测和预测模式。</li>
-<li>计算机视觉（computer vision）以感知物体。</li>
-<li>机器人学（robotics）以操纵和移动对象。</li>
-</ul>
-<h3 id="像人类一样思考：-认知建模的途径"><a href="#像人类一样思考：-认知建模的途径" class="headerlink" title="像人类一样思考： 认知建模的途径"></a>像人类一样思考： 认知建模的途径</h3><ul>
-<li>通过内省-试图捕获我们自身的思维过程。</li>
-<li>通过心理实验-观察工作中的一个人。</li>
-<li>通过脑成像-观察工作中的头脑。</li>
-</ul>
-<h3 id="合理地思考：“思维法则”的途径"><a href="#合理地思考：“思维法则”的途径" class="headerlink" title="合理地思考：“思维法则”的途径"></a>合理地思考：“思维法则”的途径</h3><ul>
-<li>逻辑定式。不太靠谱。</li>
-</ul>
-<h3 id="合理地行动：合理Agent的途径（重点）"><a href="#合理地行动：合理Agent的途径（重点）" class="headerlink" title="合理地行动：合理Agent的途径（重点）"></a>合理地行动：合理Agent的途径（重点）</h3><blockquote>
-<p>Agent就是能够行动的某种东西。<br>合理Agent是一个为了实现最佳结果，或者，当存在不确定性时，为了实现最佳期望结果而行动的Agent。<br>合理的Agent的途径与其他途径相比有两个优点。首先，它比“思维的途径”更一般因为正确的推理只是实现合理性的几种可能的机制之一。其次，它比其他基于人类行为或人类思维的途径更经得起科学发展的检验。</p>
-</blockquote>
-<h2 id="人工智能基础"><a href="#人工智能基础" class="headerlink" title="人工智能基础"></a>人工智能基础</h2><h3 id="哲学"><a href="#哲学" class="headerlink" title="哲学"></a>哲学</h3><ul>
-<li>形式规则可用于推出有效的结论吗？</li>
-<li>思想如何从物理的大脑中产生？</li>
-<li>知识来自何方？</li>
-<li>知识如何导致行动？</li>
-</ul>
-<h3 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h3><ul>
-<li>什么是能导出有效结论的形式化规则？</li>
-<li>什么可以被计算？</li>
-<li>我们如何用不确定的信息来推理？</li>
-</ul>
-<h3 id="经济学"><a href="#经济学" class="headerlink" title="经济学"></a>经济学</h3><ul>
-<li>我们应该如何决策以便收益最大？</li>
-<li>当其他人不合作时我们应该如何做到这样？</li>
-<li>当收益遥遥无期时我们应该如何做到这样？</li>
-</ul>
-<h3 id="神经科学"><a href="#神经科学" class="headerlink" title="神经科学"></a>神经科学</h3><ul>
-<li>大脑如何处理信息？</li>
-</ul>
-<h3 id="心理学"><a href="#心理学" class="headerlink" title="心理学"></a>心理学</h3><ul>
-<li>人类和动物如何思考与行动？</li>
-</ul>
-<h3 id="计算机工程"><a href="#计算机工程" class="headerlink" title="计算机工程"></a>计算机工程</h3><ul>
-<li>我们如何才能建造高效的计算机？</li>
-</ul>
-<h3 id="控制论"><a href="#控制论" class="headerlink" title="控制论"></a>控制论</h3><ul>
-<li>人工制品可以如何在其自身的控制下运转？</li>
-</ul>
-<h3 id="语言学"><a href="#语言学" class="headerlink" title="语言学"></a>语言学</h3><ul>
-<li>语言与思维如何关联？</li>
-</ul>
-<h2 id="智能Agent"><a href="#智能Agent" class="headerlink" title="智能Agent"></a>智能Agent</h2><h3 id="Agent与环境"><a href="#Agent与环境" class="headerlink" title="Agent与环境"></a>Agent与环境</h3><p><img src="/images/agent.jpg" alt></p>
-<h3 id="好的行为：理性的概念"><a href="#好的行为：理性的概念" class="headerlink" title="好的行为：理性的概念"></a>好的行为：理性的概念</h3><blockquote>
-<p>判断依据</p>
-<ul>
-<li>定义成功标准的性能度量</li>
-<li>Agent对环境的先验知识</li>
-<li>Agent可以完成的行动</li>
-<li>Agent截止到此时的感知序列</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>定义： 对每个可能的感知序列，根据已知的感知序列提供的证据和Agent具有的先验知识，理性Agent应该选择使其性能度量最大化的行动。</p>
-</blockquote>
-<h3 id="环境的性质"><a href="#环境的性质" class="headerlink" title="环境的性质"></a>环境的性质</h3><blockquote>
-<p>任务环境</p>
-<ul>
-<li>Performance（性能）</li>
-<li>Environment（环境）</li>
-<li>Actuators（执行器）</li>
-<li>Sensors（传感器）</li>
-</ul>
-</blockquote>
-<blockquote>
-<p>环境性质</p>
-<ul>
-<li>完全可观察的与部分可观察的</li>
-<li>单Agent与多Agent</li>
-<li>确定的与随机的</li>
-<li>片段式的与延续式的</li>
-<li>静态的与动态的 </li>
-<li>离散的与连续的</li>
-<li>已知的与未知的</li>
-</ul>
-</blockquote>
-<h3 id="Agent结构"><a href="#Agent结构" class="headerlink" title="Agent结构"></a>Agent结构</h3><p>####Agent程序 智能系统的基础原则</p>
-<ul>
-<li>简单反射Agent</li>
-<li>基于模型的反射Agent</li>
-<li>基于目标的Agent</li>
-<li>基于效用的Agent</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/03/31/人工智能/" data-id="cjv61433w0035eqjd79dkfvix" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-原则-生活原则01" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/03/30/原则-生活原则01/" class="article-date">
-  <time datetime="2019-03-30T06:58:50.000Z" itemprop="datePublished">2019-03-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/30/原则-生活原则01/">生活原则（一） 拥抱现实，应对现实</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <blockquote>
-<p>把生活想象成一场游戏，我面临的每一个问题都是一个需要破解的迷。我通过揭秘获得一块宝石，即一项原则。它能够帮助我在未来避免同样的问题<br>体会<strong>从犯错中学习的愉悦感</strong></p>
-</blockquote>
-<h3 id="做一个超级现实的人"><a href="#做一个超级现实的人" class="headerlink" title="做一个超级现实的人"></a>做一个超级现实的人</h3><blockquote>
-<p><strong>梦想+现实+决心=成功的生活</strong>。从现实出发。有效的工作，提高自己的工作效率。极力避免做无用功。</p>
-</blockquote>
-<h3 id="真相（或者更确切的说，对现实的准确理解）是任何良好结果的根本依据"><a href="#真相（或者更确切的说，对现实的准确理解）是任何良好结果的根本依据" class="headerlink" title="真相（或者更确切的说，对现实的准确理解）是任何良好结果的根本依据"></a>真相（或者更确切的说，对现实的准确理解）是任何良好结果的根本依据</h3><h3 id="做到头脑极度开放、极度透明"><a href="#做到头脑极度开放、极度透明" class="headerlink" title="做到头脑极度开放、极度透明"></a>做到头脑极度开放、极度透明</h3><blockquote>
-<p>对于快速学习和有效改变而言，头脑极度开放、极度透明是价值无限的。<br>  <strong>不要担心别人的看法，使之成为你的障碍</strong>。你必须以自己认为最好的独特的方式行事，这样做肯定有反馈，你必须开明的思考这些反馈。<br>  拥抱极度求真和极度透明将带来更有意义的工作和更有意义的人际关系。</p>
-</blockquote>
-<h3 id="观察自然，学习自然规律"><a href="#观察自然，学习自然规律" class="headerlink" title="观察自然，学习自然规律"></a>观察自然，学习自然规律</h3><blockquote>
-<p>宇宙浩瀚无垠，人类不过是沧海一粟。从大自然中学习如何认识现实规律。<br>  <strong>不要固守你对事物应该是什么样的看法，这将使你无法了解真实的情况</strong>。 大多数人根据事物对自身影响判断好坏。正在运行的自然进程，它能够有效的促进整个世界的改善，比任何程序都要好。<br>  <strong>一个东西要“好“，就必须符合现实规律，并促进整体的进化，这能带来最大的回报</strong>。<br>  <strong>进化是宇宙中最强大的力量，是唯一永恒的东西，是一切的驱动力。</strong><br>  <strong>不进化就死亡</strong>。不断学习新知识，把握新规律。</p>
-</blockquote>
-<h3 id="进化是生命最大的成就和最大的回报"><a href="#进化是生命最大的成就和最大的回报" class="headerlink" title="进化是生命最大的成就和最大的回报"></a>进化是生命最大的成就和最大的回报</h3><blockquote>
-<p><strong>个体的激励机制必须符合群体的目标</strong>。<br><strong>为了整体趋向最优化，而不是个体</strong>。<br><strong>通过快速试错以适应现实是无价的</strong>。<br><strong>意识到你既是一切又什么都不是，并决定你想要成为的样子</strong>。自下而上的看，自己就是一切，如果生命终止了，对我们而言，世界也就消失了。自上而下的看，人类都不过是沧海一粟，个体生命的终结更加虚无。宇宙运行自有其规律。<br><strong>你的未来取决于你的视角</strong></p>
-</blockquote>
-<h3 id="理解自然提供的现实教训"><a href="#理解自然提供的现实教训" class="headerlink" title="理解自然提供的现实教训"></a>理解自然提供的现实教训</h3><blockquote>
-<p><strong>把你的进化最大化</strong>。对大多数人而言，成功就是以尽可能高效的方式拼搏和进化，即迅速认识自身和所处环境，然后通过改变实现进步。<br><strong>记住“没有痛苦就没有收获”。</strong>自然让我们痛苦是有意图的。痛苦让我们清醒，帮助我们进步。<br><strong>自然的一项根本法则是，为了赢得力量，人必须努力突破极限，而这是痛苦的</strong>。</p>
-</blockquote>
-<h3 id="痛苦-反思-进步"><a href="#痛苦-反思-进步" class="headerlink" title="痛苦 + 反思 = 进步"></a>痛苦 + 反思 = 进步</h3><blockquote>
-<p>生活不可避免的给你考验， 而你愿不愿意以退为进、从失败中获益，取决于你自己。<br><strong>迎接而非躲避痛苦</strong>。找到、接受，并学会如何应对你的弱点；更喜欢周围的人对你坦诚，而不是隐藏对你的负面看法；展现真实的自我，而不是强行把弱点伪装成优势。<br><strong>接受严厉的爱</strong>。不断寻找、实现和追求更大胆的目标，不仅适用于个人和社会如何前进的问题。它同样适用与逆境，而逆境是不可避免的。你一生中必定会经历某个一败涂地的时刻。你可能工作失败、家庭失败、失去亲人、遭遇严重事故或疾病，或者发现你想要的生活永远遥不可及。总会有某些厄运找上你。那时，你将深陷痛苦痛苦，可能觉得失去了鸡血前进的力量。然而，你几乎总是有这样的力量-你最终是否成功，取决于你能否认识到这个事实，尽管可能但是看起来不是这样。</p>
-</blockquote>
-<h3 id="考虑后续与再后续的结果"><a href="#考虑后续与再后续的结果" class="headerlink" title="考虑后续与再后续的结果"></a>考虑后续与再后续的结果</h3><blockquote>
-<p>选择自己真正想要的东西，顶住诱惑，克服可能妨碍自己实现目标的痛苦，这样的人拥有成功人生的可能性要大得多。</p>
-</blockquote>
-<h3 id="接受结果"><a href="#接受结果" class="headerlink" title="接受结果"></a>接受结果</h3><blockquote>
-<p>不管在生活中遇到什么情况，如果你能负起责任，进行良好的决策，而不是抱怨你无法控制的东西，你将更有可能成功找到幸福。心理学家称此为内控点，各种研究不断显示，拥有内控点的人比其他人做的更好。所以不要为喜不喜欢自己的处境担忧。生活根本不关心你喜欢什么。你必须根据自己的愿望找到实现愿望的途径，然后鼓起勇气坚持下去。</p>
-</blockquote>
-<h3 id="从更高的层次俯视机器"><a href="#从更高的层次俯视机器" class="headerlink" title="从更高的层次俯视机器"></a>从更高的层次俯视机器</h3><blockquote>
-<p>人类拥有独特的从更高层次俯视的能力，这不仅适用于理解现实和现实背后的因果关系，也适用于俯视自身和周围的人。我把这种超越自己和其他人的处境并客观的俯视处境的能力，称为“更高层次的思考”。更高层次的思考能让你学习和影响生活中的各种因果关系，利用这些因果关系得到你想要的结果。<br><strong>把自己想象成一部在大机器里运转的小机器，并明白你有能力改变你的机器以实现更好的结果</strong>。你有你的目标。你用来实现目标的方式，我称为你的机器。它包括设计（必须做的事）和人（由谁来做这些必须做的事）。人包括你和帮助你的人。<br><strong>通过比较你实现的结果和你的目标，你就能确定如何改进你的机器</strong>。<br><strong>区别作为机器设计者的你和作为机器中工作者中的你</strong>。让自己成为自身生活的良好设计者和管理者，而不是机器中工作者。想要取得成功，作为设计者和管理者的你必须客观看待作为工作者的你，不高看自己，也不让自己承担不应该承担的任务。大多数人都是凭情感行动，只看眼前。而没有从上述战略性的视角出发。他们的生活充满了没有方向性的情感体验，随波逐流。如果你想在晚年回顾一生时觉得实现了人生愿望的话，你就不应该这样做。<br><strong>大多数人犯下的最大错误是不客观看待自己以及其他人，这导致他们一次次的栽在自己或其他人的弱点上</strong>。<br><strong>成功的人能超越自身，客观看待事物，并管理事物以塑造自身</strong>。<br><strong>在你不擅长的领域请教擅长的其他人，这是一个你无论如何都应该培养的出色技能，这将帮助你建立起安全护栏，避免自己做错事</strong>。<br><strong>因为客观看待自身很困难，所以你需要依赖其他人的意见，以及全部证据</strong>。<br><strong>如果你的头脑足够开放，足够有决心，你几乎可以实现任何愿望</strong>。如果一条道路走不通，走另一条道路。<br>总结：</p>
-<ul>
-<li>不要混淆你的愿望和事实</li>
-<li>不要为自身形象担忧，只需关心能不能实现你的目标。</li>
-<li>不要过于重视直接结果而忽视后续、再后续的结果。</li>
-<li>不要让痛苦妨碍进步。</li>
-<li>不要把不好的结果归咎于任何人，从自己身上找原因。</li>
-</ul>
-</blockquote>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/03/30/原则-生活原则01/" data-id="cjv614344003beqjdynds66xh" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/01/委托/" data-id="cjv6d1din003k5cjbg8iva1m0" class="article-share-link">Share</a>
       
       
     </footer>
@@ -634,7 +524,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span>
+    <a class="extend prev" rel="prev" href="/page/6/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/8/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -660,7 +550,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
     </div>
   </div>
 
@@ -673,23 +563,23 @@
       <ul>
         
           <li>
+            <a href="/2019/05/02/js设计模式与开发实践0903/">第九章 宏命令</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/02/js设计模式与开发实践0902/">第九章 js中的命令模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/02/js设计模式与开发实践0901/">第九章 命令模式</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
           </li>
         
           <li>
             <a href="/2019/04/29/优势谈判/">开局谈判技巧</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
           </li>
         
       </ul>

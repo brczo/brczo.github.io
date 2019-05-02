@@ -62,6 +62,112 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js设计模式与开发实践0103" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/15/js设计模式与开发实践0103/" class="article-date">
+  <time datetime="2019-04-15T03:26:31.784Z" itemprop="datePublished">2019-04-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/15/js设计模式与开发实践0103/">第一章 原型模式与基于原型的继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="原型编程思想"><a href="#原型编程思想" class="headerlink" title="原型编程思想"></a>原型编程思想</h2><p>在以类为中心的面向对象编程语言中，类和对象关系可以想象成铸模与铸件的关系，对象总是从类中创建而来。而在原型编程思想中，类不是必需的，对象未必需要从类中创建而来，一个对象是通过克隆另外一个对象所得到的。<br>原型模式不单是一种设计模式，也被称为一种编程范型。</p>
+<h2 id="使用克隆的原型模式"><a href="#使用克隆的原型模式" class="headerlink" title="使用克隆的原型模式"></a>使用克隆的原型模式</h2><p>ECMAScript5使用了Object.create方法，可以用来克隆对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var Plane = function()&#123;</span><br><span class="line">    this.blood = 100;</span><br><span class="line">    this.attackLevel = 1;</span><br><span class="line">    this.defenseLevel = 1;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var plane = new Plane();</span><br><span class="line">plane.blood = 500;</span><br><span class="line">plane.attackLevel = 10;</span><br><span class="line">plane.defenseLevel = 7;</span><br><span class="line"></span><br><span class="line">var clonePlane = Object.create(plane); //克隆对象</span><br></pre></td></tr></table></figure></p>
+<h2 id="克隆是创建对象的手段"><a href="#克隆是创建对象的手段" class="headerlink" title="克隆是创建对象的手段"></a>克隆是创建对象的手段</h2><h2 id="体验io语言"><a href="#体验io语言" class="headerlink" title="体验io语言"></a>体验io语言</h2><p>原型不仅仅是一种设计模式还是一种编程范型。js就是使用原型模式来搭建整个面向对象的系统的。<br>基于根对象，创建一个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io&gt; Animal := Object clone;</span><br><span class="line">Animal makeSound := method(&quot;animal makeSound&quot; print);</span><br></pre></td></tr></table></figure></p>
+<p>基于Animal对象创建一个Dog对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io&gt; Dog := Animal clone;</span><br><span class="line">Dog eat := method(&quot;dog eat&quot; printf);</span><br></pre></td></tr></table></figure></p>
+<p>原型链<br>Object是Animal的原型，而Animal是Dog的原型，他们之间构成一条原型链。</p>
+<h2 id="js中的原型继承"><a href="#js中的原型继承" class="headerlink" title="js中的原型继承"></a>js中的原型继承</h2><h3 id="所有数据都是对象"><a href="#所有数据都是对象" class="headerlink" title="所有数据都是对象"></a>所有数据都是对象</h3><p>按照js设计者的本意， 除了undefined之外，js中一切都是对象。js中的根对象是Object.prototype。Object.prototype是一个空对象。我们遇到的每个对象其实都是从Object.prototype对象克隆而来。Object.prototype对象就是他们的原型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var obj1 = new Object();</span><br><span class="line">var obj2 = &#123;&#125;;</span><br><span class="line">console.log(Object.getPrototypeOf(obj1) === Object.prototype ); //输出： true</span><br><span class="line">console.log(Object.getPrototypeOf(obj2) === Object.prototype ); //输出： true</span><br></pre></td></tr></table></figure></p>
+<h3 id="要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆"><a href="#要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆" class="headerlink" title="要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆"></a>要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Person(name)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.getName = function()&#123;</span><br><span class="line">    return this.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var a = new Person(&quot;jack&quot;);</span><br><span class="line">console.log(a.name); //输出jack</span><br><span class="line">console.log(a.getName); //输出jack</span><br><span class="line">console.log(Object.getPrototypeOf(a) === Person.prototype); //输出：true</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，<strong>Person不是类，而是函数构造</strong>，js中的函数既可以作为普通函数使用，也可以作为构造器被调用。用new运算符来创建对象的过程，实际上也只是先克隆Object.prototype对象，在进行额外的操作。</p>
+<h3 id="对象会记住它的原型"><a href="#对象会记住它的原型" class="headerlink" title="对象会记住它的原型"></a>对象会记住它的原型</h3><p>js给对象提供了一个名为<strong>proto</strong>的隐藏属性，某个对象的<strong>proto</strong>属性默认会指向它的构造器的原型对象。在Chrome中，<strong>proto</strong>会被公开出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = new Object();</span><br><span class="line">console.log(a.__proto__ === Object.prototype); 输出 true</span><br></pre></td></tr></table></figure></p>
+<h3 id="如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型"><a href="#如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型" class="headerlink" title="如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型"></a>如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型</h3><p><strong>这条规则是原型继承的精髓</strong>。原型继承方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;name: &apos;jack&apos;&#125;;</span><br><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">A.prototype = obj;</span><br><span class="line"></span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.name); //输出： jack</span><br></pre></td></tr></table></figure></p>
+<p>以上代码中，引擎做了哪些：</p>
+<ul>
+<li>首先尝试遍历对象a中的所有属性，但没有找到name这个属性</li>
+<li>查找name属性的这个请求被委托给对象a的构造器的原型，它被a.<strong>proto</strong>记录着，指向A.protype,而A.prototype被设置为对象obj</li>
+<li>在obj对象中找到了name属性，并返回它的值。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0103/" data-id="cjv6d1dgc000f5cjbz50pb6rk" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0102" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/15/js设计模式与开发实践0102/" class="article-date">
+  <time datetime="2019-04-15T03:04:50.828Z" itemprop="datePublished">2019-04-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/15/js设计模式与开发实践0102/">第一章 封装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>封装的目的是将信息隐藏，包括隐藏数据、实现细节、设计细节以及对象的类型。</p>
+<h2 id="封装数据"><a href="#封装数据" class="headerlink" title="封装数据"></a>封装数据</h2><p>js依赖变量的作用域来实现封装特性，而且只能模拟出public和private两种封装性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var obj = (function()&#123;</span><br><span class="line">    let _name = &apos;jack&apos;; // 私有（private）变量</span><br><span class="line">    return &#123;</span><br><span class="line">        getName: function()&#123;  // 公开（public）方法</span><br><span class="line">            return _name</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">console.log(obj.getName()); //输出：jack</span><br><span class="line">console.log(obj._name); // 输出：undefined</span><br></pre></td></tr></table></figure></p>
+<h2 id="封装实现"><a href="#封装实现" class="headerlink" title="封装实现"></a>封装实现</h2><p>封装实现使得对象内部的变化对其他对象而言是透明的，也就是不可见的。对象对他自己的行为负责。其他对象或用户不关心它的内部实现。</p>
+<h2 id="封装类型"><a href="#封装类型" class="headerlink" title="封装类型"></a>封装类型</h2><p>封装类型是静态类型语言中一种重要的封装方式。一般而言，封装类型是通过抽象类和接口 来进行的1。把对象的真正类型隐藏在抽象类或者接口之后，相比对象的类型，客户更关心对象 的行为。在许多静态语言的设计模式中，想方设法地去隐藏对象的类型，也是促使这些模式诞生 5 的原因之一。比如工厂方法模式、组合模式等。</p>
+<h2 id="封装变化"><a href="#封装变化" class="headerlink" title="封装变化"></a>封装变化</h2><p>从设计模式 的角度出发，封装在更重要的层面体现为封装变化。设计模式可分为：</p>
+<ul>
+<li>创建型模式 目的是封装创建对象的变化</li>
+<li>结构型模式 封装对象之间的组合关系</li>
+<li>行为型模式 封装对象的行为变化</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0102/" data-id="cjv6d1dg600095cjbe0yu8zp1" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-数据结构-绪论" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/15/数据结构-绪论/" class="article-date">
@@ -109,7 +215,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/15/数据结构-绪论/" data-id="cjv6143590048eqjdxzhex3fo" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/15/数据结构-绪论/" data-id="cjv6d1dit003x5cjbhpjxxv1q" class="article-share-link">Share</a>
       
       
     </footer>
@@ -135,7 +241,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/15/Docker/" data-id="cjv6143030000eqjdzakoy6f1" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/15/Docker/" data-id="cjv6d1dex00005cjbutvjrquu" class="article-share-link">Share</a>
       
       
     </footer>
@@ -178,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/14/linux高性能服务器编程-socket-04/" data-id="cjv61432q0023eqjdwkpy67gx" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/14/linux高性能服务器编程-socket-04/" data-id="cjv6d1dhk002a5cjb3n9libit" class="article-share-link">Share</a>
       
       
     </footer>
@@ -219,7 +325,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/14/tinyhttpd源码分析-startup/" data-id="cjv61433k002weqjd2eilg3jq" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/14/tinyhttpd源码分析-startup/" data-id="cjv6d1dia00305cjbus1malym" class="article-share-link">Share</a>
       
       
     </footer>
@@ -259,7 +365,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/14/tinyhttpd源码分析-accept_request函数/" data-id="cjv61433a002meqjdun3loi5c" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/14/tinyhttpd源码分析-accept_request函数/" data-id="cjv6d1di6002r5cjbvq6bt3n4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -301,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/14/tinyhttpd源码分析-main函数/" data-id="cjv61433h002teqjdxydytmjk" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/14/tinyhttpd源码分析-main函数/" data-id="cjv6d1di7002u5cjb3y0592um" class="article-share-link">Share</a>
       
       
     </footer>
@@ -345,7 +451,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/14/心流-思维之乐/" data-id="cjv61434k003ueqjdd334ho60" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/14/心流-思维之乐/" data-id="cjv6d1dio003o5cjb561s0uzf" class="article-share-link">Share</a>
       
       
     </footer>
@@ -393,96 +499,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/13/心流-感官之乐/" data-id="cjv61434i003reqjdkn5wl7dx" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CMake简单教程05" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/13/CMake简单教程05/" class="article-date">
-  <time datetime="2019-04-13T07:42:11.473Z" itemprop="datePublished">2019-04-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CMake/">CMake</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/13/CMake简单教程05/">CMake简单教程 第五步</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>安装和测试</p>
-<p>添加至CMakeLists.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># 指定安装路径</span><br><span class="line">install (TARGETS Demo DESTINATION bin)</span><br><span class="line">install (FILES &quot;$&#123;PROJECT_BINARY_DIR&#125;/config.h&quot;</span><br><span class="line">         DESTINATION include)</span><br></pre></td></tr></table></figure></p>
-<p>添加至math/CMakeLists.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"># 指定 MathFunctions 库的安装路径</span><br><span class="line">install (TARGETS MathFunctions DESTINATION bin)</span><br><span class="line">install (FILES MathFunctions.h DESTINATION include)</span><br></pre></td></tr></table></figure></p>
-<p>通过上面的定制，生成的Demo文件和MathFunctions函数库libMathFunctions.o文件将会被复制到/usr/local/local/<strong>bin</strong>中，而MathFunctions.h和生成的config.h被复制到/usr/local/<strong>include</strong>下</p>
-<p>为工程添加测试 添加add_test到CMakeLists.txt<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 启用测试</span><br><span class="line">enable_testing()</span><br><span class="line"># 测试程序是否成功运行</span><br><span class="line">add_test (test_run Demo 5 2)</span><br><span class="line"># 测试帮助信息是否可以正常提示</span><br><span class="line">add_test (test_usage Demo)</span><br><span class="line">set_tests_properties (test_usage</span><br><span class="line">  PROPERTIES PASS_REGULAR_EXPRESSION &quot;Usage: .* base exponent&quot;)</span><br><span class="line"># 测试 5 的平方</span><br><span class="line">add_test (test_5_2 Demo 5 2)</span><br><span class="line">set_tests_properties (test_5_2</span><br><span class="line"> PROPERTIES PASS_REGULAR_EXPRESSION &quot;is 25&quot;)</span><br><span class="line"># 测试 10 的 5 次方</span><br><span class="line">add_test (test_10_5 Demo 10 5)</span><br><span class="line">set_tests_properties (test_10_5</span><br><span class="line"> PROPERTIES PASS_REGULAR_EXPRESSION &quot;is 100000&quot;)</span><br><span class="line"># 测试 2 的 10 次方</span><br><span class="line">add_test (test_2_10 Demo 2 10)</span><br><span class="line">set_tests_properties (test_2_10</span><br><span class="line"> PROPERTIES PASS_REGULAR_EXPRESSION &quot;is 1024&quot;)</span><br></pre></td></tr></table></figure></p>
-<p>支持gdb<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">set(CMAKE_BUILD_TYPE &quot;Debug&quot;)</span><br><span class="line">set(CMAKE_CXX_FLAGS_DEBUG &quot;$ENV&#123;CXXFLAGS&#125; -O0 -Wall -g -ggdb&quot;)</span><br><span class="line">set(CMAKE_CXX_FLAGS_RELEASE &quot;$ENV&#123;CXXFLAGS&#125; -O3 -Wall&quot;)</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/13/CMake简单教程05/" data-id="cjv61430w0002eqjdy4lkjaq2" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-CMake简单教程04" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/13/CMake简单教程04/" class="article-date">
-  <time datetime="2019-04-13T06:48:31.662Z" itemprop="datePublished">2019-04-13</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/CMake/">CMake</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/13/CMake简单教程04/">CMake简单教程 第四步</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>自定义编译选项<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">cmake_minimum_required (VERSION 2.8)</span><br><span class="line"></span><br><span class="line">project (Demo4)</span><br><span class="line"></span><br><span class="line"># 加入一个配置头文件，用于处理CMake对源码的设置 config.h将由config.h.in生成</span><br><span class="line">configure_file (</span><br><span class="line">    &quot;$&#123;PROJECT_SOURCE_DIR&#125;/config.h.in&quot;</span><br><span class="line">    &quot;$&#123;PROJECT_BINARY_DIR&#125;/config.h&quot;</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 是否使用子的 MathFunctions 库</span><br><span class="line">option (</span><br><span class="line">    USE_MYMATH &quot;Use provided math implementation&quot; ON</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"># 是否加入 MathFunctions 库</span><br><span class="line">if (USE_MYMATH)</span><br><span class="line">    include_directories (&quot;$&#123;PROJECT_SOURCE_DIR&#125;/math&quot;)</span><br><span class="line">    add_subdirectory (math)</span><br><span class="line">    set (EXTRA_LIBS $&#123;EXTRA_LIBS&#125; MathFunctions)</span><br><span class="line">endif (USE_MYMATH)</span><br><span class="line"></span><br><span class="line"># 查找当前目录下的所有源文件</span><br><span class="line"># 并将名称保存到 DIR_SRCS 变量</span><br><span class="line">aux_source_directory(. DIR_SRCS)</span><br><span class="line"></span><br><span class="line"># 指定生成目标</span><br><span class="line">add_executable(Demo $&#123;DIR_SRCS&#125;)</span><br><span class="line"></span><br><span class="line">target_link_libraries (Demo $&#123;EXTRA_LIBS&#125;)</span><br></pre></td></tr></table></figure></p>
-<p>main.cc<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &quot;config.h&quot;</span><br><span class="line"></span><br><span class="line">#ifdef USE_MYMATH</span><br><span class="line">    #include &quot;math/MathFunctions&quot;</span><br><span class="line">#else</span><br><span class="line">    #include </span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">int main(int argc, char *argv[]) &#123;</span><br><span class="line">    if(argc &lt; 3) &#123;</span><br><span class="line">        printf(&quot;Usage: %s base exponent \n&quot;, argv[0]);</span><br><span class="line">        return 1;</span><br><span class="line">    &#125;</span><br><span class="line">    double base = atof(argv[1]);</span><br><span class="line">    int exponent = atoi(argv[2]);</span><br><span class="line"></span><br><span class="line">    #ifdef USE_MYMATH</span><br><span class="line">        printf(&quot;Now we use our own math library&quot;);</span><br><span class="line">        double result = power(base, exponent);</span><br><span class="line">    #else</span><br><span class="line">        printf(&quot;Now we use standard math library&quot;);</span><br><span class="line">        double result = power(base, exponent);</span><br><span class="line">    #endif</span><br><span class="line">    printf(&quot;%g ^ %d is %g\n&quot;, base, exponent, result);</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>config.h.in<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#cmakedefine USE_MYMATH</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/13/CMake简单教程04/" data-id="cjv6143130006eqjdg189eit2" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/13/心流-感官之乐/" data-id="cjv6d1diq003s5cjb819so5ah" class="article-share-link">Share</a>
       
       
     </footer>
@@ -496,7 +513,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -522,7 +539,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
     </div>
   </div>
 
@@ -535,23 +552,23 @@
       <ul>
         
           <li>
+            <a href="/2019/05/02/js设计模式与开发实践0903/">第九章 宏命令</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/02/js设计模式与开发实践0902/">第九章 js中的命令模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/02/js设计模式与开发实践0901/">第九章 命令模式</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
           </li>
         
           <li>
             <a href="/2019/04/29/优势谈判/">开局谈判技巧</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
           </li>
         
       </ul>

@@ -62,6 +62,96 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-js设计模式与开发实践0307" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/18/js设计模式与开发实践0307/" class="article-date">
+  <time datetime="2019-04-18T08:52:42.401Z" itemprop="datePublished">2019-04-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/18/js设计模式与开发实践0307/">第三章 高阶函数的其他应用 函数节流 分时函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="函数节流"><a href="#函数节流" class="headerlink" title="函数节流"></a>函数节流</h2><p>函数在有些情况下不是被用户主动频繁调用</p>
+<ul>
+<li>window.onresize事件</li>
+<li>mousemove事件</li>
+<li>上传进度。</li>
+</ul>
+<p>代码实现<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">var throttle = function(fn, interval)&#123;</span><br><span class="line">    var _self = fn, //保存需要被延迟执行的函数引用 </span><br><span class="line">        timer, //定时器</span><br><span class="line">        firstTime = true; //是否是第一次调用 </span><br><span class="line">    return function()&#123;</span><br><span class="line">        var args = arguments,</span><br><span class="line">            _me = this;</span><br><span class="line">        if(firstTime)&#123;  //如果是第一次调用，不需要延迟执行</span><br><span class="line">            _self.apply(_me, args);</span><br><span class="line">            return firstTime = false;</span><br><span class="line">        &#125;</span><br><span class="line">        if(timer) &#123;  //如果定时器还在，说明前一次延迟执行还没有完成</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(function()&#123; //延迟一段时间执行</span><br><span class="line">            clearTimeout(timer);</span><br><span class="line">            timer = null;</span><br><span class="line">            _self.apply(_me, args);</span><br><span class="line">        &#125;, interval || 500);</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">window.onresize = throttle(function()&#123;</span><br><span class="line">    console.log(1);</span><br><span class="line">&#125;, 500);</span><br></pre></td></tr></table></figure></p>
+<h2 id="分时函数"><a href="#分时函数" class="headerlink" title="分时函数"></a>分时函数</h2><p>函数是用户主动调用的，函数影响了页面性能<br>比如创建WebQQ的QQ好友列表。列表中通常会有成百上千个好友，如果一个好友用一个节点来表示，当我们在页面中渲染这个列表的时候，可能要一次性往页面中创建成败上千个节点。这样做和可能造成浏览器卡顿。代码如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">for(var i = 1; i &lt;= 1000; i++)&#123;</span><br><span class="line">    arr.push(i); //假设arr装载了1000个好友的数据</span><br><span class="line">&#125;</span><br><span class="line">var renderFriendList = function(data)&#123;</span><br><span class="line">    for(var i = 0, l = data.length; i &lt; l; i++)&#123;</span><br><span class="line">        var div = document.createElement(&apos;div&apos;);</span><br><span class="line">        div.innerHTML = i;</span><br><span class="line">        document.body.appendChild(div);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">rederFriendList(arr);</span><br></pre></td></tr></table></figure></p>
+<p>解决方案一： 使用timeChunk函数让创建节点的工作分批进行，比如把1秒钟创建1000个节点，改为每隔200毫秒创建8个节点。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">第一个参数是创建节点时需要用到的数据，第二个参数是封装了创建节点逻辑的函数</span><br><span class="line">，第三个参数表示每一批创建的节点数量。</span><br><span class="line">var timeChunk = function(arr, fn, count)&#123;</span><br><span class="line">    var obj,</span><br><span class="line">        t;</span><br><span class="line">    var len = arr.length;</span><br><span class="line">    var start = function()&#123;</span><br><span class="line">        for(var i = 0; i &lt; Math.min(count || 1, arr.length); i++;)&#123;</span><br><span class="line">            var obj = arr.shift();</span><br><span class="line">            fn(obj);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        t = setInterval(function()&#123;</span><br><span class="line">            if(arr.length === 0)&#123; //如果全部节点都已经被创建好</span><br><span class="line">                return clearInterval(t);</span><br><span class="line">            &#125;</span><br><span class="line">            start();</span><br><span class="line">        &#125;, 200); //分批执行的时间间隔</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>使用timeChunk函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var arr = [];</span><br><span class="line">for(var i = 1; i &lt;= 1000; i++)&#123;</span><br><span class="line">    arr.push(i);</span><br><span class="line">&#125;</span><br><span class="line">var renderFriendList = timeChunk(arr, function(n)&#123;</span><br><span class="line">    var div = document.createElement(&apos;div&apos;);</span><br><span class="line">    div.innerHTML = n;</span><br><span class="line">    document.body.appendChild(div);</span><br><span class="line">&#125;, 8)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/18/js设计模式与开发实践0307/" data-id="cjv6d1dgp00115cjb1fx17xna" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0202" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/18/js设计模式与开发实践0202/" class="article-date">
+  <time datetime="2019-04-18T08:38:11.188Z" itemprop="datePublished">2019-04-18</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/18/js设计模式与开发实践0202/">第二章 丢失的this</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    myName: &apos;jack&apos;,</span><br><span class="line">    getName: function()&#123;</span><br><span class="line">        return this.myName;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">console.log(obj.getName()); //输出：jack</span><br><span class="line">var getName2 = obj.getName;</span><br><span class="line">console.log(getName2()); //输出 undefined</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/18/js设计模式与开发实践0202/" data-id="cjv6d1dgg000n5cjb400nprct" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-js设计模式与开发实践0201" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/04/18/js设计模式与开发实践0201/" class="article-date">
@@ -106,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/18/js设计模式与开发实践0201/" data-id="cjv61431h000heqjdnt7j9e1y" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/18/js设计模式与开发实践0201/" data-id="cjv6d1dge000i5cjbfnk8m29a" class="article-share-link">Share</a>
       
       
     </footer>
@@ -149,7 +239,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/17/js设计模式与开发实践0306/" data-id="cjv61431t0010eqjdfnxpyrwe" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/17/js设计模式与开发实践0306/" data-id="cjv6d1dgn000x5cjb0yzf6yfb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -196,7 +286,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/17/js设计模式与开发实践0305/" data-id="cjv61431r000weqjdegy199qj" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/17/js设计模式与开发实践0305/" data-id="cjv6d1dgo000z5cjb348d9gj2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -240,7 +330,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0304/" data-id="cjv61431q000ueqjd45nebv45" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0304/" data-id="cjv6d1dgm000v5cjbmrjow3ij" class="article-share-link">Share</a>
       
       
     </footer>
@@ -281,7 +371,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0303/" data-id="cjv61431p000seqjdxtu0lly7" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0303/" data-id="cjv6d1dgl000t5cjbl7o8cx0t" class="article-share-link">Share</a>
       
       
     </footer>
@@ -324,7 +414,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0302/" data-id="cjv61431m000neqjd8de99qpy" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0302/" data-id="cjv6d1dgj000r5cjb0u0hh4o4" class="article-share-link">Share</a>
       
       
     </footer>
@@ -375,7 +465,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0301/" data-id="cjv61431n000qeqjdxylu8lam" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0301/" data-id="cjv6d1dgf000k5cjblxuecmuz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -424,113 +514,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0203/" data-id="cjv61431l000meqjdxr2le2tu" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0103" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/15/js设计模式与开发实践0103/" class="article-date">
-  <time datetime="2019-04-15T03:26:31.784Z" itemprop="datePublished">2019-04-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/15/js设计模式与开发实践0103/">第一章 原型模式与基于原型的继承</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="原型编程思想"><a href="#原型编程思想" class="headerlink" title="原型编程思想"></a>原型编程思想</h2><p>在以类为中心的面向对象编程语言中，类和对象关系可以想象成铸模与铸件的关系，对象总是从类中创建而来。而在原型编程思想中，类不是必需的，对象未必需要从类中创建而来，一个对象是通过克隆另外一个对象所得到的。<br>原型模式不单是一种设计模式，也被称为一种编程范型。</p>
-<h2 id="使用克隆的原型模式"><a href="#使用克隆的原型模式" class="headerlink" title="使用克隆的原型模式"></a>使用克隆的原型模式</h2><p>ECMAScript5使用了Object.create方法，可以用来克隆对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var Plane = function()&#123;</span><br><span class="line">    this.blood = 100;</span><br><span class="line">    this.attackLevel = 1;</span><br><span class="line">    this.defenseLevel = 1;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var plane = new Plane();</span><br><span class="line">plane.blood = 500;</span><br><span class="line">plane.attackLevel = 10;</span><br><span class="line">plane.defenseLevel = 7;</span><br><span class="line"></span><br><span class="line">var clonePlane = Object.create(plane); //克隆对象</span><br></pre></td></tr></table></figure></p>
-<h2 id="克隆是创建对象的手段"><a href="#克隆是创建对象的手段" class="headerlink" title="克隆是创建对象的手段"></a>克隆是创建对象的手段</h2><h2 id="体验io语言"><a href="#体验io语言" class="headerlink" title="体验io语言"></a>体验io语言</h2><p>原型不仅仅是一种设计模式还是一种编程范型。js就是使用原型模式来搭建整个面向对象的系统的。<br>基于根对象，创建一个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io&gt; Animal := Object clone;</span><br><span class="line">Animal makeSound := method(&quot;animal makeSound&quot; print);</span><br></pre></td></tr></table></figure></p>
-<p>基于Animal对象创建一个Dog对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io&gt; Dog := Animal clone;</span><br><span class="line">Dog eat := method(&quot;dog eat&quot; printf);</span><br></pre></td></tr></table></figure></p>
-<p>原型链<br>Object是Animal的原型，而Animal是Dog的原型，他们之间构成一条原型链。</p>
-<h2 id="js中的原型继承"><a href="#js中的原型继承" class="headerlink" title="js中的原型继承"></a>js中的原型继承</h2><h3 id="所有数据都是对象"><a href="#所有数据都是对象" class="headerlink" title="所有数据都是对象"></a>所有数据都是对象</h3><p>按照js设计者的本意， 除了undefined之外，js中一切都是对象。js中的根对象是Object.prototype。Object.prototype是一个空对象。我们遇到的每个对象其实都是从Object.prototype对象克隆而来。Object.prototype对象就是他们的原型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var obj1 = new Object();</span><br><span class="line">var obj2 = &#123;&#125;;</span><br><span class="line">console.log(Object.getPrototypeOf(obj1) === Object.prototype ); //输出： true</span><br><span class="line">console.log(Object.getPrototypeOf(obj2) === Object.prototype ); //输出： true</span><br></pre></td></tr></table></figure></p>
-<h3 id="要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆"><a href="#要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆" class="headerlink" title="要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆"></a>要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Person(name)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.getName = function()&#123;</span><br><span class="line">    return this.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var a = new Person(&quot;jack&quot;);</span><br><span class="line">console.log(a.name); //输出jack</span><br><span class="line">console.log(a.getName); //输出jack</span><br><span class="line">console.log(Object.getPrototypeOf(a) === Person.prototype); //输出：true</span><br></pre></td></tr></table></figure>
-<p>在上面的代码中，<strong>Person不是类，而是函数构造</strong>，js中的函数既可以作为普通函数使用，也可以作为构造器被调用。用new运算符来创建对象的过程，实际上也只是先克隆Object.prototype对象，在进行额外的操作。</p>
-<h3 id="对象会记住它的原型"><a href="#对象会记住它的原型" class="headerlink" title="对象会记住它的原型"></a>对象会记住它的原型</h3><p>js给对象提供了一个名为<strong>proto</strong>的隐藏属性，某个对象的<strong>proto</strong>属性默认会指向它的构造器的原型对象。在Chrome中，<strong>proto</strong>会被公开出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = new Object();</span><br><span class="line">console.log(a.__proto__ === Object.prototype); 输出 true</span><br></pre></td></tr></table></figure></p>
-<h3 id="如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型"><a href="#如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型" class="headerlink" title="如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型"></a>如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型</h3><p><strong>这条规则是原型继承的精髓</strong>。原型继承方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;name: &apos;jack&apos;&#125;;</span><br><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">A.prototype = obj;</span><br><span class="line"></span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.name); //输出： jack</span><br></pre></td></tr></table></figure></p>
-<p>以上代码中，引擎做了哪些：</p>
-<ul>
-<li>首先尝试遍历对象a中的所有属性，但没有找到name这个属性</li>
-<li>查找name属性的这个请求被委托给对象a的构造器的原型，它被a.<strong>proto</strong>记录着，指向A.protype,而A.prototype被设置为对象obj</li>
-<li>在obj对象中找到了name属性，并返回它的值。</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0103/" data-id="cjv61431g000eeqjdbgdfk8o3" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0102" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/15/js设计模式与开发实践0102/" class="article-date">
-  <time datetime="2019-04-15T03:04:50.828Z" itemprop="datePublished">2019-04-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/15/js设计模式与开发实践0102/">第一章 封装</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>封装的目的是将信息隐藏，包括隐藏数据、实现细节、设计细节以及对象的类型。</p>
-<h2 id="封装数据"><a href="#封装数据" class="headerlink" title="封装数据"></a>封装数据</h2><p>js依赖变量的作用域来实现封装特性，而且只能模拟出public和private两种封装性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var obj = (function()&#123;</span><br><span class="line">    let _name = &apos;jack&apos;; // 私有（private）变量</span><br><span class="line">    return &#123;</span><br><span class="line">        getName: function()&#123;  // 公开（public）方法</span><br><span class="line">            return _name</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">console.log(obj.getName()); //输出：jack</span><br><span class="line">console.log(obj._name); // 输出：undefined</span><br></pre></td></tr></table></figure></p>
-<h2 id="封装实现"><a href="#封装实现" class="headerlink" title="封装实现"></a>封装实现</h2><p>封装实现使得对象内部的变化对其他对象而言是透明的，也就是不可见的。对象对他自己的行为负责。其他对象或用户不关心它的内部实现。</p>
-<h2 id="封装类型"><a href="#封装类型" class="headerlink" title="封装类型"></a>封装类型</h2><p>封装类型是静态类型语言中一种重要的封装方式。一般而言，封装类型是通过抽象类和接口 来进行的1。把对象的真正类型隐藏在抽象类或者接口之后，相比对象的类型，客户更关心对象 的行为。在许多静态语言的设计模式中，想方设法地去隐藏对象的类型，也是促使这些模式诞生 5 的原因之一。比如工厂方法模式、组合模式等。</p>
-<h2 id="封装变化"><a href="#封装变化" class="headerlink" title="封装变化"></a>封装变化</h2><p>从设计模式 的角度出发，封装在更重要的层面体现为封装变化。设计模式可分为：</p>
-<ul>
-<li>创建型模式 目的是封装创建对象的变化</li>
-<li>结构型模式 封装对象之间的组合关系</li>
-<li>行为型模式 封装对象的行为变化</li>
-</ul>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0102/" data-id="cjv61431b0009eqjdsk48vj39" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0203/" data-id="cjv6d1dgi000o5cjb9kis3f5b" class="article-share-link">Share</a>
       
       
     </footer>
@@ -544,7 +528,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -570,7 +554,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
     </div>
   </div>
 
@@ -583,23 +567,23 @@
       <ul>
         
           <li>
+            <a href="/2019/05/02/js设计模式与开发实践0903/">第九章 宏命令</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/02/js设计模式与开发实践0902/">第九章 js中的命令模式</a>
+          </li>
+        
+          <li>
+            <a href="/2019/05/02/js设计模式与开发实践0901/">第九章 命令模式</a>
+          </li>
+        
+          <li>
             <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
           </li>
         
           <li>
             <a href="/2019/04/29/优势谈判/">开局谈判技巧</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
-          </li>
-        
-          <li>
-            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
           </li>
         
       </ul>
