@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>第五章 策略模式01 | 进化</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="策略模式的定义：定义一系列的算法，把它们一个个封禁起来，并且使它们可以相互替换。 使用策略模式计算奖金绩效为S的年终奖有4倍工资，绩效为A的3倍工资，绩效为B的2倍工资。 最初的实现代码12345678910111213var calculateBonus = function(performanceLevel, salary)&amp;#123;    if(performanceLevel === &amp;">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第五章 策略模式01">
+<meta property="og:url" content="brczo.github.io/2019/04/23/js设计模式与开发实践0501/index.html">
+<meta property="og:site_name" content="进化">
+<meta property="og:description" content="策略模式的定义：定义一系列的算法，把它们一个个封禁起来，并且使它们可以相互替换。 使用策略模式计算奖金绩效为S的年终奖有4倍工资，绩效为A的3倍工资，绩效为B的2倍工资。 最初的实现代码12345678910111213var calculateBonus = function(performanceLevel, salary)&amp;#123;    if(performanceLevel === &amp;">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-23T07:34:45.017Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第五章 策略模式01">
+<meta name="twitter:description" content="策略模式的定义：定义一系列的算法，把它们一个个封禁起来，并且使它们可以相互替换。 使用策略模式计算奖金绩效为S的年终奖有4倍工资，绩效为A的3倍工资，绩效为B的2倍工资。 最初的实现代码12345678910111213var calculateBonus = function(performanceLevel, salary)&amp;#123;    if(performanceLevel === &amp;">
+  
+    <link rel="alternate" href="/atom.xml" title="进化" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">进化</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="brczo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js设计模式与开发实践0501" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/23/js设计模式与开发实践0501/" class="article-date">
+  <time datetime="2019-04-23T06:37:34.286Z" itemprop="datePublished">2019-04-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第五章 策略模式01
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>策略模式的定义：定义一系列的算法，把它们一个个封禁起来，并且使它们可以相互替换。</p>
+<h2 id="使用策略模式计算奖金"><a href="#使用策略模式计算奖金" class="headerlink" title="使用策略模式计算奖金"></a>使用策略模式计算奖金</h2><p>绩效为S的年终奖有4倍工资，绩效为A的3倍工资，绩效为B的2倍工资。</p>
+<h3 id="最初的实现代码"><a href="#最初的实现代码" class="headerlink" title="最初的实现代码"></a>最初的实现代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var calculateBonus = function(performanceLevel, salary)&#123;</span><br><span class="line">    if(performanceLevel === &apos;S&apos;)&#123;</span><br><span class="line">        return salary * 4;</span><br><span class="line">    &#125;</span><br><span class="line">    if(performanceLevel === &apos;A&apos;)&#123;</span><br><span class="line">        return salary * 3;</span><br><span class="line">    &#125;</span><br><span class="line">    if(performanceLevel === &apos;B&apos;)&#123;</span><br><span class="line">        return salary * 2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">calculateBonus(&apos;B&apos;, 20000); //输出： 40000</span><br><span class="line">calculateBonus(&apos;S&apos;, 6000); //输出： 24000</span><br></pre></td></tr></table></figure>
+<p>calculateBonus函数的缺点：</p>
+<blockquote>
+<p>calculateBonus函数比较庞大，包含了很多if-else语句，这些语句需要覆盖所有的逻辑分支。<br>calculateBonus函数缺乏弹性，如果增加了一种新的绩效等级C，或者想把绩效S的奖金系数改为5，<br>那么我们必须深入calculateBonus函数的内部实现，这是违反开放-封闭原则的。<br>算法的复用性差，如果在程序的其他地方需要重用这些计算奖金的算法呢？我们只有粘贴复制</p>
+</blockquote>
+<h3 id="使用组合函数重构代码-缺点：-函数依据很庞大"><a href="#使用组合函数重构代码-缺点：-函数依据很庞大" class="headerlink" title="使用组合函数重构代码  缺点： 函数依据很庞大"></a>使用组合函数重构代码  缺点： 函数依据很庞大</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">var performanceS = function()&#123;</span><br><span class="line">    return salary * 4;</span><br><span class="line">&#125;;</span><br><span class="line">var performanceA = function()&#123;</span><br><span class="line">    return salary * 3;</span><br><span class="line">&#125;;</span><br><span class="line">var performanceB = function(salary)&#123;</span><br><span class="line">    return salary * 2;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var calculateBonus = function(performanceLevel, salary)&#123;</span><br><span class="line">    if(performanceLevel === &apos;S&apos;)&#123;</span><br><span class="line">        return performanceS(salary);</span><br><span class="line">    &#125;</span><br><span class="line">    if(performanceLevel === &apos;A&apos;)&#123;</span><br><span class="line">        return performanceA(salary);</span><br><span class="line">    &#125;</span><br><span class="line">    if(performanceLevel === &apos;B&apos;)&#123;</span><br><span class="line">        return performanceB(salary);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">calculateBonus(&apos;A&apos;, 1000); // 3000</span><br></pre></td></tr></table></figure>
+<h3 id="使用策略模式重构代码"><a href="#使用策略模式重构代码" class="headerlink" title="使用策略模式重构代码"></a>使用策略模式重构代码</h3><p>一个基于策略模式的程序至少由两部分组成：</p>
+<blockquote>
+<p>第一部分是一组策略类，策略类封装了具体的算法，并负责具体的计算过程。<br>第二个部分是环境类Context，Context接受客户的请求，随后将请求委托给某一个策略类。要做到这点，说明Context中要维持对某个策略对象的引用。</p>
+</blockquote>
+<h4 id="版本一：-用传统的面向对象语言的方式"><a href="#版本一：-用传统的面向对象语言的方式" class="headerlink" title="版本一： 用传统的面向对象语言的方式"></a>版本一： 用传统的面向对象语言的方式</h4><p>把每种绩效的计算规则都封装在对应的策略类里面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var performanceS = function()&#123;&#125;;</span><br><span class="line">performanceS.prototype.calculate = function(salary)&#123;</span><br><span class="line">    return salary * 4;</span><br><span class="line">&#125;;</span><br><span class="line">var performanceA = function()&#123;&#125;;</span><br><span class="line">performanceA.prototype.calculate = function(salary)&#123;</span><br><span class="line">    return salary * 3;</span><br><span class="line">&#125;;</span><br><span class="line">var performanceB = function()&#123;&#125;;</span><br><span class="line">performanceB.prototype.calculate = function(salary)&#123;</span><br><span class="line">    return salary * 2;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>接下来定义奖金类Bonus：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var Bonus = function()&#123;</span><br><span class="line">    this.salary = null; //原始工资</span><br><span class="line">    this.strategy = null; //绩效等级对应的策略对象</span><br><span class="line">&#125;;</span><br><span class="line">Bonus.prototype.setSalary = function(salary)&#123;</span><br><span class="line">    this.salary = salary; //设置员工的原始工资</span><br><span class="line">&#125;;</span><br><span class="line">Bonus.prototype.setStrategy = function(strategy) &#123;</span><br><span class="line">    this.strategy = strategy; //设置员工绩效等级对应的策略对象</span><br><span class="line">&#125;;</span><br><span class="line">Bonus.prototype.getBonus = function()&#123; //取得奖金数额 </span><br><span class="line">    return this.strategy.calculate(this.salary); //把计算奖金的操作委托给对应的策略对象</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var bonus = new Bonus;</span><br><span class="line">bonus.setSalary(1000);</span><br><span class="line">bonus.setStrategy(new PerfomanceA());</span><br><span class="line">console.log(bonus.getBonus); //输出 3000</span><br></pre></td></tr></table></figure></p>
+<h4 id="版本二：js版本的策略模式"><a href="#版本二：js版本的策略模式" class="headerlink" title="版本二：js版本的策略模式"></a>版本二：js版本的策略模式</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">var strategies = &#123;</span><br><span class="line">    &apos;S&apos;: function(salary)&#123;</span><br><span class="line">        return salary * 4;</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;A&apos;: function(salary)&#123;</span><br><span class="line">        return salary * 3;</span><br><span class="line">    &#125;,</span><br><span class="line">    &apos;B&apos;: function(salary)&#123;</span><br><span class="line">        return salary * 2;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var calculateBonus = function(level, salary)&#123;</span><br><span class="line">    return strategies[level](salary);</span><br><span class="line">&#125;;</span><br><span class="line">console.log(calculateBonus(&apos;S&apos;, 20000)); //80000</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/23/js设计模式与开发实践0501/" data-id="cjv60bnck0012prjdtmewwi0m" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/23/js设计模式与开发实践0502/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第五章 策略模式02 多态在策略模式中的体现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/23/js设计模式与开发实践0402/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第四章 惰性单例</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/优势谈判/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 brczo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/scripts/love.js"></script>
+
+
+
+  </div>
+</body>
+</html>

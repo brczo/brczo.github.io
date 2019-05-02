@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>第六章 代理模式 虚拟代理实现图片预加载 | 进化</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="在web开发中，图片预加载是一种常用的技术，如果直接给某个img标签节点设置src属性，由于图片过大或者网络不佳，图片的位置往往有段时间会是一片空白。常见的做法是先用一张loading图片占位，然后用异步的方式加载图片，等图片加载好了再把它填充到img节点里，这种场景就很是时候使用虚拟代理。 创建一个普通的本体对象，这个对象负责往页面创建一个img标签，并且提供一个对外的serSrc接口，便可以给">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第六章 代理模式 虚拟代理实现图片预加载">
+<meta property="og:url" content="brczo.github.io/2019/04/24/js设计模式与开发实践0602/index.html">
+<meta property="og:site_name" content="进化">
+<meta property="og:description" content="在web开发中，图片预加载是一种常用的技术，如果直接给某个img标签节点设置src属性，由于图片过大或者网络不佳，图片的位置往往有段时间会是一片空白。常见的做法是先用一张loading图片占位，然后用异步的方式加载图片，等图片加载好了再把它填充到img节点里，这种场景就很是时候使用虚拟代理。 创建一个普通的本体对象，这个对象负责往页面创建一个img标签，并且提供一个对外的serSrc接口，便可以给">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-25T06:55:18.541Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第六章 代理模式 虚拟代理实现图片预加载">
+<meta name="twitter:description" content="在web开发中，图片预加载是一种常用的技术，如果直接给某个img标签节点设置src属性，由于图片过大或者网络不佳，图片的位置往往有段时间会是一片空白。常见的做法是先用一张loading图片占位，然后用异步的方式加载图片，等图片加载好了再把它填充到img节点里，这种场景就很是时候使用虚拟代理。 创建一个普通的本体对象，这个对象负责往页面创建一个img标签，并且提供一个对外的serSrc接口，便可以给">
+  
+    <link rel="alternate" href="/atom.xml" title="进化" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">进化</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="brczo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js设计模式与开发实践0602" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/24/js设计模式与开发实践0602/" class="article-date">
+  <time datetime="2019-04-24T12:24:08.448Z" itemprop="datePublished">2019-04-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第六章 代理模式 虚拟代理实现图片预加载
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在web开发中，图片预加载是一种常用的技术，如果直接给某个img标签节点设置src属性，由于图片过大或者网络不佳，图片的位置往往有段时间会是一片空白。常见的做法是先用一张loading图片占位，然后用异步的方式加载图片，等图片加载好了再把它填充到img节点里，这种场景就很是时候使用虚拟代理。</p>
+<p>创建一个普通的本体对象，这个对象负责往页面创建一个img标签，并且提供一个对外的serSrc接口，便可以给该image标签设置src属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var MyImage = (function()&#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;);</span><br><span class="line">    document.body.apppendChild(imgNode);</span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function(src)&#123;</span><br><span class="line">            imgNode.src = src;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">myImage.serSrc(&apos;http://picture.jpg&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>引入代理对象proxyImage，通过这个代理对象，在图片被真正加载好之前，页面中将出现一张占位的菊花图loading.gif，来提示用户图片正在加载。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var myImage = (function()&#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;);</span><br><span class="line">    document.body.appendChild(imgNode);</span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function(src) &#123;</span><br><span class="line">            imgNode.src = src;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var proxyImage = (function()&#123;</span><br><span class="line">    var img = new Image;</span><br><span class="line">    img.onload = function()&#123;</span><br><span class="line">        myImage.serSrc(this.src);</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function(src) &#123;</span><br><span class="line">            imImage.setSrc(&apos;loading.gif&apos;);</span><br><span class="line">            img.src = src;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">proxyImage.setSrc(&apos;http://someone.jpg&apos;);</span><br></pre></td></tr></table></figure></p>
+<h2 id="代理的意义"><a href="#代理的意义" class="headerlink" title="代理的意义"></a>代理的意义</h2><p>不用代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var myImage = (function()&#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;);</span><br><span class="line">    document.body.appendChild(&apos;imgNode&apos;);</span><br><span class="line">    var img = new Image;</span><br><span class="line"></span><br><span class="line">    img.onload = function()&#123;</span><br><span class="line">        imgNode.src = img.src;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function()&#123;</span><br><span class="line">            imgNode.src = &apos;loading.gif&apos;;</span><br><span class="line">            img.src = src;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">myImage.setSrc(&apos;picture.jpg&apos;);</span><br></pre></td></tr></table></figure></p>
+<p>为了说明代理的意义，我们引入面向对象设计的原则—单一职责原则。<br>单一指责原则指的是，就一个类（通常也包括对象和函数等）而言，应该仅有一个引起它变化的原因。如果一个对象承担了多想职责，就意味着这个对象将变得巨大，引起它变化的原因可能会有多个。面向对象设计鼓励将行为分布到细粒度的对象之中，如果一个对象承当的责任过多，等于把这些职责耦合到了一起，这种耦合会导致脆弱和低内聚的设计。当变化发生时，设计可能会遭到意外的破坏。</p>
+<h2 id="代理和本体接口的一致性"><a href="#代理和本体接口的一致性" class="headerlink" title="代理和本体接口的一致性"></a>代理和本体接口的一致性</h2><p>如果我们有一天不需要预加载，那么就不再需要代理对象，可以选择直接请求本体。其中关键是代理对象和本体都对外提供了setSrc方法，在客户看来，代理对象和本体是一致的，代理接手请求的过程对于用户来说是透明的，用户并不清楚代理和本体的区别，这样做的好处。</p>
+<blockquote>
+<p>用户可以放心的请求代理，他只关心是否能得到想要的结果。<br>在任何使用本体的地方都可以替换成使用代理</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var myImage = (function()&#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;);</span><br><span class="line">    document.body.appendChild(imgNode);</span><br><span class="line"></span><br><span class="line">    return function(src)&#123;</span><br><span class="line">        imgNode.src = src;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var proxyImage = (function()&#123;</span><br><span class="line">    var img = new Image;</span><br><span class="line">    img.onload = function()&#123;</span><br><span class="line">        myImage(this.src);</span><br><span class="line">    &#125;</span><br><span class="line">    return function(src) &#123;</span><br><span class="line">        myImage(&apos;loading.src&apos;);</span><br><span class="line">        img.src = src;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0602/" data-id="cjv60bnd9001eprjd7zfxbirm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/25/js设计模式与开发实践0603/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第六章 代理模式 虚拟代理合并HTTP请求
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/24/js设计模式与开发实践0601/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">第六章 代理模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/优势谈判/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 brczo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/scripts/love.js"></script>
+
+
+
+  </div>
+</body>
+</html>

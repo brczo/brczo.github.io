@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>第六章 代理模式 | 进化</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。代理模式的关键是，当客户不方便直接访问一个对象或不满足需要的时候，提供一个替身来控制对这个对象的访问，客户实际上访问的是替身对象。替身对象对请求做出一些处理之后，再把请求转给本体对象。 在四月一个晴朗的早晨，小明遇见了他的百分百女孩，我们暂且叫小明的女神为A。两天后，小明决定给A送一束花来表白。刚好小明打听到A和他有一个共同好友B，于">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第六章 代理模式">
+<meta property="og:url" content="brczo.github.io/2019/04/24/js设计模式与开发实践0601/index.html">
+<meta property="og:site_name" content="进化">
+<meta property="og:description" content="代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。代理模式的关键是，当客户不方便直接访问一个对象或不满足需要的时候，提供一个替身来控制对这个对象的访问，客户实际上访问的是替身对象。替身对象对请求做出一些处理之后，再把请求转给本体对象。 在四月一个晴朗的早晨，小明遇见了他的百分百女孩，我们暂且叫小明的女神为A。两天后，小明决定给A送一束花来表白。刚好小明打听到A和他有一个共同好友B，于">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-25T06:54:55.250Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第六章 代理模式">
+<meta name="twitter:description" content="代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。代理模式的关键是，当客户不方便直接访问一个对象或不满足需要的时候，提供一个替身来控制对这个对象的访问，客户实际上访问的是替身对象。替身对象对请求做出一些处理之后，再把请求转给本体对象。 在四月一个晴朗的早晨，小明遇见了他的百分百女孩，我们暂且叫小明的女神为A。两天后，小明决定给A送一束花来表白。刚好小明打听到A和他有一个共同好友B，于">
+  
+    <link rel="alternate" href="/atom.xml" title="进化" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">进化</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="brczo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js设计模式与开发实践0601" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/24/js设计模式与开发实践0601/" class="article-date">
+  <time datetime="2019-04-24T11:40:25.104Z" itemprop="datePublished">2019-04-24</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第六章 代理模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。代理模式的关键是，当客户不方便直接访问一个对象或不满足需要的时候，提供一个替身来控制对这个对象的访问，客户实际上访问的是替身对象。替身对象对请求做出一些处理之后，再把请求转给本体对象。</p>
+<p>在四月一个晴朗的早晨，小明遇见了他的百分百女孩，我们暂且叫小明的女神为A。两天后，小明决定给A送一束花来表白。刚好小明打听到A和他有一个共同好友B，于是内向的小明决定让B来代替自己完成送花这件事。虽然小明的故事必将以悲剧收场，因为追MM更好的方式是送她一辆宝马。</p>
+<p>不用代理的情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var flower = function()&#123;&#125;;</span><br><span class="line">var xiaoming = &#123;</span><br><span class="line">    sendFlower: function(target) &#123;</span><br><span class="line">        var flower = new Flower();</span><br><span class="line">        target.receiveFlower(flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var A = &#123;</span><br><span class="line">    receiveFlower: function(flower) &#123;</span><br><span class="line">        console.log(&apos;收到花&apos; + flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xiaoming.sendFlower(A);</span><br></pre></td></tr></table></figure></p>
+<p>使用代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var Flower = function()&#123;&#125;;</span><br><span class="line">var xiaoming = &#123;</span><br><span class="line">    sendFlower: function(target)&#123;</span><br><span class="line">        var flower = new Flower();</span><br><span class="line">        target.receiveFlower(flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var B = &#123;</span><br><span class="line">    receiveFlower: function(flower) &#123;</span><br><span class="line">        A.receiveFlower(flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var A = &#123;</span><br><span class="line">    receiveFlower: function(flower) &#123;</span><br><span class="line">        console.log(&apos;收到花&apos; + flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">xiaoming.sendFlower(B);</span><br></pre></td></tr></table></figure></p>
+<p>B会监听A的心情，在A心情好的时候将花交给A<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">var Flower = function()&#123;&#125;</span><br><span class="line"></span><br><span class="line">var xiaoming = &#123;</span><br><span class="line">    sendFlower: function(target)&#123;</span><br><span class="line">        var flower = new Flower();</span><br><span class="line">        target.recerveFlower(flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var B = &#123;</span><br><span class="line">    recerveFlower: function(flower) &#123;</span><br><span class="line">        A.listenGoodMood(function()&#123; //监听A的好心情</span><br><span class="line">            A.receiveFlower(flower); </span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var A = &#123;</span><br><span class="line">    receiveFlower: function(flower) &#123;</span><br><span class="line">        console.log(&apos;收到花&apos; + flower);</span><br><span class="line">    &#125;,</span><br><span class="line">    listenGoodMood: function(fn) &#123;</span><br><span class="line">        setTimeout(function()&#123;  //假设10秒后A的心情变好</span><br><span class="line">            fn();</span><br><span class="line">        &#125;, 10000);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xiaoming.sendFlower(B);</span><br></pre></td></tr></table></figure></p>
+<h2 id="保护代理和虚拟代理"><a href="#保护代理和虚拟代理" class="headerlink" title="保护代理和虚拟代理"></a>保护代理和虚拟代理</h2><p>代理B可以帮助A过滤掉一些请求，比如送花的人中年龄太大的或者没有宝马的，这种请求就可以直接在代理B处被处理掉。这种代理叫做保护代理。A和B一个充当白脸，一个充当黑脸。白脸A继续保持良好的女神形象，不希望拒绝任何人，于是找到了黑脸B来控制对A的访问。<br>另外，假设现实中的花价格不菲，导致在程序世界里，new Flower也是一个代价昂贵的操作，那么我们可以把new Flower的操作交给代理B去执行，代理B会在A心情好的时候再执行new Flower，这是代理模式的另一种形式，叫做虚拟代理。虚拟代理把一些开销很大的对象，延迟到真正需要它的时候才去创建。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var B = &#123;</span><br><span class="line">    receiveFlower: function()&#123;</span><br><span class="line">        A.listenGoodMood(function()&#123; //监听A的好心情</span><br><span class="line">            var flower = new Flower(); //延迟创建flower对象</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0601/" data-id="cjv60bnd8001cprjdeh41v0mf" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/24/js设计模式与开发实践0602/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第六章 代理模式 虚拟代理实现图片预加载
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/24/php设计模式02/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">策略模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/优势谈判/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 brczo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/scripts/love.js"></script>
+
+
+
+  </div>
+</body>
+</html>

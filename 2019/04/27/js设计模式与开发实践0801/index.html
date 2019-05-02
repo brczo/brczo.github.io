@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>第八章 发布-订阅模式 | 进化</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="发布-订阅模式又称观察者模式，它定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知。在js中，我们一般用事件模型来替代传统的发布-订阅模式。 发布-订阅模式可以广泛应用于异步编程中，这是一种替代传递回调函数的方案。比如，我们可以订阅ajax请求的error、succ等事件。或者如果想在动画的每一帧完成后做一些事情，那我们可以订阅一个事件，然后在动画的每一帧完">
+<meta property="og:type" content="article">
+<meta property="og:title" content="第八章 发布-订阅模式">
+<meta property="og:url" content="brczo.github.io/2019/04/27/js设计模式与开发实践0801/index.html">
+<meta property="og:site_name" content="进化">
+<meta property="og:description" content="发布-订阅模式又称观察者模式，它定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知。在js中，我们一般用事件模型来替代传统的发布-订阅模式。 发布-订阅模式可以广泛应用于异步编程中，这是一种替代传递回调函数的方案。比如，我们可以订阅ajax请求的error、succ等事件。或者如果想在动画的每一帧完成后做一些事情，那我们可以订阅一个事件，然后在动画的每一帧完">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-04-27T14:49:49.491Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="第八章 发布-订阅模式">
+<meta name="twitter:description" content="发布-订阅模式又称观察者模式，它定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知。在js中，我们一般用事件模型来替代传统的发布-订阅模式。 发布-订阅模式可以广泛应用于异步编程中，这是一种替代传递回调函数的方案。比如，我们可以订阅ajax请求的error、succ等事件。或者如果想在动画的每一帧完成后做一些事情，那我们可以订阅一个事件，然后在动画的每一帧完">
+  
+    <link rel="alternate" href="/atom.xml" title="进化" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">进化</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="brczo.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-js设计模式与开发实践0801" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/27/js设计模式与开发实践0801/" class="article-date">
+  <time datetime="2019-04-27T10:48:00.000Z" itemprop="datePublished">2019-04-27</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      第八章 发布-订阅模式
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>发布-订阅模式又称观察者模式，它定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知。在js中，我们一般用事件模型来替代传统的发布-订阅模式。</p>
+<p>发布-订阅模式可以广泛应用于异步编程中，这是一种替代传递回调函数的方案。比如，我们可以订阅ajax请求的error、succ等事件。或者如果想在动画的每一帧完成后做一些事情，那我们可以订阅一个事件，然后在动画的每一帧完成之后发布这个事件。在异步编程中使用发布-订阅模式，我们就无需过多关注对象在异步运行期间的内部状态，而只需要订阅感兴趣的事件发生点。</p>
+<p>发布-订阅模式可以取代对象之间硬编码的通知机制，一个对象不用再显示地调用另一个对象的某个接口。发布-订阅模式让两个对象松耦合地联系在一起，虽然不太清楚彼此的细节，但这并不影响它们之间相互通信。当有新的订阅者出现时，发布者的代码不需要任何修改；同样发布者需要改变时，也不会影响到之前的订阅者。只要之前约定的事件名没有变化，就可以自由地改变它们。</p>
+<h2 id="DOM事件"><a href="#DOM事件" class="headerlink" title="DOM事件"></a>DOM事件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">document.body.addEventListener(&apos;click&apos;, function()&#123;</span><br><span class="line">    console.log(2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>在这里需要监控用户点击document.body的动作，但是我们没办法预知用户将在什么时候点击。所以我们订阅document.body上的click事件，当body节点被点击时，body节点便会向订阅者发布这个消息。<br>我们还可以随意增加或删除订阅者，增加任何订阅者都不会影响发布者代码的编写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">document.body.addEventListener(&apos;click&apos;, function()&#123;</span><br><span class="line">    console.log(3);</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br><span class="line">document.body.addEventListener(&apos;click&apos;, function()&#123;</span><br><span class="line">    console.log(4);</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br><span class="line">document.body.click(); //模拟用户点击</span><br></pre></td></tr></table></figure></p>
+<h2 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h2><p>除了DOM事件，我们还会经常实现一些自定义的事件，这种依靠自定义事件完成的发布-订阅模式可以用于任何js代码中。<br>现在看看如何一步步实现发布-订阅模式：</p>
+<ul>
+<li>首先要指定好谁充当发布者；</li>
+<li>然后给发布者添加一个缓存列表，用于存放回调函数以便通知订阅者；</li>
+<li>最后发布消息的时候，发布者会遍历这个缓存列表，依次触发里面存放的订阅者回调函数。</li>
+</ul>
+<p>另外，我们还可以往回调函数里填入一些参数，订阅者可以接受这些参数，订阅者接受到这些参数后可以进行各自的处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var salesOffices = &#123;&#125;; //定义售楼处</span><br><span class="line">salesOffices.clientList = []; //缓存列表，存放订阅者的回调函数</span><br><span class="line">salesOffices.listen = function(fn)&#123; //增加订阅者</span><br><span class="line">    this.clientList.push(fn); //订阅的消息添加进缓存列表</span><br><span class="line">&#125;；</span><br><span class="line">salesOffices.trigger = function()&#123; //发布消息</span><br><span class="line">    for(var i = 0, fn; fn = this.clientList[i++];)&#123;</span><br><span class="line">        fn.apply(this, arguments); //(2)//arguments是发布消息时带上的参数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">salesOffices.listen(function(price, squareMeter)&#123; //小明订阅消息</span><br><span class="line">    console.log(&apos;价格=&apos; + price);</span><br><span class="line">    console.log(&apos;squareMeter= &apos; + squareMeter);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffices.listen(function(price, squareMeter)&#123; //小红订阅消息</span><br><span class="line">    console.log(&apos;价格=&apos; + price);</span><br><span class="line">    console.log(&apos;squareMeter=&apos; + squareMeter);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffices.trigger(200000, 88); // 小明订阅88平米房子的消息</span><br><span class="line">salesOffices.trigger(300000, 110);// 小红订阅110平米房子的消息</span><br></pre></td></tr></table></figure></p>
+<p>至此，我们已经实现了最简单的发布-订阅模式，但这里还存在一些问题。我们看到订阅者接收到了发布者发布的每个消息，虽然小明只想买88平米的房子，但是发布者把110平米的信息也发给了小明，这对小明是不必要的困扰。所以我们有必要增加一个标示key，让订阅者只订阅自己感兴趣的消息。改写后的代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">var salesOffices = &#123;&#125;; //定义售楼处</span><br><span class="line">salesOffices.clientList = &#123;&#125;; //缓存列表，存放订阅者的回调函数</span><br><span class="line">salesOffices.listen = function(key, fn)&#123;</span><br><span class="line">    if(!this.clientList[key])&#123; // 如果还没有订阅过此类消息，给该类消息创建一个缓存列表</span><br><span class="line">        this.clientList[key] = []; </span><br><span class="line">    &#125;</span><br><span class="line">    this.clienList[key].push(fn); //订阅的消息添加进消息缓存列表</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">salesOffices.trigger = function()&#123; //发布消息</span><br><span class="line">    var key = Array.prototype.shift.call(arguments), //取出消息类型</span><br><span class="line">        fns = this.clientList[key]; //取出该消息类型下的回调函数集合</span><br><span class="line">        if(!fns || fns.length === 0)&#123; //如果没有订阅该消息， 则返回</span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">    for(var i = 0, fn; fn = fns[i++];)&#123;</span><br><span class="line">        fn.apply(this, arguments); //arguments是发布消息时附送的参数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">salesOffices.listen(&apos;squareMeter88&apos;,function(price)&#123; //小明订阅88平米房子的消息</span><br><span class="line">    console.log(price);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffices.listen(&apos;squareMeter110&apos;, function(price)&#123; //小红订阅110平米房子消息</span><br><span class="line">    console.log(price);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffice.trigger(&apos;squareMeter88&apos;, 2000000);</span><br><span class="line">salesOffice.trigger(&apos;squareMeter110&apos;, 2000000);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/27/js设计模式与开发实践0801/" data-id="cjv60bndd001iprjdujia8avm" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2019/04/27/js设计模式与开发实践0802/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          第八章 发布-订阅模式 发布-订阅模式的通用实现
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/04/27/php设计模式05/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">发布-订阅模式</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/优势谈判/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
+          </li>
+        
+          <li>
+            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 brczo<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+<script src="/scripts/love.js"></script>
+
+
+
+  </div>
+</body>
+</html>

@@ -62,14 +62,14 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-tinyhttpd源码分析-头文件" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践0201" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/12/tinyhttpd源码分析-头文件/" class="article-date">
-  <time datetime="2019-04-12T05:58:22.316Z" itemprop="datePublished">2019-04-12</time>
+    <a href="/2019/04/18/js设计模式与开发实践0201/" class="article-date">
+  <time datetime="2019-04-17T16:02:19.057Z" itemprop="datePublished">2019-04-18</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a>
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
   </div>
 
   </div>
@@ -80,7 +80,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/12/tinyhttpd源码分析-头文件/">头文件</a>
+      <a class="article-title" href="/2019/04/18/js设计模式与开发实践0201/">第二章 this的指向</a>
     </h1>
   
 
@@ -88,12 +88,25 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>tinyhttpd.h头文件。源码阅读方式 main-&gt;startup-&gt;accept_request-&gt;execute_cgi<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">#include &lt;sys/types.h&gt; </span><br><span class="line">#include &lt;netinet/in.h&gt;</span><br><span class="line">#include &lt;arpa/inet.h&gt;</span><br><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">#include &lt;ctype.h&gt;</span><br><span class="line">#include &lt;strings.h&gt;</span><br><span class="line">#include &lt;string.h&gt;</span><br><span class="line">#include &lt;sys/stat.h&gt;</span><br><span class="line">#include &lt;pthread.h&gt;</span><br><span class="line">#include &lt;sys/wait.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdint.h&gt;</span><br><span class="line"></span><br><span class="line">#define ISspace(x) isspace((int)(x))</span><br><span class="line"></span><br><span class="line">#define SERVER_STRING &quot;Server: jdbhttpd/0.1.0\r\n&quot;</span><br><span class="line">#define STDIN 0</span><br><span class="line">#define STDOUT 1</span><br><span class="line">#define STDERR 2</span><br><span class="line"></span><br><span class="line">处理从套接字上监听到的一个HTTP请求，在这里可以很大一部分地体现服务器处理请求流程</span><br><span class="line">void accept_request(void *);</span><br><span class="line"></span><br><span class="line">返回给客户端这是个错误请求，HTTP状态码 400 BAD_REQUEST</span><br><span class="line">void bad_request(int);</span><br><span class="line"></span><br><span class="line">读取服务器上某个文件写到socket套接字</span><br><span class="line">void cat(int, FILE *);</span><br><span class="line"></span><br><span class="line">主要处理发生在执行cgi程序时出现的错误</span><br><span class="line">void cannot_execute(int);</span><br><span class="line"></span><br><span class="line">把错误信息写到perror并退出</span><br><span class="line">void error_die(const char *);</span><br><span class="line"></span><br><span class="line">运行cgi程序的处理，也是个主要函数</span><br><span class="line">void execute_cgi(int, const char *, const char *, const char *);</span><br><span class="line"></span><br><span class="line">读取套接字的一行，把回车换行等情况都统一为换行符结束</span><br><span class="line">int get_line(int, char *, int);</span><br><span class="line"></span><br><span class="line">把HTTP响应的头部写到套接字</span><br><span class="line">void headers(int, const char *);</span><br><span class="line"></span><br><span class="line">主要处理找不到请求时的情况</span><br><span class="line">void not_found(int);</span><br><span class="line"></span><br><span class="line">调用cat把服务器文件返回给浏览器</span><br><span class="line">void serve_file(int, const char *);</span><br><span class="line"></span><br><span class="line">初始化httpd服务，包括建立套接字，绑定端口，进行监听等</span><br><span class="line">int startup(u_short *);</span><br><span class="line"></span><br><span class="line">返回给浏览器表明收到的HTTP请求所用的method不被支持</span><br><span class="line">void unimplemented(int);</span><br></pre></td></tr></table></figure></p>
-
+        <h2 id="this的指向大致分为一以下4种"><a href="#this的指向大致分为一以下4种" class="headerlink" title="this的指向大致分为一以下4种"></a>this的指向大致分为一以下4种</h2><ul>
+<li>作为对象的方法调用</li>
+<li>作为普通的函数调用</li>
+<li>构造器调用</li>
+<li>Function.prototype.call 或 Function.prototype.apply调用</li>
+</ul>
+<h3 id="作为对象的调用"><a href="#作为对象的调用" class="headerlink" title="作为对象的调用"></a>作为对象的调用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    a: 1,</span><br><span class="line">    getA: function()&#123;</span><br><span class="line">        console.log(this === obj); //输出true</span><br><span class="line">        console.log(this.a); //输出1</span><br><span class="line">    &#125;; </span><br><span class="line">&#125;;</span><br><span class="line">obj.getA();</span><br></pre></td></tr></table></figure>
+<h3 id="作为普通函数的调用"><a href="#作为普通函数的调用" class="headerlink" title="作为普通函数的调用"></a>作为普通函数的调用</h3><p>执行getName函数时，函数内没有那么属性，js引擎沿着作用域链向上查找name属性，直到最顶端的window对象，有则输出，无则输出undefined。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">window.name = &apos;globalName&apos;;</span><br><span class="line">var getName = function()&#123;</span><br><span class="line">    return this.name;</span><br><span class="line">&#125;;</span><br><span class="line">console.log(getName()); //输出globalName</span><br></pre></td></tr></table></figure></p>
+<p>或者：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">window.name = &apos;globalName&apos;;</span><br><span class="line">var myObj = &#123;</span><br><span class="line">    name: &apos;jack&apos;,</span><br><span class="line">    getName: function()&#123;</span><br><span class="line">        return this.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var getName = myObj.getName; </span><br><span class="line">console.log(getName()); //输出：globalName</span><br></pre></td></tr></table></figure></p>
+<p>有时，我们会遇到一些困扰，比如在div节点的事件函数内部，有一个局部的callback方法，callback被作为普通函数调用时，callback内部的this指向了window，但我们往往是想让它指向该div节点，见如下代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div id=&quot;div1&quot;&gt;我是一个div&lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        window.id = &apos;window&apos;;</span><br><span class="line">        document.getElementById(&apos;div1&apos;).onclick = function()&#123;</span><br><span class="line">            console.log(this.id); //输出：&apos;div1&apos;</span><br><span class="line">            var callback = function()&#123;</span><br><span class="line">                console.log(this.id);  //输出：window</span><br><span class="line">            &#125;</span><br><span class="line">            callback();</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<p>解决方法是通过闭包将节点保存<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&apos;div1&apos;).onclick = function()&#123;</span><br><span class="line">    console.log(this.id); //输出：&apos;div1&apos;</span><br><span class="line">    var _self = this;</span><br><span class="line">    var callback = function()&#123;</span><br><span class="line">        console.log(_self.id);  //输出：window</span><br><span class="line">    &#125;</span><br><span class="line">    callback();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在严格模式下（”use strict”），这种情况下this是undefined</p>
+<h3 id="构造器调用"><a href="#构造器调用" class="headerlink" title="构造器调用"></a>构造器调用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var myClass = function()&#123;</span><br><span class="line">    this.name = &apos;jack&apos;;</span><br><span class="line">&#125;;</span><br><span class="line">var obj = new myClass();</span><br><span class="line">console.log(obj.name); //输出 jack</span><br></pre></td></tr></table></figure>
+<p>用new调用构造器需注意一个问题，如果构造器显式的返回一个obj类型，那么此次运行结果最终会返回这个对象，而不是我们之前期待的this：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var myClass = function()&#123;</span><br><span class="line">    this.name = &apos;jack&apos;;</span><br><span class="line">    return &#123; //显示的返回一个对象</span><br><span class="line">        name: &apos;marry&apos;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line">var obj = new myClass();</span><br><span class="line">console.log(obj.name); //输出：marry</span><br></pre></td></tr></table></figure></p>
+<h3 id="Function-prototype-call-或-Function-prototype-apply调用"><a href="#Function-prototype-call-或-Function-prototype-apply调用" class="headerlink" title="Function.prototype.call 或 Function.prototype.apply调用"></a>Function.prototype.call 或 Function.prototype.apply调用</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var obj1 = &#123;</span><br><span class="line">    name: &apos;jack&apos;,</span><br><span class="line">    getName: function()&#123;</span><br><span class="line">        return this.name;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var obj2 = &#123;</span><br><span class="line">    name: &apos;marry&apos;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">console.log(obj1.getName()); //输出：Jack</span><br><span class="line">console.log(obj1.getName.call(obj2)); //输出 marry</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/12/tinyhttpd源码分析-头文件/" data-id="cjurvjbuv001rkx4mg1h7s2s0" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/18/js设计模式与开发实践0201/" data-id="cjv60bnbz000eprjd2il12tzs" class="article-share-link">Share</a>
       
       
     </footer>
@@ -103,14 +116,14 @@
 
 
   
-    <article id="post-linux高性能服务器编程-socket-03" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践0306" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/12/linux高性能服务器编程-socket-03/" class="article-date">
-  <time datetime="2019-04-12T01:40:23.438Z" itemprop="datePublished">2019-04-12</time>
+    <a href="/2019/04/17/js设计模式与开发实践0306/" class="article-date">
+  <time datetime="2019-04-17T15:03:49.077Z" itemprop="datePublished">2019-04-17</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/linux高性能服务器/">linux高性能服务器</a>
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
   </div>
 
   </div>
@@ -121,7 +134,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/12/linux高性能服务器编程-socket-03/">socket 数据读写</a>
+      <a class="article-title" href="/2019/04/17/js设计模式与开发实践0306/">第三章 高阶函数的其他应用 函数柯里化</a>
     </h1>
   
 
@@ -129,14 +142,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="TCP数据读写"><a href="#TCP数据读写" class="headerlink" title="TCP数据读写"></a>TCP数据读写</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd socket文件描述符</span><br><span class="line">    @param buf 读/写缓冲区的位置</span><br><span class="line">    @param len 读缓冲区的大小</span><br><span class="line">    @param flags 通常设置为0</span><br><span class="line">    @return 0 | -1</span><br><span class="line">**/</span><br><span class="line">ssize_t recv(int sockfd, void *buf, size_t len, int flags);</span><br><span class="line">ssize_t send(int sockfd, const void *buf, size_t len, int flags);</span><br></pre></td></tr></table></figure>
-<h2 id="UDP数据读写"><a href="#UDP数据读写" class="headerlink" title="UDP数据读写"></a>UDP数据读写</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">ssize_t recvfrom(int sockfd, void* buf, size_t len, int flags, struct sockaddr* src_addr, socklen_t* addrlen);</span><br><span class="line">ssize_t sendto(int sockfd, const void* buf, size_t len, int flags, const struct sockaddr* dest_addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure>
-<h2 id="通用数据读写函数"><a href="#通用数据读写函数" class="headerlink" title="通用数据读写函数"></a>通用数据读写函数</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">ssize_t recvmsg(int sockfd, struct msghdr* msg, int flags);</span><br><span class="line">ssize_t sendmsg(int sockfd, struct msghdr* msg, int flags);</span><br><span class="line"></span><br><span class="line">struct msghdr&#123;</span><br><span class="line">    void* msg_name;  /* socket地址 */</span><br><span class="line">    socklen_t msg_namelen; /*socket地址的长度*/</span><br><span class="line">    struct iovec* msg_iov; /*分散的内存块*/</span><br><span class="line">    int msg_iovlen; /*分散内存块的数量*/</span><br><span class="line">    void* msg_control; /*指向辅助数据的起始位置*/</span><br><span class="line">    socklen_t msg_controllen; /*辅助数据的大小*/</span><br><span class="line">    int msg_flags; /*复制函数中的flags参数，并在调用过程中更新*/</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct iovec&#123;</span><br><span class="line">    void *iov_base; /* 内存起始地址 */</span><br><span class="line">    size_t iov_len; /* 这块内存的长度 */</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <h2 id="curring-函数柯里化"><a href="#curring-函数柯里化" class="headerlink" title="curring 函数柯里化"></a>curring 函数柯里化</h2><p>curring又称部分求值。一个curring的函数首先会接受一些参数，接受了这些参数之后，该函数并不会立即求值，而是继续返回另一个函数，刚才传入的参数在函数形成的闭包中被保存。待到函数被真正需要求值的时候，之前传入的所有参数都会被一次性用于求值。<br>编写一个计算每月开销的函数。在每天结束之前，我们都要记录今天花掉了多少钱。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var monthlyCost = 0;</span><br><span class="line">var cost = function(money)&#123;</span><br><span class="line">    monthlyCost += money;</span><br><span class="line">&#125;;</span><br><span class="line">cost(100); //第一天开销</span><br><span class="line">cost(200); //第二天开销</span><br><span class="line">cost(300); //第三天开销</span><br><span class="line">console.log(monthlyCost);// 输出：600</span><br></pre></td></tr></table></figure></p>
+<p>上面的代码计算了今天为止花了多少钱。但我们只想知道月底花了多少钱。也就是说，只需在月底计算一次。如果在每个月的前29天，我们都只是保存好当天的开销，知道第30天才进行求值计算。虽然下面的函数还不是currying函数的完整实现，但有助于我们了解其思想：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var cost = (function()&#123;</span><br><span class="line">    var args = [];</span><br><span class="line">    return = function()&#123;</span><br><span class="line">        if(arguments.length === 0)&#123;</span><br><span class="line">            var money = 0;</span><br><span class="line">            for(var i = 0, l = args.length; i &lt; l; i++)&#123;</span><br><span class="line">                money += args[i];</span><br><span class="line">            &#125;</span><br><span class="line">            return money;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            [].push.apply(args, arguments);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">cost(100); //未真正求值</span><br><span class="line">cost(200); //未真正求值</span><br><span class="line">cost(300); //未真正求值</span><br><span class="line">console.log(cost()); //求值并输出：600</span><br></pre></td></tr></table></figure></p>
+<p>编写一个通用的currying函数，它接受一个参数，即将要被curring的函数。在这个例子里，这个函数的作用遍历本月每天的开销并求出它们的总和。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var curring = function(fn)&#123;</span><br><span class="line">    var args = [];</span><br><span class="line">    return function()&#123;</span><br><span class="line">        if(arguments.length === 0)&#123;</span><br><span class="line">            return fn.apply(this, args);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            [].push.apply(args, arguments);</span><br><span class="line">            return arguments.callee;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var cost = (function()&#123;</span><br><span class="line">    var money = 0;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        for(var i = 0, l = arguments.length; i &lt; l; i++)&#123;</span><br><span class="line">            money += arguments[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return money;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">var cost = currying(cost);  //转化成currying函数</span><br><span class="line">cost(100); //未真正求值</span><br><span class="line">cost(100); //未真正求值</span><br><span class="line">cost(100); //未真正求值</span><br><span class="line"></span><br><span class="line">console.log(cost()); //求值并输出：600</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/12/linux高性能服务器编程-socket-03/" data-id="cjurvjbuq001fkx4mlvx2l334" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/17/js设计模式与开发实践0306/" data-id="cjv60bnc9000sprjdzgy5ch6u" class="article-share-link">Share</a>
       
       
     </footer>
@@ -146,14 +159,14 @@
 
 
   
-    <article id="post-linux高性能服务器编程-socket-01" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践0305" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/11/linux高性能服务器编程-socket-01/" class="article-date">
-  <time datetime="2019-04-11T08:57:22.131Z" itemprop="datePublished">2019-04-11</time>
+    <a href="/2019/04/17/js设计模式与开发实践0305/" class="article-date">
+  <time datetime="2019-04-17T00:50:42.261Z" itemprop="datePublished">2019-04-17</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/linux高性能服务器/">linux高性能服务器</a>
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
   </div>
 
   </div>
@@ -164,7 +177,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/11/linux高性能服务器编程-socket-01/">socket地址api</a>
+      <a class="article-title" href="/2019/04/17/js设计模式与开发实践0305/">第三章 高阶函数的概念和应用</a>
     </h1>
   
 
@@ -172,213 +185,302 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="socket地址api"><a href="#socket地址api" class="headerlink" title="socket地址api"></a>socket地址api</h2><h3 id="大端字节序与小端字节序"><a href="#大端字节序与小端字节序" class="headerlink" title="大端字节序与小端字节序"></a>大端字节序与小端字节序</h3><p>大端字节序的高位字节在前，低位字节在后。人类读数值的顺序。<br>小端字节序高位字节在后，低位字节在前。计算机处理速度快。<br>网络字节是大端字节序<br>小端字节序也叫主机字节序</p>
-<h3 id="通用socket地址"><a href="#通用socket地址" class="headerlink" title="通用socket地址"></a>通用socket地址</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr &#123;</span><br><span class="line">    sa_family_t sa_family; </span><br><span class="line">    char sa_data[14];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>sa_family是地址族类型（sa_family_t)的变量。地址族类型通常与协议族类型对应。</p>
-<table>
-<thead>
-<tr>
-<th>协议族</th>
-<th>地址族</th>
-<th>描述</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PF_UNIX</td>
-<td>AF_UNIX</td>
-<td>UNIX本地域协议族</td>
-</tr>
-<tr>
-<td>PF_INET</td>
-<td>AF_INET</td>
-<td>TCP/IPv4协议族</td>
-</tr>
-<tr>
-<td>PF_INET6</td>
-<td>AF_INET6</td>
-<td>TCP/IPv6协议族</td>
-</tr>
-</tbody>
-</table>
-<p>sa_data用于存放socket地址值。但是，不同的协议族的地址值具有不同的含义和长度</p>
-<table>
-<thead>
-<tr>
-<th>协议族</th>
-<th>地址值含义和长度</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td>PF_UNIX</td>
-<td>文件的路径名，长度可达108字节</td>
-</tr>
-<tr>
-<td>PF_INET</td>
-<td>16bit端口号和32bitIPv4地址，共6字节</td>
-</tr>
-<tr>
-<td>PF_INET6</td>
-<td>16bit端口号，32bit流标识，128bitIPv6地址，32bit范围ID，共26字节</td>
-</tr>
-</tbody>
-</table>
-<p>由于sa_data的14字节已不能满足需求，linux新定义了一个新的通用socket地址结构体<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_storage&#123;</span><br><span class="line">    sa_family_t sa_family;</span><br><span class="line">    unsigned long int __ss_align;</span><br><span class="line">    char __ss_padding[128-sizeof(__ss_align)];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<h3 id="专用socket地址"><a href="#专用socket地址" class="headerlink" title="专用socket地址"></a>专用socket地址</h3><p>UNIX本地域协议族专用socket地址结构体<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/un.h&gt;</span><br><span class="line">struct sockaddr_un&#123;</span><br><span class="line">    sa_family_t sin_family; /* 地址族：AF_UNIX */</span><br><span class="line">    char sun_path[108]; /* 文件路径名 */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>IPv4专用socket地址结构体<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_in &#123;</span><br><span class="line">    sa_family_t sin_family; /* 地址族：AF_INET */</span><br><span class="line">    u_int16_t sin_port; /* 端口号，要用网络字节序表示 */</span><br><span class="line">    struct in_addr sin_addr; /* IPv4地址结构体 */</span><br><span class="line">&#125;;</span><br><span class="line">struct in_addr&#123;</span><br><span class="line">    u_int32_t s_addr; /* IPv4地址，要用网络字节序 */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>IPv6专用socket地址结构体<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">struct sockaddr_in6&#123;</span><br><span class="line">    sa_family_t sin6_family; /* 地址族：AF_INET6 */</span><br><span class="line">    u_int16_t sin6_port; /* 端口号，要用网络字节序表示 */</span><br><span class="line">    u_int32_t sin6_flowauto; /* 流信息，应设置为0 */</span><br><span class="line">    struct in6_addr sin6_addr; /* IPv6地址结构体 */</span><br><span class="line">    u_int32_t sin6_scope_id; /* scope ID， 尚处于实验阶段 */</span><br><span class="line">&#125;;</span><br><span class="line">struct in6_addr &#123;</span><br><span class="line">    unsigned char sa_addr[16]; /* IPv6地址，要用网络字节序表示 */</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p><strong>所有专用socket地址类型的变量在实际使用时都需要转化为通用socket地址类型sockaddr（强制转换即可）</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/11/linux高性能服务器编程-socket-01/" data-id="cjurvjbug000zkx4met0lohkk" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-心流-如何在日常生活中寻找心流" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/10/心流-如何在日常生活中寻找心流/" class="article-date">
-  <time datetime="2019-04-10T14:54:27.213Z" itemprop="datePublished">2019-04-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/心流/">心流</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/心流-如何在日常生活中寻找心流/">第四章 如何在日常生活中寻找心流</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>为什么游戏能带来乐趣，而我们日常所做的事-例如工作或坐在家里发呆，却令人觉得无趣呢？为什么有人即使在纳粹集中营ra也能满心欢喜，有人到了度假胜地旅游却感到单调乏味呢？先找到这些问题的答案，就比较容易了解提升自身体验、改善生活品质的方法。本章就要讨论、比较可能产生最优体验的活动，以及有助于进入心流的性格特征。</p>
-<h2 id="心流活动"><a href="#心流活动" class="headerlink" title="心流活动"></a>心流活动</h2><p>所有心流活动，不论涉及竞争、投机还是其他形式的体验，都有一个共同点：它带来一种新发现、一种创造感，把当事人带入新的现实。它促使一个人有更好的表现，使意识到达过去连做梦也想不到的境界。简单的说，它把自我变得更加复杂，自我因而成长，这就是心流活动的关键。</p>
-<h2 id="心流与社会文化"><a href="#心流与社会文化" class="headerlink" title="心流与社会文化"></a>心流与社会文化</h2><h3 id="文化相对论"><a href="#文化相对论" class="headerlink" title="文化相对论"></a>文化相对论</h3><p>任何跨文化的价值评判，都必然迫使所评判的文化暴露于另一套全然陌生的价值标准下，因此根本无从比较。</p>
-<h3 id="文化无所不包"><a href="#文化无所不包" class="headerlink" title="文化无所不包"></a>文化无所不包</h3><p>文化是对混沌的一种防御。文化必须把很多细枝末节的目标和信念排除，因而也局限了发展的可能性。唯有把注意力限制在一组特定的目标与手段上，才能在自行创造的疆域里，进行毫不费力的行动。文化促成心流。</p>
-<h3 id="闲暇不等于乐趣"><a href="#闲暇不等于乐趣" class="headerlink" title="闲暇不等于乐趣"></a>闲暇不等于乐趣</h3><p>虽然很多人有充裕的闲暇，可以从事多种休闲活动，但他们并没有因此而经常体验到心流。潜力不见得都能实现，质与量也无法互换。工作时全神贯注，挑战与技巧完全匹配，且有掌控与满足感，体验心流的机会是看电视的4倍。</p>
-<h2 id="自得其乐的性格"><a href="#自得其乐的性格" class="headerlink" title="自得其乐的性格"></a>自得其乐的性格</h2><h3 id="享受快乐的心理障碍"><a href="#享受快乐的心理障碍" class="headerlink" title="享受快乐的心理障碍"></a>享受快乐的心理障碍</h3><p><strong>过分的自我意识</strong>是一种不太严重的心流障碍。一个人若时时都在担心别人对自己的看法，害怕给人留下不好的印象，或做出不妥当的事情，就注定与乐趣无缘。过于以自我为中心的人也一样，这种人通常并不是自觉，而是对所有资讯的判断只以它是否有助于实现自己的愿望为标准。“有两个用于社会病理学的名词，在描述使心流难以产生的状况时也适用——“失范”（anomie）与“疏离”（alienation）。“失范”原由法国社会学家迪尔凯姆提出，特指行为规范被扰乱的社会状况。当什么可以或不可以做已混淆不清时，人的行为举止就变得反复无常、没有意义，靠社会规则建立意识秩序的人就会感到焦虑。失范的现象会在经济崩溃或本土文化遭受外来文化摧毁时出现；当经济急速繁荣、注重勤俭的旧的价值观被推翻时，也可能发生。</p>
-<h2 id="在困顿中体验快乐"><a href="#在困顿中体验快乐" class="headerlink" title="在困顿中体验快乐"></a>在困顿中体验快乐</h2><p>“自得其乐的性格”最大特征就是，他们能在一般人无法忍受的情况中找到乐趣。不论是在南极迷了路还是被关在牢房里，总有人能把自己的困境改善得还能过得去，甚至成为一场充满乐趣的奋斗；换成其他人，很可能就向艰难困顿俯首称臣了。在钻研了很多人在困难中的自述后，罗根的结论是：他们都因为能把悲惨的客观条件转变成可以控制的主观体验，才得以生存下去；他们正是依心流的蓝图行事。首先，他们密切关注环境中的细节，并从中发掘可以跟他们有限的能力搭配的行动机会；然后制订出一个现实状况所能容许的目标，通过所得到的回馈，密切注意一切进展。只要一实现目标，他们就提高赌注，为自己部署更复杂的挑战。</p>
-<h3 id="自力救济找乐趣"><a href="#自力救济找乐趣" class="headerlink" title="自力救济找乐趣"></a>自力救济找乐趣</h3><p>罗根在研究多位劫后余生者的记录后，提供了一个答案。他的研究对象都提到在极度艰苦困顿的情况下力量的来源，罗根认为，幸存者最重要的共同特征就是“一种自我意识不到的个人主义”，或者可说是有方向感、充满自信的目标。拥有这种特质的人，无论处于什么情况下都会全力以赴，而且不会把自己的利益放在第一位。因为这些人的动机在于行动本身，所以不易受到外来威胁的干扰。他们有足够的精神能量，可对周遭环境做客观分析与观察，也比较可能从中发现新的行动契机。如果要为自得其乐的性格选出一个最主要的特征，应该就是这一点了。只想保护自己的自恋者，在面临外在环境的威胁时就会崩溃，接踵而来的惊慌失措，使他们无法把该做的事情做好，因为他们的注意力转向内心，专注于恢复意识的秩序，根本没有余力应付外在的现实。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/10/心流-如何在日常生活中寻找心流/" data-id="cjurvjbv8002akx4mitqlsgf5" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-linux高性能服务器编程-socket-02" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/10/linux高性能服务器编程-socket-02/" class="article-date">
-  <time datetime="2019-04-10T06:05:50.000Z" itemprop="datePublished">2019-04-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/linux高性能服务器/">linux高性能服务器</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/linux高性能服务器编程-socket-02/">socket 创建 命名...</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="创建socket"><a href="#创建socket" class="headerlink" title="创建socket"></a>创建socket</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param domain 协议族 包括PF_INET（IPv4）、PF_INET6（IPv6）或PF_UNIX</span><br><span class="line">    @param type 服务类型 包括流服务（SOCK_STREAM）、数据包服务（SOCK_DGRAM）、</span><br><span class="line">    SOCK_NONBLOCK和SOCK_CLOEXEC。后两者表示将新创建的socket设为非阻塞的，以及用</span><br><span class="line">    fork调用创建子进程时在子进程中关闭socket。</span><br><span class="line">    @param protocol 选择子协议 默认为0</span><br><span class="line">    @return socket文件描述符|-1并设置errno</span><br><span class="line">**/</span><br><span class="line">int socket(int domain, int type, int protocol);</span><br></pre></td></tr></table></figure>
-<h2 id="命名socket"><a href="#命名socket" class="headerlink" title="命名socket"></a>命名socket</h2><p>创建socket时，指定了地址族，但是并未指定使用该地址族中的哪个具体的socket地址。将一个socket与socket地址绑定称为命名。<br>在服务器端通常需要命名socket，客户端通常不需要，而是采用匿名的方式。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd socket文件描述符</span><br><span class="line">    @param addr socket地址</span><br><span class="line">    @param addrlen 指定地址长度</span><br><span class="line">    @return 0 成功|-1 并设置errno。其中两种常见的errno是EACCES和EADDRINUSE</span><br><span class="line">    EACCES 被绑定的地址是受保护的地址，仅超级用户能够访问。比如普通用户将socket</span><br><span class="line">    绑定到知名服务端口（端口号为0~1023）上时，bind将返回EACCES错误</span><br><span class="line">    EADDRINUSE 被绑定的地址正在使用中。比如将socket绑定到一个处于TIME_WAIT</span><br><span class="line">    状态的socket地址。</span><br><span class="line">**/</span><br><span class="line">int bind(int sockfd, const struct sockaddr* addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure></p>
-<h2 id="监听socket"><a href="#监听socket" class="headerlink" title="监听socket"></a>监听socket</h2><p>socket被命名后，还不能马上接受客户连接，我们需要使用如下系统调用来创建一个监听队列以存放待处理的客户连接：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd socket文件描述符</span><br><span class="line">    @param backlog 提示内核监听队列的最大长度 监听队列的长度如果超过最大长度</span><br><span class="line">    服务器将不受理新的客户连接。客户端也将收到ECONNREFUSED</span><br><span class="line">    @return 0|-1</span><br><span class="line">**/</span><br><span class="line">int listen(int sockfd, int backlog);</span><br></pre></td></tr></table></figure></p>
-<h2 id="接受连接"><a href="#接受连接" class="headerlink" title="接受连接"></a>接受连接</h2><p>从listen监听队列中接受一个连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd 执行过listen系统调用的监听socket。</span><br><span class="line">    @param addr 用来获取被接受连接的远程socket地址</span><br><span class="line">    @param addrlen socket地址的长度</span><br><span class="line">    @return socket 该socket唯一的标识了被接收的这个连接|-1</span><br><span class="line">**/</span><br><span class="line">int accept(int sockfd, struct sockaddr *addr, socklen_t *addrlen);</span><br></pre></td></tr></table></figure></p>
-<p><strong>accept只是从监听队列中取出连接，而不论连接处于何种状态，更不关心任何网络状况的变化。</strong></p>
-<h2 id="发起连接"><a href="#发起连接" class="headerlink" title="发起连接"></a>发起连接</h2><p>主动与服务器建立连接<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;sys/types.h&gt;</span><br><span class="line">#include &lt;sys/socket.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param sockfd socket系统调用返回一个socket。</span><br><span class="line">    @param serv_addr 服务器监听的socket地址</span><br><span class="line">    @param addrlen 指定地址长度</span><br><span class="line">    @return 0|-1 并设置errno </span><br><span class="line">    ECONNREFUSED 目标端口不存在，连接被拒绝</span><br><span class="line">    ETIMEOUT 连接超时</span><br><span class="line">**/</span><br><span class="line">int connect(int sockfd, const struct sockaddr *serv_addr, socklen_t addrlen);</span><br></pre></td></tr></table></figure></p>
-<h2 id="关闭连接"><a href="#关闭连接" class="headerlink" title="关闭连接"></a>关闭连接</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;unistd.h&gt;</span><br><span class="line">/**</span><br><span class="line">    @param fd 待关闭的socket</span><br><span class="line">**/</span><br><span class="line">int close(int fd);</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/10/linux高性能服务器编程-socket-02/" data-id="cjurvjbui0014kx4mq3ke64qt" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-linux高性能服务器编程-tcp&amp;ip" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/10/linux高性能服务器编程-tcp&ip/" class="article-date">
-  <time datetime="2019-04-10T06:03:13.189Z" itemprop="datePublished">2019-04-10</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/linux高性能服务器/">linux高性能服务器</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/10/linux高性能服务器编程-tcp&ip/">tcp&amp;ip</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><img src="/images/TCP:IP协议族体系结构及主要协议.png" alt="TCP/IP协议族体系结构及主要协议"></p>
-<h2 id="数据链路层"><a href="#数据链路层" class="headerlink" title="数据链路层"></a>数据链路层</h2><p>数据链路层的两个常用协议是ARP协议（Address Resolve Protocol）地址解析协议和RARP（Reverse Address Resolve Protocol）逆地址解析协议。实现IP地址与机器物理地址之间的相互转换。</p>
-<h2 id="网络层"><a href="#网络层" class="headerlink" title="网络层"></a>网络层</h2><p>网络层实现数据包的选路和转发。网络层最核心的协议是<strong>IP协议</strong>。IP协议根据数据包的目的IP地址来决定如何投递它。如果数据包不能直接投递给目标主机，那么IP协议就为它寻找下一个合适的下一跳路由器，并将数据包交付给该路由器来转发。多次重复这一过程，数据包最终到达目标主机，或者发送失败而丢弃。<br>网络层的另一重要协议是ICMP协议，主要用于检测网络连接。</p>
-<h2 id="传输层"><a href="#传输层" class="headerlink" title="传输层"></a>传输层</h2><p>传输层为两台主机上的应用提供端到端的通信，只关心通信的起始端和目的端，而不在乎数据包的中转过程。<br><img src="/images/网络层与传输层的区别
-.png" alt="网络层与传输层的区别"></p>
-<h2 id="应用层"><a href="#应用层" class="headerlink" title="应用层"></a>应用层</h2><p>应用层负责处理应用程序逻辑。</p>
-<h2 id="socket和tcp-ip协议族的关系"><a href="#socket和tcp-ip协议族的关系" class="headerlink" title="socket和tcp/ip协议族的关系"></a>socket和tcp/ip协议族的关系</h2><p>数据链路层、网络层、传输层协议是在内核中实现的。因此操作系统需要实现一组系统调用，使得应用程序能访问这些协议提供的服务。实现这些系统调用的api主要是socket。<br>由socket定义的这一组API提供以下两点功能：</p>
+        <p>高阶函数是至少满足下列条件之一的函数：</p>
 <ul>
-<li>一是将应用程序数据从用户缓冲区中复制到TCP/IP内核发送缓冲区，以交付内核来发送数据，或者从内核TCP/UDP接收缓冲区中复制数据到用户缓冲区，以读取数据。</li>
-<li>二是应用程序可以通过它们来修改内核中各层协议的某些头部信息或其他数据结构，从而精细的控制底层通信行为。比如可以通过setsockopt函数来设置IP数据报在网络上的存活时间。</li>
+<li>函数可以作为参数被传递</li>
+<li>函数可以作为返回值输出</li>
+</ul>
+<h2 id="函数最为参数传递"><a href="#函数最为参数传递" class="headerlink" title="函数最为参数传递"></a>函数最为参数传递</h2><p>把函数作为参数传递，这代表我们可以抽离一部分容易变化的业务逻辑，把这部分业务逻辑放在函数参数中，这样一来可以分离业务代码中变化与不变的部分。其中一个常见的重要的应用场景是常见的回掉函数。</p>
+<h2 id="函数作为返回值输出"><a href="#函数作为返回值输出" class="headerlink" title="函数作为返回值输出"></a>函数作为返回值输出</h2><h2 id="高阶函数实现AOP"><a href="#高阶函数实现AOP" class="headerlink" title="高阶函数实现AOP"></a>高阶函数实现AOP</h2><p>AOP（面向切面编程）的主要作用是把一些跟核心业务逻辑模块无关的功能抽离出来，这些跟业务逻辑无关的功能通常包括日志统计、安全控制、异常处理等。把这些功能抽离出来后，再通过“动态织入”的方式掺入业务逻辑模块中。这样的好处首先是可以保持业务逻辑模块的纯净和高内聚性，其次是可以很方便地复用日志统计等功能模块。<br>通常，在js中实现AOP，都是指把一个函数“动态织入”到另一个函数之中。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.before = function(beforefn)&#123;</span><br><span class="line">    var _self = this; //保存原函数的引用</span><br><span class="line">    return function() &#123;</span><br><span class="line">        beforefn.apply(this, arguments); //执行新函数，修正this 防止this丢失</span><br><span class="line">        return _self.apply(this, arguments); // 执行原函数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">Function.prototype.after = function(afterfn)&#123;</span><br><span class="line">    var _self = this;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var ret = _self.apply(this, arguments);</span><br><span class="line">        afterfn.apply(this, arguments);</span><br><span class="line">        return ret;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var func = function() &#123;</span><br><span class="line">    console.log(2);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">func = func.before(function()&#123;</span><br><span class="line">    console.log(1);</span><br><span class="line">&#125;).after(function()&#123;</span><br><span class="line">    console.log(3);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">func();</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/17/js设计模式与开发实践0305/" data-id="cjv60bncb000uprjdzay6p7t5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0304" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/16/js设计模式与开发实践0304/" class="article-date">
+  <time datetime="2019-04-16T14:46:48.250Z" itemprop="datePublished">2019-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/16/js设计模式与开发实践0304/">第三章 闭包与内存管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>闭包与内存泄漏的关系是，使用闭包的同时比较容易形成循环引用，如果闭包的作用域链中保存着一些DOM节点，这时候就有可能造成内存泄漏。但这本省并非必报的问题，也并非js的问题。在IE浏览器中，由于BOM和DOM的对象是使用c++以COM对象的方式实现的，而COM对象的垃圾收集机制采用的是引用计数策略。在基于引用计数策略的垃圾回收机制中，如果两个对象之间形成了循环引用，那么这两个对象都无法被回收。同样，如果要解决循环引用带来的内存泄露问题，我们只需要把循环引用中的变量设为 null 即可。将变量设置为null意味着切断变量与它此前引用的值之间的连接。当垃圾收集器下次运 行时，就会删除这些值并回收它们占用的内存。<br>不如，如下代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function handle()&#123;</span><br><span class="line">    var element = document.getElementById(&apos;div&apos;);</span><br><span class="line">    element.onclick = function()&#123;</span><br><span class="line">        console.log(element.id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>函数中给element的onclick属性赋值了一个闭包，闭包要访问element的id属性。闭包在js中也是对象，函数即对象。闭包会持有外部传入的变量，因此闭包持有了element对象，而element对象通过onclick属性持有了闭包，因此两个对象相互持有，造成内存泄漏。</p>
+<p>解决方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function handle()&#123;</span><br><span class="line">    var element = document.getElementById(&apos;div&apos;);</span><br><span class="line">    var id = element.id;</span><br><span class="line">    element.onclick = function()&#123;</span><br><span class="line">        console.log(id);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>此时element对象持有id，不再是element。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0304/" data-id="cjv60bnc6000nprjdx4440uyj" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0303" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/16/js设计模式与开发实践0303/" class="article-date">
+  <time datetime="2019-04-16T14:33:41.195Z" itemprop="datePublished">2019-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/16/js设计模式与开发实践0303/">第三章 用闭包实现命令模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>命令模式的意思是把请求封装为对象，从而分离请求的发起者和请求的接受者（执行者）之间的耦合关系。在命令执行前，可以预先往命令对象植入命令的接受者。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;button id=&quot;execute&quot;&gt;点击我执行命令&lt;/button&gt;</span><br><span class="line">        &lt;button id=&quot;undo&quot;&gt;点击我执行命令&lt;/button&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var Tv = &#123;</span><br><span class="line">            open: function()&#123;</span><br><span class="line">                console.log(&apos;打开电视机&apos;);</span><br><span class="line">            &#125;,</span><br><span class="line">            close: function()&#123;</span><br><span class="line">                console.log(&apos;关上电视机&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line">        var openTvCommand = function(receiver)&#123;</span><br><span class="line">            this.receiver = receiver;</span><br><span class="line">        &#125;;</span><br><span class="line">        openTvCommand.prototype.execute = function()&#123;</span><br><span class="line">            this.receiver.open(); //执行命令， 打开电视机</span><br><span class="line">        &#125;;</span><br><span class="line">        openTvCommand.prototype.undo = function()&#123;</span><br><span class="line">            this.receiver.close();//撤销命令，关闭电视机</span><br><span class="line">        &#125;;</span><br><span class="line">        var setCommand = function(command)&#123;</span><br><span class="line">            document.getElementById(&apos;execute&apos;).onclick = function()&#123;</span><br><span class="line">                command.execute(); //输出：打开电视机</span><br><span class="line">            &#125;;</span><br><span class="line">            document.getElementById(&apos;undo&apos;).onclick = function()&#123;</span><br><span class="line">                command.undo();  //关闭电视机 </span><br><span class="line">            &#125;;</span><br><span class="line">        &#125;;</span><br><span class="line">        setCommand(new openTvCommand(Tv));</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0303/" data-id="cjv60bndt0025prjdobl7lq45" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0302" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/16/js设计模式与开发实践0302/" class="article-date">
+  <time datetime="2019-04-16T14:16:00.138Z" itemprop="datePublished">2019-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/16/js设计模式与开发实践0302/">第三章 闭包和面向对象设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>过程与数据的结合是形容面向对象中的“对象”时经常使用的表达。对象以方法的形式包含了过程，而闭包则是在过程中以环境的形式包含了数据。通常用面向对象思想能实现的功能，用闭包也能实现。反之亦然。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var extent = function()&#123;</span><br><span class="line">    var value = 0;</span><br><span class="line">    return &#123;</span><br><span class="line">        call: function()&#123;</span><br><span class="line">            value++;</span><br><span class="line">            console.log(value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var extent = extent();</span><br><span class="line">extent.call(); //输出 1</span><br><span class="line">extent.call(); //输出 2</span><br></pre></td></tr></table></figure></p>
+<p>如果换成面向对象的写法，就是：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var extent = &#123;</span><br><span class="line">    value: 0,</span><br><span class="line">    call: function()&#123;</span><br><span class="line">        this.value ++;</span><br><span class="line">        console.log(this.value);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>或者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var extent = function()&#123;</span><br><span class="line">    this.value = 0;</span><br><span class="line">&#125;;</span><br><span class="line">extent.prototype.call = function()&#123;</span><br><span class="line">    this.value ++;</span><br><span class="line">    console.log(this.value);</span><br><span class="line">&#125;;</span><br><span class="line">var extent = new extent();</span><br><span class="line">extent.call();</span><br><span class="line">extent.call();</span><br><span class="line">extent.call();</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0302/" data-id="cjv60bncn0014prjdus29d15e" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0301" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/16/js设计模式与开发实践0301/" class="article-date">
+  <time datetime="2019-04-16T07:53:47.892Z" itemprop="datePublished">2019-04-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/16/js设计模式与开发实践0301/">第三章 闭包</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>变量有作用域和生存周期，如果函数内的变量在函数执行完后没有被销毁，这就产生了闭包 </p>
+<h2 id="变量的作用域"><a href="#变量的作用域" class="headerlink" title="变量的作用域"></a>变量的作用域</h2><p>变量的作用域指的是变量的有效范围</p>
+<h2 id="变量的生存周期"><a href="#变量的生存周期" class="headerlink" title="变量的生存周期"></a>变量的生存周期</h2><p>全局变量，局部变量。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var func = function()&#123;</span><br><span class="line">    var a = 1; //退出函数后局部变量a将被销毁</span><br><span class="line">    console.log(a);</span><br><span class="line">&#125;;</span><br><span class="line">func();</span><br></pre></td></tr></table></figure></p>
+<p>闭包，函数执行完后变量未被销毁<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var func = function()&#123;</span><br><span class="line">    var a = 1;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        a++;</span><br><span class="line">        console.log(a);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">var f = func();</span><br><span class="line">f(); //输出：2</span><br><span class="line">f(); //输出：3</span><br><span class="line">f(); //输出：4</span><br><span class="line">f(); //输出：</span><br></pre></td></tr></table></figure></p>
+<p>经典应用，js的onclick事件是异步的，是在for循环后执行的<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;div&gt;1&lt;/div&gt;</span><br><span class="line">        &lt;div&gt;2&lt;/div&gt;</span><br><span class="line">        &lt;div&gt;3&lt;/div&gt;</span><br><span class="line">        &lt;div&gt;4&lt;/div&gt;</span><br><span class="line">        &lt;div&gt;5&lt;/div&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var nodes = document.getElementsByTagName(&apos;div&apos;);</span><br><span class="line">        //不使用闭包</span><br><span class="line">        for(var i = 0, len = nodes.length; i &lt; len; i ++)&#123;</span><br><span class="line">            nodes[i].onclick = function()&#123;</span><br><span class="line">                console.log(i); //全部输出5</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        //使用闭包</span><br><span class="line">        for(var i = 0, len = nodes.length; i &lt; len; i ++)&#123;</span><br><span class="line">            (funcion(i)&#123;</span><br><span class="line">                nodes[i].onclick = function()&#123;</span><br><span class="line">                    console.log(i); //全部输出 0,1,2,3,4</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;)(i);</span><br><span class="line">        &#125;</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure></p>
+<h2 id="闭包的更多作用"><a href="#闭包的更多作用" class="headerlink" title="闭包的更多作用"></a>闭包的更多作用</h2><h3 id="封装变量"><a href="#封装变量" class="headerlink" title="封装变量"></a>封装变量</h3><p>闭包可以把一些不需要暴露在全局的变量封装成私有变量，假设有一个计算乘积的简单函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var mult = function()&#123;</span><br><span class="line">    var a = 1;</span><br><span class="line">    for(var i = 0, l = arguments.length; i &lt; 1; i++)&#123;</span><br><span class="line">        a = a * arguments[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return a;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>mult函数接受一些number类型的参数，并返回这些参数类型的乘积。现在我们觉得对于那么相同的参数来说，每次都进行计算是一种浪费，我们可以加入缓存机制来提高这个函数的性能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var cache = &#123;&#125;;</span><br><span class="line">var mult = function()&#123;</span><br><span class="line">    var args = Array.prototype.join.call(arguments, &apos;,&apos;);</span><br><span class="line">    if(cache[args])&#123;</span><br><span class="line">        return cache[args];</span><br><span class="line">    &#125;</span><br><span class="line">    var a = 1;</span><br><span class="line">    for(var i = 0, l = arguments.length; i &lt; l; i++)&#123;</span><br><span class="line">        a = a * arguments[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return cache[args] = a;</span><br><span class="line">&#125;;</span><br><span class="line">alert(mult(1,2,3)); //输出6</span><br><span class="line">alert(mult(1,2,3)); //输出6</span><br></pre></td></tr></table></figure></p>
+<p>我们看到这个变量仅仅在mult函数中被使用，我们可以通过使用闭包将变量放到函数内部<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var mult = (function()&#123;</span><br><span class="line">    var cache = &#123;&#125;;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var args = Array.prototype.join.call(arguments, &apos;,&apos;);</span><br><span class="line">        if(args in cache)&#123;</span><br><span class="line">            return cache[args];</span><br><span class="line">        &#125;</span><br><span class="line">        var a = 1;</span><br><span class="line">        for(var i = 0, l = arguments.length; i &lt; l; i++)&#123;</span><br><span class="line">            a = a * arguments[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return cache[args] = a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<p>提炼函数是代码重构中的一种常见技巧。如果在一个大函数中，有一些代码能够独立出来，我们常常把这些代码封装在独立的小函数里面。独立出来的小函数有利于代码复用，如果这些小函数有一个良好的命名，它们本身也起到了注释的作用。如果这些小函数不需要在程序的其他地方使用，最好是把他们用闭包封闭起来。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var mult = (function()&#123;</span><br><span class="line">    var cache = &#123;&#125;;</span><br><span class="line">    var calculate = function()&#123; //封闭calculate函数</span><br><span class="line">        var a = 1;</span><br><span class="line">        for (var i = 0, l = arguments.length; i &lt; l; i ++) &#123;</span><br><span class="line">            a = a * arguments[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return a;</span><br><span class="line">    &#125;;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var args = Array.prototype.join.call(arguments, &apos;,&apos;);</span><br><span class="line">        if(args in cache)&#123;</span><br><span class="line">            return cache[args];</span><br><span class="line">        &#125;</span><br><span class="line">        return cache[args] = calculate.apply(null, arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+<h3 id="延续局部变量的寿命"><a href="#延续局部变量的寿命" class="headerlink" title="延续局部变量的寿命"></a>延续局部变量的寿命</h3><p>img对象经常用于进行数据上报，如下所示<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var report = function(src) &#123;</span><br><span class="line">    var img = new Image();</span><br><span class="line">    img.src = src;</span><br><span class="line">&#125;;</span><br><span class="line">report( &apos;http://xxx.com/getUserInfo&apos; );</span><br></pre></td></tr></table></figure></p>
+<p>但是有些情况下，report函数并不是每一次都成功发起了http请求。丢失数据的原因是img是report函数的局部变量，当report调用结束后，img局部变量随即被销毁，而此时或许还没来得及发出http请求。现在我们把img变量用闭包封闭起来，便能解决请求丢失的问题：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var report = (function()&#123;</span><br><span class="line">    var imgs = [];</span><br><span class="line">    return function(src)&#123;</span><br><span class="line">        var img = new Image();</span><br><span class="line">        imgs.push(img);</span><br><span class="line">        imgs.src = src;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/16/js设计模式与开发实践0301/" data-id="cjv60bnc8000qprjdyy8cdofv" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0203" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/15/js设计模式与开发实践0203/" class="article-date">
+  <time datetime="2019-04-15T06:50:03.959Z" itemprop="datePublished">2019-04-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/15/js设计模式与开发实践0203/">第二章 call和apply</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="call和apply的区别"><a href="#call和apply的区别" class="headerlink" title="call和apply的区别"></a>call和apply的区别</h2><p>Function.prototype.call和Function.prototype.apply都是非常常用的方法。它们的作用一模一样，区别在于传入参数形式的不同。<br>apply接受两个参数，第一个指定了函数体内this对象的指向，第二个参数为一个带下标的集合，这个集合可以为数组，也可以为类数组，zpply方法把这个集合中的元素作为参数传递给被调用函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var func = function(a, b ,c)&#123;</span><br><span class="line">    alert([a,b,c]); </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func.apply(null, [1,2,3]);</span><br></pre></td></tr></table></figure></p>
+<p>call传入的参数不固定，第一个参数也是代表函数体内的this指向，从第二个参数开始往后，每个参数被依次传入函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var func = function(a,b,c)&#123;</span><br><span class="line">    alert([a,b,c]);</span><br><span class="line">&#125;</span><br><span class="line">func.call(null, 1, 2, 3);</span><br></pre></td></tr></table></figure></p>
+<h2 id="call和apply的用途"><a href="#call和apply的用途" class="headerlink" title="call和apply的用途"></a>call和apply的用途</h2><p>熟练使用call和apply是我们真正成为一名js程序员的重要一步</p>
+<h3 id="改变this的指向"><a href="#改变this的指向" class="headerlink" title="改变this的指向"></a>改变this的指向</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var obj1 = &#123;</span><br><span class="line">    name: &apos;jack&apos;,</span><br><span class="line">&#125;;</span><br><span class="line">var obj2 = &#123;</span><br><span class="line">    name: &apos;amme&apos;</span><br><span class="line">&#125;;</span><br><span class="line">window.name = &apos;window&apos;;</span><br><span class="line">var getName = function()&#123;</span><br><span class="line">    alter(this.name);</span><br><span class="line">&#125;</span><br><span class="line">getName(); // 输出window</span><br><span class="line">getName.call(obj1);//输出 jack</span><br><span class="line">getName.call(obj2);//输出 amme</span><br></pre></td></tr></table></figure>
+<p>使用call或apply修正this的指向<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&apos;div1&apos;).onclick = function()&#123;</span><br><span class="line">    alert(this.id); //输出 div1</span><br><span class="line">    var func = function()&#123;</span><br><span class="line">        alert(this.id); //输出：undefined</span><br><span class="line">    &#125;</span><br><span class="line">    func();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在事件内部调用func函数时，func函数体内的this指向了window，而不是我们预期的div，这时候我们要用call或apply修正<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">document.getElementById(&apos;div1&apos;).onclick = function()&#123;</span><br><span class="line">    alert(this.id); //输出 div1</span><br><span class="line">    var func = function()&#123;</span><br><span class="line">        alert(this.id); //输出：undefined</span><br><span class="line">    &#125;</span><br><span class="line">    func.call(this);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Function-prototype-bind"><a href="#Function-prototype-bind" class="headerlink" title="Function.prototype.bind"></a>Function.prototype.bind</h3><p>大部分高级浏览器都实现了内置的Function.prototype.bind，用来指定函数内部的this指向。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">Function.prototype.bind = function(context) &#123;</span><br><span class="line">    var self = this; //保存原函数</span><br><span class="line">    return function()&#123; //返回一个新的函数</span><br><span class="line">        return self.apply(context, arguments); //执行新的函数的时候，会把之前传入的context当作新函数体内的this</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var obj = &#123;</span><br><span class="line">    name: &apos;jack&apos;</span><br><span class="line">&#125;;</span><br><span class="line">var func = function()&#123;</span><br><span class="line">    alert(this.name); //输出： jack</span><br><span class="line">&#125;.bind(obj);</span><br><span class="line">func();</span><br></pre></td></tr></table></figure></p>
+<h3 id="借用其他对象的方法"><a href="#借用其他对象的方法" class="headerlink" title="借用其他对象的方法"></a>借用其他对象的方法</h3><p>借用构造函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var A = function(name)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var B = function()&#123;</span><br><span class="line">    A.apply(this, arguments);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">B.prototype.getName = function()&#123;</span><br><span class="line">    return this.name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var b = new B(&apos;jack&apos;);</span><br><span class="line">console.log(b.getName()); //输出 ‘jack&apos;</span><br></pre></td></tr></table></figure></p>
+<p>使用Array.prototype.push.call<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">(function()&#123;</span><br><span class="line">    Array.prototype.push.call(arguments, 3);</span><br><span class="line">    console.log(arguments); //输出 【1, 2, 3]</span><br><span class="line">&#125;)(1,2)</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0203/" data-id="cjv60bnc2000iprjd1nqmyesl" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0103" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/04/15/js设计模式与开发实践0103/" class="article-date">
+  <time datetime="2019-04-15T03:26:31.784Z" itemprop="datePublished">2019-04-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/04/15/js设计模式与开发实践0103/">第一章 原型模式与基于原型的继承</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="原型编程思想"><a href="#原型编程思想" class="headerlink" title="原型编程思想"></a>原型编程思想</h2><p>在以类为中心的面向对象编程语言中，类和对象关系可以想象成铸模与铸件的关系，对象总是从类中创建而来。而在原型编程思想中，类不是必需的，对象未必需要从类中创建而来，一个对象是通过克隆另外一个对象所得到的。<br>原型模式不单是一种设计模式，也被称为一种编程范型。</p>
+<h2 id="使用克隆的原型模式"><a href="#使用克隆的原型模式" class="headerlink" title="使用克隆的原型模式"></a>使用克隆的原型模式</h2><p>ECMAScript5使用了Object.create方法，可以用来克隆对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var Plane = function()&#123;</span><br><span class="line">    this.blood = 100;</span><br><span class="line">    this.attackLevel = 1;</span><br><span class="line">    this.defenseLevel = 1;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var plane = new Plane();</span><br><span class="line">plane.blood = 500;</span><br><span class="line">plane.attackLevel = 10;</span><br><span class="line">plane.defenseLevel = 7;</span><br><span class="line"></span><br><span class="line">var clonePlane = Object.create(plane); //克隆对象</span><br></pre></td></tr></table></figure></p>
+<h2 id="克隆是创建对象的手段"><a href="#克隆是创建对象的手段" class="headerlink" title="克隆是创建对象的手段"></a>克隆是创建对象的手段</h2><h2 id="体验io语言"><a href="#体验io语言" class="headerlink" title="体验io语言"></a>体验io语言</h2><p>原型不仅仅是一种设计模式还是一种编程范型。js就是使用原型模式来搭建整个面向对象的系统的。<br>基于根对象，创建一个对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io&gt; Animal := Object clone;</span><br><span class="line">Animal makeSound := method(&quot;animal makeSound&quot; print);</span><br></pre></td></tr></table></figure></p>
+<p>基于Animal对象创建一个Dog对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">io&gt; Dog := Animal clone;</span><br><span class="line">Dog eat := method(&quot;dog eat&quot; printf);</span><br></pre></td></tr></table></figure></p>
+<p>原型链<br>Object是Animal的原型，而Animal是Dog的原型，他们之间构成一条原型链。</p>
+<h2 id="js中的原型继承"><a href="#js中的原型继承" class="headerlink" title="js中的原型继承"></a>js中的原型继承</h2><h3 id="所有数据都是对象"><a href="#所有数据都是对象" class="headerlink" title="所有数据都是对象"></a>所有数据都是对象</h3><p>按照js设计者的本意， 除了undefined之外，js中一切都是对象。js中的根对象是Object.prototype。Object.prototype是一个空对象。我们遇到的每个对象其实都是从Object.prototype对象克隆而来。Object.prototype对象就是他们的原型。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var obj1 = new Object();</span><br><span class="line">var obj2 = &#123;&#125;;</span><br><span class="line">console.log(Object.getPrototypeOf(obj1) === Object.prototype ); //输出： true</span><br><span class="line">console.log(Object.getPrototypeOf(obj2) === Object.prototype ); //输出： true</span><br></pre></td></tr></table></figure></p>
+<h3 id="要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆"><a href="#要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆" class="headerlink" title="要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆"></a>要得到一个对象，不是通过实例化类，而是找到一个对象作为原型并克隆</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">function Person(name)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">&#125;</span><br><span class="line">Person.prototype.getName = function()&#123;</span><br><span class="line">    return this.name;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var a = new Person(&quot;jack&quot;);</span><br><span class="line">console.log(a.name); //输出jack</span><br><span class="line">console.log(a.getName); //输出jack</span><br><span class="line">console.log(Object.getPrototypeOf(a) === Person.prototype); //输出：true</span><br></pre></td></tr></table></figure>
+<p>在上面的代码中，<strong>Person不是类，而是函数构造</strong>，js中的函数既可以作为普通函数使用，也可以作为构造器被调用。用new运算符来创建对象的过程，实际上也只是先克隆Object.prototype对象，在进行额外的操作。</p>
+<h3 id="对象会记住它的原型"><a href="#对象会记住它的原型" class="headerlink" title="对象会记住它的原型"></a>对象会记住它的原型</h3><p>js给对象提供了一个名为<strong>proto</strong>的隐藏属性，某个对象的<strong>proto</strong>属性默认会指向它的构造器的原型对象。在Chrome中，<strong>proto</strong>会被公开出来<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var a = new Object();</span><br><span class="line">console.log(a.__proto__ === Object.prototype); 输出 true</span><br></pre></td></tr></table></figure></p>
+<h3 id="如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型"><a href="#如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型" class="headerlink" title="如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型"></a>如果某个对象无法响应某个请求，它会把这个请求委托给它的构造器的原型</h3><p><strong>这条规则是原型继承的精髓</strong>。原型继承方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;name: &apos;jack&apos;&#125;;</span><br><span class="line">var A = function()&#123;&#125;;</span><br><span class="line">A.prototype = obj;</span><br><span class="line"></span><br><span class="line">var a = new A();</span><br><span class="line">console.log(a.name); //输出： jack</span><br></pre></td></tr></table></figure></p>
+<p>以上代码中，引擎做了哪些：</p>
+<ul>
+<li>首先尝试遍历对象a中的所有属性，但没有找到name这个属性</li>
+<li>查找name属性的这个请求被委托给对象a的构造器的原型，它被a.<strong>proto</strong>记录着，指向A.protype,而A.prototype被设置为对象obj</li>
+<li>在obj对象中找到了name属性，并返回它的值。</li>
 </ul>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/10/linux高性能服务器编程-tcp&ip/" data-id="cjurvjbun001bkx4m9pd6hm14" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0103/" data-id="cjv60bnc4000lprjdeedy5vnk" class="article-share-link">Share</a>
       
       
     </footer>
@@ -388,14 +490,14 @@
 
 
   
-    <article id="post-心流-心流的要素" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践0102" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/09/心流-心流的要素/" class="article-date">
-  <time datetime="2019-04-09T15:24:59.281Z" itemprop="datePublished">2019-04-09</time>
+    <a href="/2019/04/15/js设计模式与开发实践0102/" class="article-date">
+  <time datetime="2019-04-15T03:04:50.828Z" itemprop="datePublished">2019-04-15</time>
 </a>
     
   <div class="article-category">
-    <a class="article-category-link" href="/categories/心流/">心流</a>
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
   </div>
 
   </div>
@@ -406,7 +508,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/09/心流-心流的要素/">第三章：心流的构成要素</a>
+      <a class="article-title" href="/2019/04/15/js设计模式与开发实践0102/">第一章 封装</a>
     </h1>
   
 
@@ -414,158 +516,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>改善生活品质的主要策略有两种：一是使外在条件符合我们的目标；而是改变我们体验外在条件的方式，使他与我们的目标相契合。</p>
-<h2 id="幸福的假象"><a href="#幸福的假象" class="headerlink" title="幸福的假象"></a>幸福的假象</h2><p>有钱不一定幸福，幸福一定要有钱。</p>
-<h2 id="享乐与乐趣"><a href="#享乐与乐趣" class="headerlink" title="享乐与乐趣"></a>享乐与乐趣</h2><p>享乐是高水准生活的重要一环，但享乐本身并不能带来幸福。睡眠、休息、食物与性，都属于恢复“均衡的体验”，在肉体需要引起精神熵后，重整意识的秩序。它们并不能带动心灵的成长，也不能增加自我的复杂性。换言之，享乐虽有助于维持意识的秩序，却无法在意识中创造新秩序。</p>
-<h3 id="享乐转瞬即逝，乐趣回味无穷"><a href="#享乐转瞬即逝，乐趣回味无穷" class="headerlink" title="享乐转瞬即逝，乐趣回味无穷"></a>享乐转瞬即逝，乐趣回味无穷</h3><p>乐趣具有向前发展的特性，并蕴涵新鲜感和成就感。在网球赛中险胜，通过考验证明自己的能力；阅读一本书，发掘新观点；在谈话中发表过去甚至不自知的观点——这都是乐趣横生的事。谈成一笔竞争激烈的生意，或做好任何一份工作，乐趣自在其中。这些事在进行的过程中，谈不上什么享乐，但事后回想起来，我们会情不自禁地说：“真有意思！”而且，盼望一切能重演。经历过有乐趣的事，我们就感觉自己有了改变，自我有了成长；在某些方面，这次体验已使我们变得更复杂、更丰富。</p>
-<h2 id="构成心流体验的要素"><a href="#构成心流体验的要素" class="headerlink" title="构成心流体验的要素"></a>构成心流体验的要素</h2><h3 id="具挑战性的活动"><a href="#具挑战性的活动" class="headerlink" title="具挑战性的活动"></a>具挑战性的活动</h3><ul>
-<li>敌人也是我们的好帮手</li>
-<li>化无趣为乐趣</li>
+        <p>封装的目的是将信息隐藏，包括隐藏数据、实现细节、设计细节以及对象的类型。</p>
+<h2 id="封装数据"><a href="#封装数据" class="headerlink" title="封装数据"></a>封装数据</h2><p>js依赖变量的作用域来实现封装特性，而且只能模拟出public和private两种封装性<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var obj = (function()&#123;</span><br><span class="line">    let _name = &apos;jack&apos;; // 私有（private）变量</span><br><span class="line">    return &#123;</span><br><span class="line">        getName: function()&#123;  // 公开（public）方法</span><br><span class="line">            return _name</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">console.log(obj.getName()); //输出：jack</span><br><span class="line">console.log(obj._name); // 输出：undefined</span><br></pre></td></tr></table></figure></p>
+<h2 id="封装实现"><a href="#封装实现" class="headerlink" title="封装实现"></a>封装实现</h2><p>封装实现使得对象内部的变化对其他对象而言是透明的，也就是不可见的。对象对他自己的行为负责。其他对象或用户不关心它的内部实现。</p>
+<h2 id="封装类型"><a href="#封装类型" class="headerlink" title="封装类型"></a>封装类型</h2><p>封装类型是静态类型语言中一种重要的封装方式。一般而言，封装类型是通过抽象类和接口 来进行的1。把对象的真正类型隐藏在抽象类或者接口之后，相比对象的类型，客户更关心对象 的行为。在许多静态语言的设计模式中，想方设法地去隐藏对象的类型，也是促使这些模式诞生 5 的原因之一。比如工厂方法模式、组合模式等。</p>
+<h2 id="封装变化"><a href="#封装变化" class="headerlink" title="封装变化"></a>封装变化</h2><p>从设计模式 的角度出发，封装在更重要的层面体现为封装变化。设计模式可分为：</p>
+<ul>
+<li>创建型模式 目的是封装创建对象的变化</li>
+<li>结构型模式 封装对象之间的组合关系</li>
+<li>行为型模式 封装对象的行为变化</li>
 </ul>
-<h3 id="挑战与技巧的黄金比例"><a href="#挑战与技巧的黄金比例" class="headerlink" title="挑战与技巧的黄金比例"></a>挑战与技巧的黄金比例</h3><h3 id="知行合一"><a href="#知行合一" class="headerlink" title="知行合一"></a>知行合一</h3><p>当情况要求一个人运用相关技巧来应付挑战时，这个人的注意力就会完全投入，不剩一丝精神能量处理与挑战无关的资讯，而完全集中于相关的刺激上。。最优体验最普遍、最清晰的特质就会在此时呈现：当事人全神贯注，一切行动都不假思索，几乎完全自动自发；他们的知觉甚至泯灭，人与行动完全合一。</p>
-<h3 id="明确目标和即时回馈"><a href="#明确目标和即时回馈" class="headerlink" title="明确目标和即时回馈"></a>明确目标和即时回馈</h3><h3 id="目标主导回馈"><a href="#目标主导回馈" class="headerlink" title="目标主导回馈"></a>目标主导回馈</h3><p>学者确立目标，辨认与评估回馈，否则无法从任何活动中发觉乐趣。</p>
-<h3 id="回馈因人而异"><a href="#回馈因人而异" class="headerlink" title="回馈因人而异"></a>回馈因人而异</h3><p>回馈只要和我们用精神能量追求的目标有合理的关联，就能产生乐趣。</p>
-<h3 id="全神贯注"><a href="#全神贯注" class="headerlink" title="全神贯注"></a>全神贯注</h3><p>在平凡的日常生活中，我们受任意闯进意识的思想和忧虑驱使，由于大多数工作和普通的家庭生活，要求都不及心流体验那么高，也不需要全神贯注，因此悬念和 焦虑才有了乘虚而入的机会。这就导致在一般状态下，心灵常会受到精神熵的突如其来的干扰，精神能量不能流转自如。也正因为如此，心流才能提升体验的品质；这类需要全心投入的活动，要求分明，秩序井然，根本不容外来因素介入与破坏。</p>
-<h3 id="掌控自如"><a href="#掌控自如" class="headerlink" title="掌控自如"></a>掌控自如</h3><p>心流中有高度控制感。</p>
-<h3 id="危险是心流的契机"><a href="#危险是心流的契机" class="headerlink" title="危险是心流的契机"></a>危险是心流的契机</h3><p>真正给人带来乐趣的不是控制本身，而是在艰难状况下行驶控制权的感觉。除非放弃生活常规所提供的保护，否则不可能体会到控制的感觉。只有在个人力量能左右结果时，才能确知自己拥有控制权。</p>
-<h3 id="心流会上瘾"><a href="#心流会上瘾" class="headerlink" title="心流会上瘾"></a>心流会上瘾</h3><h3 id="浑然忘我"><a href="#浑然忘我" class="headerlink" title="浑然忘我"></a>浑然忘我</h3><h3 id="与大我合一"><a href="#与大我合一" class="headerlink" title="与大我合一"></a>与大我合一</h3><p>自我的执着很耗费精神能量，因为它使我们在日常生活中，经常觉得备受威胁。一受到威胁，我们就必须用知觉检视自我，以了解威胁是否真正存在，应该如何应付。比方说，在街上漫步时，我发现有人回头笑嘻嘻的向我张望，正常人的反应是开始担心：“有什么不对吗？我是否显得很可笑？我走路的样子很奇怪，或是脸上有污点？”，每天好几百次我们都得到类似的提醒，察觉自己浑身上下都是缺点。这种事情没发生一次，精神能量就为重建意识秩序而消耗一次。<br>暂时忘我，似乎是件很愉快的事，不再一心一意的想着自己，才有机会扩充对自我的概念。消除自我意思可以带来自我超越，产生一种自我疆界向外扩展的感觉。这种感觉并非幻想，而是跟某种“大我”亲密接触的实质体验；这种互动关系使我们跟那些通常相当遥远的实体，产生极为难得的一体验。在漫长的守夜中，孤单的水手开始觉得船是自我的延伸，循同样的节奏，朝同样的目标前进。小提琴家在努力创造的乐声中载沉载浮，自觉是“和谐天籁”的一部分。登山者全神贯注于岩块上😊的凹凸处，找寻落足点，在手指与岩石，脆弱的人体与石块、天、风的组合中，发展出一种有如血缘般的亲密关系。</p>
-<h3 id="超越自我"><a href="#超越自我" class="headerlink" title="超越自我"></a>超越自我</h3><p>在心流中失去自我的感觉，以及之后以更坚强的面貌再度出现，两者之间有一种非常重要、乍看却仿佛矛盾的关系。偶尔放弃自我意识，对建立更强大的自我意识，似乎有其必要性。道理很简单：在心流中，一个人面临做出最佳表现、须不断改善技巧的挑战，在这期间，他没有机会反省这么做对自我有什么意义-如果自我意识能即使恢复，这次体验就不可能太深刻。要等事后，一切活动都告一段落时，自我意识逐渐复苏，而这时的自我已经和经历心流前的自我不一样了：新技巧和新成就使得他变得丰更富。</p>
-<h2 id="目标不假外求"><a href="#目标不假外求" class="headerlink" title="目标不假外求"></a>目标不假外求</h2><p>最有体验的一大特色在于它本身就是目标。<strong>自成目标</strong>指的是做一件事不追求未来的报酬，做这件事本身就是最大的回馈。我们所做的事，大多既不是纯粹的自成目标，也不是纯粹的外求目标，而是两者的综合。</p>
-<h3 id="从被迫的体验中顿悟"><a href="#从被迫的体验中顿悟" class="headerlink" title="从被迫的体验中顿悟"></a>从被迫的体验中顿悟</h3><h3 id="没有绝对的好"><a href="#没有绝对的好" class="headerlink" title="没有绝对的好"></a>没有绝对的好</h3><p>心流体验跟世间所有的事一样，不可能绝对的好。它的好在于它具有使人生更丰富、更紧凑、更有意义的潜力，在于它能加强自我的力量与复杂性。但心流的结果是好是坏，必须应用于较广泛的社会标准加以讨论和评估。举凡人类的活动，不论是科学、宗教、还是政治，都是如此。一种特定的宗教信仰或许对一个人或一个团队有益，而对其他人或团体而言却是横加压迫。基督教有助于整合罗马帝国治下分奔离析的各民族，却瓦解了它之后接触到的弱势文化。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/09/心流-心流的要素/" data-id="cjurvjbvc002dkx4m8t9j071l" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-心流-控制意识，改善体验" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/09/心流-控制意识，改善体验/" class="article-date">
-  <time datetime="2019-04-09T15:17:21.731Z" itemprop="datePublished">2019-04-09</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/心流/">心流</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/09/心流-控制意识，改善体验/">第二章：控制意识，改善体验</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="意识的内涵"><a href="#意识的内涵" class="headerlink" title="意识的内涵"></a>意识的内涵</h2><p>构成意识的事件-我们看见、感觉、想到、渴望的事物-就是我们所能操纵的资讯，因此我们也可以把意识视为经过刻意排列组合的资讯。</p>
-<h3 id="意识的极限"><a href="#意识的极限" class="headerlink" title="意识的极限"></a>意识的极限</h3><p>意识有一定局限。因此准许哪些资讯进入我们的意识就显得格外重要。事实上，这就决定了生活的内涵与品质。</p>
-<h3 id="注意力：无价的资源"><a href="#注意力：无价的资源" class="headerlink" title="注意力：无价的资源"></a>注意力：无价的资源</h3><p>控制意识最明显的指标就是能随心所欲的集中注意力，不因任何事情而分心。若能做到这一点，就能在日常生活中找到乐趣。</p>
-<h3 id="注意力的探照灯"><a href="#注意力的探照灯" class="headerlink" title="注意力的探照灯"></a>注意力的探照灯</h3><p>应用注意力的方式足以决定人生的外观和内涵，塑造可能全然相反的现实。我们用以描述人格特征的字眼-诸如外向、成就不凡、偏执狂，其实指的就是一个人构建注意力的模式。</p>
-<h3 id="注意力与自我的相互塑造"><a href="#注意力与自我的相互塑造" class="headerlink" title="注意力与自我的相互塑造"></a>注意力与自我的相互塑造</h3><p>体验（比如成为程序员、运动员，体验是不一样的。）取决于我们运用精神能量的方式，而这有牵扯到目标和意图所有过程乃是靠自我衔接的。我们若想在任何方面有所进步，都逃不脱这些步骤。外在因素当然也有助于改善人生，但也必须在意识中取得一席之地，以积极的方式与自我建立练习，才能对生活品质产生影响。</p>
-<h2 id="内在失序"><a href="#内在失序" class="headerlink" title="内在失序"></a>内在失序</h2><p>内在失序-也就是资讯跟既定的意图发生冲突，或是我们分心，无法为实现意图而努力-是对意识极为不利的影响力。我们曾为这种状况取了各式各样的名称，如痛苦、恐惧、愤怒、焦虑和嫉妒等。所有失序的现象都强迫注意力转移到错误的方向，不再发挥预期的功能，精神力量也窒息了。</p>
-<h3 id="胡里欧的破轮胎"><a href="#胡里欧的破轮胎" class="headerlink" title="胡里欧的破轮胎"></a>胡里欧的破轮胎</h3><p>从胡里欧的例子可以看出，自我的内在秩序收到打扰时，会有什么后果。基本的模式是固定的：与个人目标相冲突的资讯侵入意识后，视目标的重要性与威胁的大小而定，某些程度的注意力必须腾出手来消除危机，用于处理其他事物的注意力就相对减少了。对于胡里欧而言，保住工作是非常重要的目标，一旦失业，所有其他目标就要跟着泡汤，因此，工作是他维系自我内在秩序的最重要一环。漏气的破轮胎危及他的工作，因而消耗了他大部分的精神能量。</p>
-<h3 id="撞球理论"><a href="#撞球理论" class="headerlink" title="撞球理论"></a>撞球理论</h3><p>我们接受的每一条资讯，都要经过自我的评判。它对我们的目标是威胁、支持，还是中立？股票下跌的消息往往令银行家担忧，但对政治异议分子却可能是振奋人心的好消息。一条新资讯可能会使我们付出所有心力应付威胁，造成意识的失序；但他也有可能强化我们的目标，激发出更多的精神能量。</p>
-<h2 id="意识的井然有序"><a href="#意识的井然有序" class="headerlink" title="意识的井然有序"></a>意识的井然有序</h2><h3 id="流动的最有体验"><a href="#流动的最有体验" class="headerlink" title="流动的最有体验"></a>流动的最有体验</h3><p>最优体验出现时，一个人可以投入全部的注意力，以求实现目标；没有失序现象需要整顿，自我也没有收到任何威胁，因此不需要分心防卫。拥有最有体验就能培养一个更坚强、更自信的自我，能够用更多的精神力量，专注于自己选择的目标。</p>
-<h2 id="自我的成长"><a href="#自我的成长" class="headerlink" title="自我的成长"></a>自我的成长</h2><p>心流体验会使自我变得比过去更复杂，而这可以说是一种自我成长。复杂性是两种广泛的心理过程造成的-“独特化”与“整合”。其中，独特化是把自己与他人区分开来，朝独一无二的方向发展；整合则恰好相反，是接着超越自我的观念和实体，与他人联结。而复杂的自我便能成功地融合这两种乍看矛盾的过程。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/09/心流-控制意识，改善体验/" data-id="cjurvjbvk002mkx4msg47ky8k" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-写给大家看的设计书" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/07/写给大家看的设计书/" class="article-date">
-  <time datetime="2019-04-07T10:12:13.779Z" itemprop="datePublished">2019-04-07</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/07/写给大家看的设计书/">写给大家看的设计书</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/07/写给大家看的设计书/" data-id="cjurvjbuz001ykx4mtigeclsg" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-心流-快乐的源泉" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/06/心流-快乐的源泉/" class="article-date">
-  <time datetime="2019-04-06T03:16:08.690Z" itemprop="datePublished">2019-04-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/心流/">心流</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/06/心流-快乐的源泉/">第一章：心流，快乐的源泉</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="做自己的主人"><a href="#做自己的主人" class="headerlink" title="做自己的主人"></a>做自己的主人</h2><p>个人社会化是必然的；社会化的真谛在于使个人依赖社会的控制，并对赏罚有既定的反应；社会化的最高境界就是使每个人都完全认同社会秩序，根本不想触犯任何规则。<br>人的每个弱点-从性欲到侵略，从寻求安全感到接受改变-几乎都成为政客、教会、企业及广告届控制社会的手段。<br>寻求快乐是基因为物种延续而设计的一种即使反射。跟随基因的反应，享受自然的乐趣，并没有什么不好，但我们应该认清实现真相，在必要的时候，按照自己的优先顺序，做自己的主人。</p>
-<h2 id="放任的争议"><a href="#放任的争议" class="headerlink" title="放任的争议"></a>放任的争议</h2><p>再复杂的社会中，有许多强势的团体执行者社会化的工作，有时他们的目标看起来相互矛盾。一方面，学校、教堂、银行等官方机构拼命把我们塑造成拼命工作与储蓄的负责任公民；另一方面，商人、广告商、厂商却不断哄骗我们把我们辛辛苦苦赚的钱悉数购买让他们获利的产品。此外还有赌徒、皮条客、毒贩组成的地下组织，提供禁忌的快乐，他们完全与官方那一套相呼应：只要付钱，就提供放荡的快乐。尽管透露出来的信息完全不同，但结果基本上是一样的：剥夺我们的精力以逞其私欲，是我们沦为社会制度的附庸。</p>
-<h2 id="不以社会赏罚为念"><a href="#不以社会赏罚为念" class="headerlink" title="不以社会赏罚为念"></a>不以社会赏罚为念</h2><p>在社会制约下解放自我，最重要的步骤是时时刻刻发掘每一件事情中的回馈。如果我们学会在不断向前推进的体验中找到快乐与意义，社会制约的重担就会从肩上自动滑落。当奖赏不再受外界力量管制时，权利就回到了个人手中。再也不必为追逐不到的目标而孜孜以求，或是在每个无聊的一天告终时，盼望明天会更好；再也不必为遥不可及的奖励受尽折磨，而可以真正开始充实人生。</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/06/心流-快乐的源泉/" data-id="cjurvjbva002ckx4mo51c3tu3" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/04/15/js设计模式与开发实践0102/" data-id="cjv60bnbn0006prjdwo799c8w" class="article-share-link">Share</a>
       
       
     </footer>
@@ -579,7 +544,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -590,7 +555,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
     </div>
   </div>
 
@@ -618,23 +583,23 @@
       <ul>
         
           <li>
-            <a href="/2019/04/20/富爸爸穷爸爸/">富爸爸穷爸爸</a>
+            <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
           </li>
         
           <li>
-            <a href="/2019/04/19/php设计模式01/">单例模式</a>
+            <a href="/2019/04/29/优势谈判/">(no title)</a>
           </li>
         
           <li>
-            <a href="/2019/04/18/原则-生活原则03/">生活原则（三） 做到头脑极度开放</a>
+            <a href="/2019/04/29/js设计模式与开发实践0805/">第八章 发布-订阅模式 模块间通信</a>
           </li>
         
           <li>
-            <a href="/2019/04/18/原则-生活原则02/">生活原则（二） 用五步实现你的人生愿望</a>
+            <a href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
           </li>
         
           <li>
-            <a href="/2019/04/18/js设计模式与开发实践0401/">第四章 单例模式</a>
+            <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
           </li>
         
       </ul>
