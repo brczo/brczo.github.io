@@ -62,10 +62,92 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-js设计模式与开发实践0903" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-php设计模式10" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/05/02/js设计模式与开发实践0903/" class="article-date">
-  <time datetime="2019-05-02T07:45:00.510Z" itemprop="datePublished">2019-05-02</time>
+    <a href="/2019/05/09/php设计模式10/" class="article-date">
+  <time datetime="2019-05-09T06:29:08.093Z" itemprop="datePublished">2019-05-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/09/php设计模式10/">享元模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>享元模式通过共用对象，减少了性能消耗，是改善性能的利器之一<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class People &#123;</span><br><span class="line">    private $type;</span><br><span class="line"></span><br><span class="line">    public function __construct(string $type)&#123;</span><br><span class="line">        $this-&gt;type = $type;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function say(string $name)&#123;</span><br><span class="line">        echo &apos;我是&apos;.$this-&gt;type.&apos;我的名字叫&apos;.$name;</span><br><span class="line">        echo PHP_EOL;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class FlyWeightFactory &#123;</span><br><span class="line">    private $objs = [];</span><br><span class="line">    public function create(string $type)&#123;</span><br><span class="line">        $objs = $this-&gt;objs;</span><br><span class="line">        if($objs[$type]??[])&#123;</span><br><span class="line">            return $objs[$type];</span><br><span class="line">        &#125;</span><br><span class="line">        return $this-&gt;objs[$type] = new People($type);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$flyWeightFactory = new FlyWeightFactory();</span><br><span class="line">$student = $flyWeightFactory-&gt;create(&apos;student&apos;);</span><br><span class="line">$student-&gt;say(&apos;小明&apos;);</span><br><span class="line">$student = $flyWeightFactory-&gt;create(&apos;teacher&apos;);</span><br><span class="line">$student-&gt;say(&apos;老湿&apos;);</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/05/09/php设计模式10/" data-id="cjvg9u299000t804mf5vuw6up" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-php中的坑" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/08/php中的坑/" class="article-date">
+  <time datetime="2019-05-08T12:23:39.597Z" itemprop="datePublished">2019-05-08</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP/">PHP</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/08/php中的坑/">PHP中的坑</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="坑一-中文字符-0-为真"><a href="#坑一-中文字符-0-为真" class="headerlink" title="坑一 中文字符 == 0 为真"></a>坑一 中文字符 == 0 为真</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var_dump(0 == &apos;你好&apos;); //输出为真</span><br></pre></td></tr></table></figure>
+<h2 id="坑二"><a href="#坑二" class="headerlink" title="坑二"></a>坑二</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$array1 = [&apos;1&apos;=&gt;1, &apos;11&apos;=&gt;2, &apos;111&apos;=&gt;3];</span><br><span class="line">$array2 = [&apos;1111&apos;=&gt;4];</span><br><span class="line">print_r(array_merge($array1, $array2)); //会输出什么， 你猜？</span><br><span class="line">//输出结果是</span><br><span class="line">Array</span><br><span class="line">(</span><br><span class="line">    [1] =&gt; 1</span><br><span class="line">    [0] =&gt; 2</span><br><span class="line">    [1] =&gt; 3</span><br><span class="line">    [2] =&gt; 4</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/05/08/php中的坑/" data-id="cjvf724sn000o804mekn7gdxc" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践1203" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/08/js设计模式与开发实践1203/" class="article-date">
+  <time datetime="2019-05-08T09:33:50.508Z" itemprop="datePublished">2019-05-08</time>
 </a>
     
   <div class="article-category">
@@ -80,7 +162,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/02/js设计模式与开发实践0903/">第九章 宏命令</a>
+      <a class="article-title" href="/2019/05/08/js设计模式与开发实践1203/">第十一章 职责链模式</a>
     </h1>
   
 
@@ -88,13 +170,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>宏命令是一组命令的集合，通过执行宏命令的方式，可以一次执行一批命令。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var closeDoorCommand = &#123;</span><br><span class="line">    execute: function()&#123;</span><br><span class="line">        console.log(&apos;关门&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var openPcCommand = &#123;</span><br><span class="line">    execute: function()&#123;</span><br><span class="line">        console.log(&apos;开电脑&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var openQQCommand = &#123;</span><br><span class="line">    execute: function()&#123;</span><br><span class="line">        console.log(&apos;登录QQ&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>定义宏命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">var MacroCommand = function()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        commandsList: [],</span><br><span class="line">        add: function(command)&#123;</span><br><span class="line">            this.commandsList.push(command);</span><br><span class="line">        &#125;,</span><br><span class="line">        execute: function()&#123;</span><br><span class="line">            for(var i = 0, command; command = this.commandsList[i++];)&#123;</span><br><span class="line">                command.execute();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var macroCommand = MacroCommand();</span><br><span class="line"></span><br><span class="line">macroCommand.add(closeDoorCommand);</span><br><span class="line">macroCommand.add(openPcCommand);</span><br><span class="line">macroCommand.add(openQQCommand);</span><br><span class="line"></span><br><span class="line">macroCommand.execute();</span><br></pre></td></tr></table></figure></p>
-
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/05/02/js设计模式与开发实践0903/" data-id="cjv6d1dhe001x5cjb672grbu5" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/08/js设计模式与开发实践1203/" data-id="cjvf16p35000d804mugjh2xwg" class="article-share-link">Share</a>
       
       
     </footer>
@@ -104,10 +184,10 @@
 
 
   
-    <article id="post-js设计模式与开发实践0902" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践1202" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/05/02/js设计模式与开发实践0902/" class="article-date">
-  <time datetime="2019-05-02T07:19:09.999Z" itemprop="datePublished">2019-05-02</time>
+    <a href="/2019/05/08/js设计模式与开发实践1202/" class="article-date">
+  <time datetime="2019-05-08T06:09:54.141Z" itemprop="datePublished">2019-05-08</time>
 </a>
     
   <div class="article-category">
@@ -122,7 +202,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/02/js设计模式与开发实践0902/">第九章 js中的命令模式</a>
+      <a class="article-title" href="/2019/05/08/js设计模式与开发实践1202/">第十一章 享元模式 文件上传</a>
     </h1>
   
 
@@ -130,154 +210,24 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在js中，函数是一等对象。可以用回调函数实现命令模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">var setCommand = function(button, command)&#123;</span><br><span class="line">    button.onclick = function()&#123;</span><br><span class="line">        commmand.execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var MenuBar = &#123;</span><br><span class="line">    refresh: function()&#123;</span><br><span class="line">        console.log(&apos;刷新菜单界面&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var RefreshMenuBarCommand = function(receiver)&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        execute: function()&#123;</span><br><span class="line">            receiver.refresh();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var refreshMenuBarCommand = RefreshMenuBarCommand(MenuBar);</span><br><span class="line">setCommand(button1, refreshMenuBarCommand);</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/05/02/js设计模式与开发实践0902/" data-id="cjv6d1dhf001z5cjbg8baskyp" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0901" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/05/02/js设计模式与开发实践0901/" class="article-date">
-  <time datetime="2019-05-02T02:39:48.640Z" itemprop="datePublished">2019-05-02</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/05/02/js设计模式与开发实践0901/">第九章 命令模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>命令模式是最简单和优雅的模式之一，命令模式中的命令指的是一个执行某些特定事情的指令。<br>命令模式最常见的<strong>应用场景是</strong>：有时候需要向某些对象发送请求，但是并不知道请求的接受者是谁，也不知道被请求的操作是什么。此时需要用一种松耦合的方法来设计程序，使得请求发送者和请求接收者能够消除彼此之间的耦合关系。<br>拿餐厅来说，客人需要向厨师发送请求，但是完全不知道这些厨师的名字和联系方式，也不知道厨师炒菜的方式和步骤。命令模式把客人订餐的请求封装成command对象，也就是订餐中的订单对象。这个对象可以在程序中被四处传递，就像订单可以从服务员手中传到厨师的手中。这样一来，客人不需要知道厨师的名字，从而解开了请求调用者和请求接收者之间的耦合。<br>另外，相对于过程化的请求调用，command对象拥有<strong>更长的生命周期</strong>。对象的生命周期是跟初始请求无关的，因为这个请求已经封装在了command对象的方法中，成为了这个对象的行为。<br><strong>设计模式的主题总是把不变的事物和变化的事物分离开来。</strong></p>
-<h2 id="命令模式的例子-菜单程序"><a href="#命令模式的例子-菜单程序" class="headerlink" title="命令模式的例子  菜单程序"></a>命令模式的例子  菜单程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;button id=&quot;button1&quot;&gt;点击按钮1&lt;/button&gt;</span><br><span class="line">    &lt;button id=&quot;button2&quot;&gt;点击按钮2&lt;/button&gt;</span><br><span class="line">    &lt;button id=&quot;button3&quot;&gt;点击按钮3&lt;/button&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var button1 = document.getElementById(&apos;button1&apos;);</span><br><span class="line">    var button2 = document.getElementById(&apos;button2&apos;);</span><br><span class="line">    var button3 = document.getElementById(&apos;button3&apos;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>接下来定义setCommand函数，setCommand函数负责往按钮上面安装命令。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var setCommand = function(button, command)&#123;</span><br><span class="line">    button.onclick = function()&#123;</span><br><span class="line">        command.execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>命令接受者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var MenuBar = &#123;</span><br><span class="line">    refresh: function()&#123;</span><br><span class="line">        console.log(&quot;刷新菜单目录&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var SubMenu = &#123;</span><br><span class="line">    add: function()&#123;</span><br><span class="line">        console.log(&apos;增加子菜单&apos;);</span><br><span class="line">    &#125;,</span><br><span class="line">    del: function()&#123;</span><br><span class="line">        console.log(&apos;删除子菜单&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>在让button变得有用之前，我们先把行为都封装在命令类中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var RefreshMenuBarCommand = function(receiver)&#123;</span><br><span class="line">    this.receiver = receiver;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">refreshMenuCommand.prototype.execute = function()&#123;</span><br><span class="line">    this.receiver.refresh();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var AddSubMenuCommand = function(receiver)&#123;</span><br><span class="line">    this.receiver = receiver;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">AddSubMenuCommand.prototype.execute = function()&#123;</span><br><span class="line">    this.receiver.add();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var DelSubMenuCommand = function(receiver)&#123;</span><br><span class="line">    this.receiver = receiver;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">DelSubMenuCommand.prototype.execute = function()&#123;</span><br><span class="line">    console.log(&apos;删除子菜单&apos;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>最后把命令接受者传入到command对象中，并且把command对象安装到button上面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var refreshMenuBarCommand = new RefreshMenuBarCommand(MenuBar);</span><br><span class="line">var addSubMenuCommand = new AddSubMenuCommand(SubMenu);</span><br><span class="line">var delSubMenuCommand = new DelSubMenuCommand(SubMenu);</span><br><span class="line"></span><br><span class="line">setCommand(button1, refreshMenuBarCommand);</span><br><span class="line">setCommand(button2, addSubMenuCommand);</span><br><span class="line">setCommand(button3, delSubMenuCommand);</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/05/02/js设计模式与开发实践0901/" data-id="cjv6d1dhc001v5cjbnna4yxvj" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-高效能人士的七个习惯01" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/29/高效能人士的七个习惯01/" class="article-date">
-  <time datetime="2019-04-29T15:23:34.991Z" itemprop="datePublished">2019-04-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我对生命的一种最深刻的感悟就是：要完成最渴望的目标，战胜最艰巨的挑战，你必须发掘并应用一些原则或自然规则，因为它们恰好左右着你苦苦期待的成功。如何应用一个原理，因人而异，取决于个人独一无二的优势、天赋和创造力，但最根本的是，任何努力的成功都离不开恰到好处并游刃有余地应用某些原则，这些原则对成功而言是不可或缺的。</p>
-<h2 id="恐惧感和不安全感"><a href="#恐惧感和不安全感" class="headerlink" title="恐惧感和不安全感"></a>恐惧感和不安全感</h2><p>现在社会，太多的人饱受恐惧感的折磨。他们恐惧将来，恐惧失业，恐惧无力养家。这种弱点，常常助长了一种倾向：无论在工作时，还是回到家中，都倾向于零风险的生活，并逃避与他人相互依赖和合作。<br>面对这种问题，我们的文化通常会教导</p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/29/高效能人士的七个习惯01/" data-id="cjv6d1diw00415cjbfecj4pot" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-优势谈判" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/29/优势谈判/" class="article-date">
-  <time datetime="2019-04-29T15:22:13.000Z" itemprop="datePublished">2019-04-29</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/优势谈判/">优势谈判</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/29/优势谈判/">开局谈判技巧</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="开局谈判技巧"><a href="#开局谈判技巧" class="headerlink" title="开局谈判技巧"></a>开局谈判技巧</h2><h3 id="开出高于预期的条件"><a href="#开出高于预期的条件" class="headerlink" title="开出高于预期的条件"></a>开出高于预期的条件</h3><p>你所开出的条件一定要高于你的预期。原因主要有：</p>
+        <h2 id="对象爆炸"><a href="#对象爆炸" class="headerlink" title="对象爆炸"></a>对象爆炸</h2><p>微云的文件上传功能虽然可以选择依照队列，一个一个地排队上传，但也支持同时选择2000个文件。每一个文件都对应着一个js上传对象的创建，在第一版的开发中，的确往程序里同时new了2000个upload对象，结果可想而知，Chrome中还勉强能够支撑，IE下直接进入假死状态。<br>微云支持好几种上传方式，比如浏览器插件、flash和表单上传等，为了简化例子，我们先假设只有插件和Flash这两种。不论是插件上传，还是Flash上传，原理都是一样的，当用户选择了文件之后，插件和Flash都回调用window下的一个全局js函数，它的名字叫startUpload，用户选择的文件列表被组合成一个数组files塞进该函数的参数列表里，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var id = 0;</span><br><span class="line">window.startUpload = function(uploadType, files)&#123; //uploadType区分是控件还是flash</span><br><span class="line">    for(var i = 0, file; file = files[i++];)&#123;</span><br><span class="line">        var uploadObj = new Upload(uploadType, file.fileName, file.fileSize);</span><br><span class="line">        uploadObj.init(id++); //给upload对象设置一个唯一的id</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>定义upload构造函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var Upload = function(uploadType, fileName, fileSize)&#123;</span><br><span class="line">    this.uploadType = uploadType;</span><br><span class="line">    this.fileName = fileName;</span><br><span class="line">    this.fileSize = fileSize;</span><br><span class="line">    this.dom = null;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Upload.prototype.init = function(id)&#123;</span><br><span class="line">    var that = this;</span><br><span class="line">    this.id = id; </span><br><span class="line">    this.dom = document.createElement(&apos;div&apos;);</span><br><span class="line">    this.dom.innerHTML = &apos;&lt;span&gt;文件名称：&apos;+this.fileName+&apos;,文件大小：&apos;+this.fileSize+&apos;&lt;/span&gt;&apos;+&apos;&lt;button class=&quot;delFile&quot;&gt;删除&lt;/button&gt;&apos;;</span><br><span class="line">    this.dom.querySelector(&apos;.delFile&apos;).onclick = function()&#123;</span><br><span class="line">        that.delFile();</span><br><span class="line">    &#125;</span><br><span class="line">    document.body.appendChild(this.dom);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>删除文件逻辑<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">Upload.prototype.delFile = function()&#123;</span><br><span class="line">    if(this.fileSize &lt; 3000)&#123;</span><br><span class="line">        return this.dom.parentNode.removeChild(this.dom);</span><br><span class="line">    &#125;</span><br><span class="line">    if(window.confirm(&apos;确定要删除该文件吗？&apos;+this.fileName))&#123;</span><br><span class="line">        return this.dom.parentNode.removeChild(this.dom);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>接下来创建3个插件上传对象和3个Flash上传对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">startUpload(&apos;plugin&apos;, [</span><br><span class="line">    &#123;</span><br><span class="line">        fileName: &apos;1.txt&apos;,</span><br><span class="line">        fileSize: 1000</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        fileName: &apos;2.html&apos;,</span><br><span class="line">        fileSize: 3000</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        fileName: &apos;3.txt&apos;,</span><br><span class="line">        fileSize: 5000</span><br><span class="line">    &#125;</span><br><span class="line">]);</span><br><span class="line"></span><br><span class="line">startUpload(&apos;flash&apos;, [</span><br><span class="line">    &#123;</span><br><span class="line">        fileName: &apos;4.txt&apos;,</span><br><span class="line">        fileSize: 1000</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        fileName: &apos;5.html&apos;,</span><br><span class="line">        fileSize: 3000</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        fileName: &apos;6.txt&apos;,</span><br><span class="line">        fileSize: 5000</span><br><span class="line">    &#125;</span><br><span class="line">]);</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用享元模式重构"><a href="#使用享元模式重构" class="headerlink" title="使用享元模式重构"></a>使用享元模式重构</h2><p>先确认内部状态，内、外部状态划分依据：</p>
 <ul>
-<li>对方可能会直接答应你开出的条件</li>
-<li>可以给你一些谈判空间</li>
-<li>会提高你的产品在对方心目中的价值</li>
-<li>可以避免谈判陷入僵局</li>
-<li>可以让对方在谈判结束时感觉到自己赢得了胜利</li>
+<li>内部状态存储于对象内部。</li>
+<li>内部状态可以被一些对象共享</li>
+<li>内部状态独立于具体的场景，通常不会改变</li>
+<li>外部状态取决于具体的场景，并根据场景而变化，外部状态不能被共享</li>
 </ul>
-<p><strong>永远不要接受对方的第一次报价或还价，因为这种做法通常会让对方立刻产生两种反应：我本来可以做得更好（下次一定会注意），一定是哪里出了问题。</strong><br><strong>千万不要先入为主的设想对方会对你的报价做出何种反应，当对方接受你看似不合理的要求时也不要过于吃惊，一定要有充分的心理准备，这样才不会因为出现意外而放松警惕</strong></p>
-<h3 id="学会感到意外"><a href="#学会感到意外" class="headerlink" title="学会感到意外"></a>学会感到意外</h3><p><strong>对方提出报价后，一定要作出一副感到意外的样子。记住，他们并没有指望你会接受他们的第一次报价；但如果你并没有感到意外，地方就是觉得你完全有可能接受他们的条件。</strong></p>
-<p><strong>在你表示有些意外后，对方通常会作出一些让步。如果你不表示意外，对方通常会变得更加强硬。</strong></p>
-<p><strong>假设对方只相信他所看到的，除非你还有其他方式可以影响他。</strong></p>
-<p><strong>即便不是在于对方面对面谈判，你仍然可以让他感觉到你的震惊，比如说在电话中表示惊讶往往也会收到同样的效果。</strong></p>
-<h3 id="避免对抗性谈判"><a href="#避免对抗性谈判" class="headerlink" title="避免对抗性谈判"></a>避免对抗性谈判</h3><p><strong>千万不要在谈判刚刚开始时和对方争辩，这样只会导致对抗。</strong><br><strong>使用感知、感受、发现的方法来扭转对抗局面。</strong><br><strong>当对方表现出一些充满敌意的行为时，“感知、感受、发现”可以让你有时间冷静下来，做进一步的思考。</strong></p>
-<h3 id="不情愿的买家和卖家"><a href="#不情愿的买家和卖家" class="headerlink" title="不情愿的买家和卖家"></a>不情愿的买家和卖家</h3>
+<h3 id="剥离外部状态"><a href="#剥离外部状态" class="headerlink" title="剥离外部状态"></a>剥离外部状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var Upload = function(uploadType)&#123;</span><br><span class="line">    this.uploadType = uploadType;</span><br><span class="line">&#125;;</span><br><span class="line">Upload.prototype.delFile = function(id)&#123;</span><br><span class="line">    uploadManager.setExternalState(id, this); </span><br><span class="line">    if(this.fileSize &lt; 3000)&#123;</span><br><span class="line">        return this.dom.parentNode.removeChild(this.dom);</span><br><span class="line">    &#125;</span><br><span class="line">    if(window.confirm(&apos;确定要删除该文件吗？&apos; + this.fileName))&#123;</span><br><span class="line">        return this.dom.parentNode.removeChild(this.dom);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h3 id="工厂进行对象实例化"><a href="#工厂进行对象实例化" class="headerlink" title="工厂进行对象实例化"></a>工厂进行对象实例化</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var UploadFactory = (function()&#123;</span><br><span class="line">    var createdFlyWeightObjs = &#123;&#125;;</span><br><span class="line">    return &#123;</span><br><span class="line">        create: function(uploadType)&#123;</span><br><span class="line">            if(createdFlyWeightObjs[uploadType])&#123;</span><br><span class="line">                return createdFlyWeightObjs[uploadType];</span><br><span class="line">            &#125;</span><br><span class="line">            return createdFlyWeightObjs[uploadType] = new Upload(uploadType);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure>
+<h3 id="管理器封装外部状态"><a href="#管理器封装外部状态" class="headerlink" title="管理器封装外部状态"></a>管理器封装外部状态</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">var uploadManager = (function()&#123;</span><br><span class="line">    var uploadDatabase = &#123;&#125;;</span><br><span class="line">    return &#123;</span><br><span class="line">        add: function(id, uploadType, fileName, fileSize)&#123;</span><br><span class="line">            var flyWeightObj = UploadFactory.create(uploadType)</span><br><span class="line">            var dom = document.createElement(&apos;div&apos;);</span><br><span class="line">            dom.innerHTML = &apos;&lt;span&gt;文件名称：&apos;+fileName+&apos;,文件大小：&apos;+fileSize+&apos;&lt;/span&gt;&apos;+&apos;&lt;button class=&quot;delFile&quot;&gt;删除&lt;/button&gt;&apos;;</span><br><span class="line">            dom.querySelector(&apos;.delFile&apos;).onclick = function()&#123;</span><br><span class="line">                flyWeightObj.delFile(id);</span><br><span class="line">            &#125;</span><br><span class="line">            document.body.appendChild(dom);</span><br><span class="line">            uploadDatabase[id] = &#123;</span><br><span class="line">                fileName: fileName,</span><br><span class="line">                fileSize: fileSize,</span><br><span class="line">                dom: dom</span><br><span class="line">            &#125;;</span><br><span class="line">            return flyWeightObj;</span><br><span class="line">        &#125;,</span><br><span class="line">        setExternalState: function(id, flyWeightOb)&#123;</span><br><span class="line">            var uploadData = uploadDatabase[id];</span><br><span class="line">            for(var i in uploadData)&#123;</span><br><span class="line">                flyWeightObj[i] = uploadData[i];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">window.startUpload = function(uploadType, files)&#123;</span><br><span class="line">    for(var i = 0, file; file = files[i++];)&#123;</span><br><span class="line">        var uploadObj = uploadManager.add(++id , uploadType, file.fileName, file.fileSize);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/29/优势谈判/" data-id="cjv6d1dif00385cjbqb08osa8" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/08/js设计模式与开发实践1202/" data-id="cjvf16p310005804mj5ux453h" class="article-share-link">Share</a>
       
       
     </footer>
@@ -287,10 +237,10 @@
 
 
   
-    <article id="post-js设计模式与开发实践0804" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践1201" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/29/js设计模式与开发实践0804/" class="article-date">
-  <time datetime="2019-04-29T14:11:45.716Z" itemprop="datePublished">2019-04-29</time>
+    <a href="/2019/05/07/js设计模式与开发实践1201/" class="article-date">
+  <time datetime="2019-05-07T11:22:57.637Z" itemprop="datePublished">2019-05-07</time>
 </a>
     
   <div class="article-category">
@@ -305,7 +255,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/29/js设计模式与开发实践0804/">第八章 发布-订阅模式 全局的发布-订阅对象</a>
+      <a class="article-title" href="/2019/05/07/js设计模式与开发实践1201/">第十一章 享元模式 基本概念</a>
     </h1>
   
 
@@ -313,19 +263,147 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>回想下刚刚实现的发布-订阅模式，我们给售楼处对象和登录都添加了订阅和发布的功能，这里还存在两个小问题。</p>
+        <p>享元模式是一种用于性能优化的模式。享元模式的核心是运用共享技术来有效支持大量细粒度的对象。<br>如果系统中因为创建了大量类似的对象而导致内存占用过高，享元模式就非常游泳了。在js中，浏览器特别是移动端的浏览器分配的内存并不算多，如何节省内存就成了一件非常有意义的事。</p>
+<h2 id="初识享元模式"><a href="#初识享元模式" class="headerlink" title="初识享元模式"></a>初识享元模式</h2><p>不用享元模式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">var Model = function(sex, underwear)&#123;</span><br><span class="line">    this.sex = sex;</span><br><span class="line">    this.underwear = underwear;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Model.prototype.takePhoto = function()&#123;</span><br><span class="line">    console.log(&apos;sex= &apos; + this.sex + &apos; underwear=&apos; + this.underwear);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">for(var i = 1; i &lt;= 50; i++)&#123;</span><br><span class="line">    var maleModel = new Model(&apos;male&apos;, &apos;underwear&apos; + i);</span><br><span class="line">    maleModel.takePhoto();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(var j = 1; j &lt;= 50; j++)&#123;</span><br><span class="line">    var femaleModel = new Model(&apos;female&apos;, &apos;underwear&apos; + j);</span><br><span class="line">    femaleModel.takePhoto();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>使用享元模式<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">var Model = function(sex)&#123;</span><br><span class="line">    this.sex = sex;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Model.prototype.takePhoto = function()&#123;</span><br><span class="line">    console.log(&apos;sex= &apos; + this.sex + &apos; underwear=&apos; + this.underwear);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var maleModel = new Model(&apos;male&apos;);</span><br><span class="line">var femaleModel = new Model(&apos;female&apos;);</span><br><span class="line"></span><br><span class="line">//共享一个对象</span><br><span class="line">for(var i = 1; i &lt;= 50; i++)&#123;</span><br><span class="line">    maleModel.underwear = &apos;underwear&apos; + i;</span><br><span class="line">    maleModel.takePhoto();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for(var j = 1; j &lt;= 50; j++)&#123;</span><br><span class="line">    femaleModel.underwear = &apos;underwear&apos; + j;</span><br><span class="line">    femaleModel.tablePhoto();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/05/07/js设计模式与开发实践1201/" data-id="cjvf16p36000f804mt4pi9b2y" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践1104" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/07/js设计模式与开发实践1104/" class="article-date">
+  <time datetime="2019-05-07T09:59:02.387Z" itemprop="datePublished">2019-05-07</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/07/js设计模式与开发实践1104/">第十一章 好莱坞原则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>好莱坞原则：允许底层将自己挂钩到高层上，而高层组件会决定什么时候，以何种方式去使用这些底层组件。<br>模板方法模式是好莱坞原则的一个典型使用场景，它与好莱坞原则的联系非常明显，当我们用模板方法编写一个程序时，就意味着子类放弃了对自己的控制权，而是改为父类通知子类，哪些方法在什么时候被调用。最为子类，只负责提供一些设计上的细节。<br>除此之外，好莱坞原则还常应用于其他模式和场景，例如发布-订阅模式和回调函数</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/05/07/js设计模式与开发实践1104/" data-id="cjvf16p330009804mqdr6qyfo" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践1103" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/06/js设计模式与开发实践1103/" class="article-date">
+  <time datetime="2019-05-06T14:43:23.444Z" itemprop="datePublished">2019-05-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/06/js设计模式与开发实践1103/">第十一章 钩子方法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>通过模板方法模式，我们在父类中封装了子类的算法框架。这些算法在正常状态下是适用于大多数子类的，但如果有一些特别“个性”的子类呢？使用钩子方法让子类不受父类约束。在父类中容易变化的地方放置钩子，钩子有一个默认的实现，究竟要不要挂钩，由子类自行决定。钩子方法返回的结果决定了模板方法后面部分的执行步骤，也就是程序接下来的走向，这样一来，程序就有了变化的可能。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">var Beverage = function()&#123;&#125;;</span><br><span class="line"></span><br><span class="line">Beverage.prototype.boilWater = function()&#123;</span><br><span class="line">    console.log(&apos;把水烧开&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Beverage.prototype.brew = function()&#123;</span><br><span class="line">    throw new Error(&apos;子类必须重写brew方法&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Beverage.prototype.pourInCup = function()&#123;</span><br><span class="line">    throw new Error(&apos;子类必须重写pourInCup方法&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Beverage.prototype.customerWantsCondiments = function()&#123;</span><br><span class="line">    return true; //默认需要调料</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Beverage.prototype.init = function()&#123;</span><br><span class="line">    this.boilWater();</span><br><span class="line">    this.brew();</span><br><span class="line">    this.pourInCup();</span><br><span class="line">    if(this.customerWantsCondiments())&#123; //如果挂钩返回true，则需要调料</span><br><span class="line">        this.addCondiments(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var CoffeeWithHook = function()&#123;&#125;;</span><br><span class="line">CoffeeWithHook.prototype = new Beverage();</span><br><span class="line">CoffeeWithHook.prototype.brew = function()&#123;</span><br><span class="line">    console.log(&apos;用沸水冲泡咖啡&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">CoffeeWithHook.prototype.pourInCup = function()&#123;</span><br><span class="line">    console.log(&apos;把咖啡倒进杯子&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">CoffeeWithHook.prototype.addCondiments = function()&#123;</span><br><span class="line">    console.log(&apos;加🥣和牛奶&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">CoffeeWIthHook.prototype.customerWantsCondiments = function()&#123;</span><br><span class="line">    return window.confirm(&apos;请问需要调料吗?&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">var coffeeWithHook = new CoffeeWithHook();</span><br><span class="line">coffeeWithHook.init();</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/05/06/js设计模式与开发实践1103/" data-id="cjvf16p320007804mbuvtmz1a" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践1102" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/06/js设计模式与开发实践1102/" class="article-date">
+  <time datetime="2019-05-06T14:38:32.423Z" itemprop="datePublished">2019-05-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/06/js设计模式与开发实践1102/">第十一章 模版方法的使用场景</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从大的方面讲，模板方法常被架构师用于搭建项目的框架，架构师定义好了框架的骨架，程序员继承框架的结构之后，负责往里面填空，比如java程序员大多使用过httpservlet技术来开发项目。<br>一个HttpServlet的程序包含7个生命周期，这7个生命周期分别对应一个do方法。</p>
 <ul>
-<li>我们给每个发布者对象都添加了listen和trigger方法，以及一个缓存列表，这其实是一种资源浪费。</li>
-<li>小明跟售楼处对象还是存在一定的耦合性，小明至少要知道售楼处对象的名字是salesOffices，才能顺利的订阅到事件。见如下代码：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">salesOffices.listen(&apos;squareMeter100&apos;, function(price)&#123; //小明订阅消息j</span><br><span class="line">    console.log(&apos;价格= &apos;+price);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-</li>
+<li>doGet()</li>
+<li>doHead()</li>
+<li>doPost()</li>
+<li>doPut()</li>
+<li>doDelete()</li>
+<li>doOption()</li>
+<li>doTrace()</li>
 </ul>
-<p>如果小明还关心300平米的房子，而这套房子的卖家是salesOffice2，则：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">salesOffices2.listen(&apos;squareMeter300&apos;, function(price)&#123;</span><br><span class="line">    console.log(&apos;价格= &apos;+price);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>引入中介<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">var event = (function()&#123;</span><br><span class="line">    var clientList = &#123;&#125;,</span><br><span class="line">        listen,</span><br><span class="line">        trigger,</span><br><span class="line">        remove;</span><br><span class="line">    listen = function(key, fn)&#123;</span><br><span class="line">        if(!clientList[key]) &#123;</span><br><span class="line">            clientList[key] = [];</span><br><span class="line">        &#125;</span><br><span class="line">        clientList[key].push(fn);</span><br><span class="line">    &#125;;</span><br><span class="line">    trigger = function()&#123;</span><br><span class="line">        var key = Array.prototype.shift.call(arguments),</span><br><span class="line">            fns = clientList[key];</span><br><span class="line">            if(!fns || fns.length === 0)&#123;</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            for(var i = 0, fn; fn = fns[i++];)&#123;</span><br><span class="line">                fn.apply(this, arguments);</span><br><span class="line">            &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    remove = function(key, fn)&#123;</span><br><span class="line">        var fns = clientList[key];</span><br><span class="line">        if(!fns)&#123;</span><br><span class="line">            return false;</span><br><span class="line">        &#125;</span><br><span class="line">        if(!fn)&#123;</span><br><span class="line">            fns &amp;&amp; (fns.length = 0);</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            for(var l = fns.length - 1; l &gt;= 0; l --)&#123;</span><br><span class="line">                var _fn = fns[l];</span><br><span class="line">                if(_fn === fn)&#123;</span><br><span class="line">                    fns.splice(l, 1);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">    return &#123;</span><br><span class="line">        listen: listen,</span><br><span class="line">        trigger: trigger,</span><br><span class="line">        remove: remove</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">Event.listen(&apos;squareMeter88&apos;, function(price)&#123; //小红订阅消息</span><br><span class="line">    console.log(price);</span><br><span class="line">&#125;);</span><br><span class="line">Event.trigger(&apos;squareMeter88&apos;, 2000000); //售楼处发布消息</span><br></pre></td></tr></table></figure></p>
+<p>HttpServle类还提供了一个service方法， 它就是这里的模板方法，service规定了这些do方法的执行顺序，而这些do方法的具体实现则需要HttpServet的子类来提供</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/29/js设计模式与开发实践0804/" data-id="cjv6d1dhg00215cjb7uyk2aam" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/06/js设计模式与开发实践1102/" data-id="cjvf16p300003804miwd5igb2" class="article-share-link">Share</a>
       
       
     </footer>
@@ -335,12 +413,16 @@
 
 
   
-    <article id="post-js事件的捕获阶段和冒泡阶段" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-php设计模式09" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/28/js事件的捕获阶段和冒泡阶段/" class="article-date">
-  <time datetime="2019-04-28T14:56:06.905Z" itemprop="datePublished">2019-04-28</time>
+    <a href="/2019/05/06/php设计模式09/" class="article-date">
+  <time datetime="2019-05-06T14:12:27.681Z" itemprop="datePublished">2019-05-06</time>
 </a>
     
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
+  </div>
+
   </div>
   <div class="article-inner">
     
@@ -349,7 +431,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/js事件的捕获阶段和冒泡阶段/">事件的捕获阶段和冒泡阶段</a>
+      <a class="article-title" href="/2019/05/06/php设计模式09/">模板模式</a>
     </h1>
   
 
@@ -357,14 +439,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>js事件监听方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">* @param event 事件类型</span><br><span class="line">* @param callback 回调函数 事件触发时调用的函数</span><br><span class="line">* @param useCapture 布尔值 定义事件在捕获阶段执行还是在冒泡阶段执行 </span><br><span class="line">* true表示再捕获阶段执行， false表示在冒泡阶段执行 </span><br><span class="line">**/</span><br><span class="line">addEventListener(event, callback, useCapture);</span><br></pre></td></tr></table></figure></p>
-<p>例子<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&apos;div2&apos;&gt;</span><br><span class="line">    &lt;div id=&apos;div1&apos;&gt;点我&lt;/div&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">var div1 = document.getElementById(&apos;div1&apos;)</span><br><span class="line">var div2 = document.getElementById(&apos;div2&apos;);</span><br><span class="line">div1.addEventListener(&apos;click&apos;, function(event)&#123;</span><br><span class="line">    console.log(&apos;A&apos;);</span><br><span class="line">&#125;,false); //冒泡阶段执行</span><br><span class="line"></span><br><span class="line">div1.addEventListener(&apos;click&apos;, function(event)&#123;</span><br><span class="line">    console.log(&apos;B&apos;);</span><br><span class="line">&#125;,true); //捕获阶段执行</span><br><span class="line"></span><br><span class="line">div2.addEventListener(&apos;click&apos;, function(event)&#123;</span><br><span class="line">    console.log(&apos;C&apos;);</span><br><span class="line">&#125;, false); //冒泡阶段执行</span><br><span class="line"></span><br><span class="line">div2.addEventListener(&apos;click&apos;, function(event)&#123;</span><br><span class="line">    console.log(&apos;D&apos;);</span><br><span class="line">&#125;, true); //捕获阶段执行</span><br></pre></td></tr></table></figure></p>
-<p>以上代码的输出顺序为 DABC<br><img src="/images/事件捕获与冒泡.png" alt="事件捕获与冒泡原理"></p>
+        <p>就是抽象方法+具体方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">abstract class Beverage &#123;</span><br><span class="line">    public final function init()&#123;</span><br><span class="line">        $this-&gt;boilWater();</span><br><span class="line">        $this-&gt;brew();</span><br><span class="line">        $this-&gt;pourInCup();</span><br><span class="line">        $this-&gt;addCondiments();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function boilWater()&#123;</span><br><span class="line">        echo &apos;把水煮沸&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    abstract public function brew(); </span><br><span class="line">    abstract public function pourInCup();</span><br><span class="line">    abstract public function addCondiments();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Coffee extends Beverage &#123;</span><br><span class="line">    public function brew()&#123;</span><br><span class="line">        echo &apos;沸水冲泡咖啡&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function pourInCup()&#123;</span><br><span class="line">        echo &apos;把咖啡倒进杯中&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function addCondiments()&#123;</span><br><span class="line">        echo &apos;加糖和牛奶&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Tea extends Beverage&#123;</span><br><span class="line">    public function brew()&#123;</span><br><span class="line">        echo &apos;沸水泡茶&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function pourInCup()&#123;</span><br><span class="line">        echo &apos;把茶水倒进杯子&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function addCondiments()&#123;</span><br><span class="line">        echo &apos;加柠檬&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/28/js事件的捕获阶段和冒泡阶段/" data-id="cjv6d1dg7000a5cjbn5p2ajl6" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/06/php设计模式09/" data-id="cjvf16p36000h804m46n9awaz" class="article-share-link">Share</a>
       
       
     </footer>
@@ -374,10 +454,10 @@
 
 
   
-    <article id="post-js设计模式与开发实践0803" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践1101" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/28/js设计模式与开发实践0803/" class="article-date">
-  <time datetime="2019-04-28T12:41:17.381Z" itemprop="datePublished">2019-04-28</time>
+    <a href="/2019/05/05/js设计模式与开发实践1101/" class="article-date">
+  <time datetime="2019-05-05T12:10:59.947Z" itemprop="datePublished">2019-05-05</time>
 </a>
     
   <div class="article-category">
@@ -392,7 +472,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/28/js设计模式与开发实践0803/">第八章 发布-订阅模式 例子 - 网站登陆</a>
+      <a class="article-title" href="/2019/05/05/js设计模式与开发实践1101/">第十一章 模版方法</a>
     </h1>
   
 
@@ -400,112 +480,29 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>假如我们正在开发一个商城网站，网站里有header头部、nav导航、消息列表、购物车等模块。这几个模块的渲染有一个共同的前提条件，就是必须先用ajax异步请求获取用户的登陆信息。但是现在还不足以说服我们在此使用发布-订阅模式，因为异步的问题通常也可以用回调函数来解决。更重要的一点是，我们不知道除了header头部、nav导航、消息列表、购物车之外，将来还有哪些模块需要使用这些用户信息。如果它们和用户信息模块产生了强耦合，比如下面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">login.succ(function(data)&#123;</span><br><span class="line">    header.setAvatar(data.avatar); //设置header模块的头像</span><br><span class="line">    nav.setAvatar(data.avatar); //设置导航模块的头像</span><br><span class="line">    message.refresh(); //刷新消息列表</span><br><span class="line">    cart.refresh(); //刷新购物车列表</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>现在登陆模块是我们负责编写的，但我们还必须了解header模块里设置头像的方法叫setAvatar、购物车模块里刷新的方法叫refresh，这种耦合性会使程序变得僵硬，header模块不能随意再改变setAvatar的方法名，它自身的名字也不能被改为header1，header2。这是针对具体实现编程的典型例子，针对具体实现编程是不被赞同的。<br>等到有一天，项目中🈶️新增了一个收获地址管理的模块，这个模块本来是另一个同时所写的，而此时你正在马来西亚度假，但是他却不得不给你打电话：“hi 登陆之后麻烦刷新一下收获地址“。于是你又翻开你3个月前写的登陆模块，在最后部分加上这行代码：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">login.succ(function(data)&#123;</span><br><span class="line">    header.setAvatar(data.avatar);</span><br><span class="line">    nav.setAvatar(data.avatar);</span><br><span class="line">    message.refresh();</span><br><span class="line">    cart.refresh();</span><br><span class="line">    address.refresh(); // 增加这行代码</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>我们就会越来越疲于应付这些突如其来的业务要求，要么跳槽了事，要么必须来重构这些代码。<br>用发布-订阅模式重写后，对用户信息感兴趣的业务模块将自行订阅登录成功的消息事件。当登录成功时，登录模块只需要发布登录成功的消息，而业务方接受到消息之后，就会开始进行各自的业务处理，登录模块并不关心业务方究竟要做什么，也不想去了解它们的内部细节。改善后的代码。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$.ajax(&apos;http...&apos;, function(data)&#123; //登录成功</span><br><span class="line">    login.trigger(&apos;loginSucc&apos;, data); //发布登陆成功的消息</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<p>各模块监听登陆成功的消息：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">var header = (function()&#123; //header模块</span><br><span class="line">    login.listen(&apos;loginSucc&apos;, function(data)&#123;</span><br><span class="line">        header.setAvatar(data.avatar);</span><br><span class="line">    &#125;);</span><br><span class="line">    return &#123;</span><br><span class="line">        setAvatar: function(data) &#123;</span><br><span class="line">            console.log(&apos;设置header模块的头像&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var nav = (function()&#123; //nav 模块</span><br><span class="line">    login.listen(&apos;loginSucc&apos;, function(data)&#123;</span><br><span class="line">        nav.setAvatar(data.avatar);</span><br><span class="line">    &#125;);</span><br><span class="line">    return &#123;</span><br><span class="line">        setAvatar: function(avatar)&#123;</span><br><span class="line">            console.log(&apos;设置nav模块的头像&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
-<p>如上所述，我们随时可以把setAvatar的方法名改成其他。如果有一天在登录完成之后，又增加一个刷新收货地址列表的行为，那么只要在收获地址模块里加上监听消息的方法即可，而这可以让开发该模块的同事自己完成，你作为登录模块的开发者，永远不用关心这些行为。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var address = (function()&#123; //nav模块</span><br><span class="line">    login.listen(&apos;loginSucc&apos;, function(obj)&#123;</span><br><span class="line">        address.refresh(obj);</span><br><span class="line">    &#125;);</span><br><span class="line">    return &#123;</span><br><span class="line">        refresh: function(avatar) &#123;</span><br><span class="line">            console.log(&apos;刷新收获地址&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;)();</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/28/js设计模式与开发实践0803/" data-id="cjv6d1dha001r5cjb6flqhpn9" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0802" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/27/js设计模式与开发实践0802/" class="article-date">
-  <time datetime="2019-04-27T15:05:32.457Z" itemprop="datePublished">2019-04-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/27/js设计模式与开发实践0802/">第八章 发布-订阅模式 发布-订阅模式的通用实现</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>把发布-订阅的功能提取出来，放在一个单独的对象内：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var event = &#123;</span><br><span class="line">    clientList: &#123;&#125;,</span><br><span class="line">    listen: function(key, fn)&#123;</span><br><span class="line">        if(!this.clientList[key])</span><br><span class="line">            this.clientList[key] = [];</span><br><span class="line">        this.clientList[key].push(fn); //订阅的消息添加进缓存列表</span><br><span class="line">    &#125;,</span><br><span class="line">    trigger: function()&#123;</span><br><span class="line">        var key = Array.prototype.shift.call(arguments), </span><br><span class="line">            fns = this.clientList[key];</span><br><span class="line">        if(!fns || fns.length === 0)</span><br><span class="line">            return false;</span><br><span class="line">        for(var i = 0, fn; fn = fns[i++];)&#123;</span><br><span class="line">            fn.apply(this, arguments);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>在定义一个installEvent函数， 这个函数可以给所有的对象都动态安装发布-订阅功能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var installEvent = function(obj)&#123;</span><br><span class="line">    for(var i in event) &#123;</span><br><span class="line">        obj[i] = event[i];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>再来测试一番，我们给售楼处salesOffices动态添加发布-订阅功能：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var salesOffices = &#123;&#125;;</span><br><span class="line">installEvent(salesOffices);</span><br><span class="line"></span><br><span class="line">salesOffices.listen(&apos;squareMeter88&apos;, function(price)&#123; //小明订阅消息</span><br><span class="line">    console.log(&apos;价格=&apos; + price);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffices.listen(&apos;squareMeter110&apos;, function(price)&#123; //小红订阅消息</span><br><span class="line">    console.log(&apos;价格=&apos; + price):</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffices.trigger(&apos;squareMeter88&apos;, 2000000);</span><br><span class="line">salesOffices.trigger(&apos;squareMeter100&apos;, 3000000);</span><br></pre></td></tr></table></figure></p>
-<h2 id="取消订阅事件"><a href="#取消订阅事件" class="headerlink" title="取消订阅事件"></a>取消订阅事件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">event.remove = function(key, fn)&#123;</span><br><span class="line">    var fns = this.clientList[key];</span><br><span class="line">    if(!fns)&#123; //如果key对应的消息没有被人订阅，则直接返回</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">    if(!fn) &#123; //如果没有传入具体的回调参数，表示需要取消key对应消息的所有订阅</span><br><span class="line">        fns &amp;&amp; (fns.length = 0);</span><br><span class="line">    &#125;else&#123;</span><br><span class="line">        for(var l = fns.length - 1; l &gt;= 0; l --)&#123; //反向遍历订阅的回调函数</span><br><span class="line">                var _fn = fns[l];</span><br><span class="line">                if(_fn === fn)&#123;</span><br><span class="line">                    fns.splice(l, 1); //删除订阅者的回调函数</span><br><span class="line">                &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/27/js设计模式与开发实践0802/" data-id="cjv6d1dhb001t5cjb2k4ywjwo" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0801" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/27/js设计模式与开发实践0801/" class="article-date">
-  <time datetime="2019-04-27T10:48:00.000Z" itemprop="datePublished">2019-04-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/27/js设计模式与开发实践0801/">第八章 发布-订阅模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>发布-订阅模式又称观察者模式，它定义对象间一种一对多的依赖关系，当一个对象的状态发生改变时，所有依赖于它的对象都将得到通知。在js中，我们一般用事件模型来替代传统的发布-订阅模式。</p>
-<p>发布-订阅模式可以广泛应用于异步编程中，这是一种替代传递回调函数的方案。比如，我们可以订阅ajax请求的error、succ等事件。或者如果想在动画的每一帧完成后做一些事情，那我们可以订阅一个事件，然后在动画的每一帧完成之后发布这个事件。在异步编程中使用发布-订阅模式，我们就无需过多关注对象在异步运行期间的内部状态，而只需要订阅感兴趣的事件发生点。</p>
-<p>发布-订阅模式可以取代对象之间硬编码的通知机制，一个对象不用再显示地调用另一个对象的某个接口。发布-订阅模式让两个对象松耦合地联系在一起，虽然不太清楚彼此的细节，但这并不影响它们之间相互通信。当有新的订阅者出现时，发布者的代码不需要任何修改；同样发布者需要改变时，也不会影响到之前的订阅者。只要之前约定的事件名没有变化，就可以自由地改变它们。</p>
-<h2 id="DOM事件"><a href="#DOM事件" class="headerlink" title="DOM事件"></a>DOM事件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">document.body.addEventListener(&apos;click&apos;, function()&#123;</span><br><span class="line">    console.log(2);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<p>在这里需要监控用户点击document.body的动作，但是我们没办法预知用户将在什么时候点击。所以我们订阅document.body上的click事件，当body节点被点击时，body节点便会向订阅者发布这个消息。<br>我们还可以随意增加或删除订阅者，增加任何订阅者都不会影响发布者代码的编写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">document.body.addEventListener(&apos;click&apos;, function()&#123;</span><br><span class="line">    console.log(3);</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br><span class="line">document.body.addEventListener(&apos;click&apos;, function()&#123;</span><br><span class="line">    console.log(4);</span><br><span class="line">&#125;, false);</span><br><span class="line"></span><br><span class="line">document.body.click(); //模拟用户点击</span><br></pre></td></tr></table></figure></p>
-<h2 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h2><p>除了DOM事件，我们还会经常实现一些自定义的事件，这种依靠自定义事件完成的发布-订阅模式可以用于任何js代码中。<br>现在看看如何一步步实现发布-订阅模式：</p>
+        <p>在js开发中用到继承的场景其实并不多，很多时候我们都喜欢用mix-in的方式给对象扩展属性。但这不代表继承在js中没有用武之地，虽然没有真正的类和继承机制，但我们可以通过原型prototype来变相地实现继承。</p>
+<h2 id="模板方法模式的定义和组成"><a href="#模板方法模式的定义和组成" class="headerlink" title="模板方法模式的定义和组成"></a>模板方法模式的定义和组成</h2><p>模板方法模式是一种只需要使用继承就可以实现的非常简单的模式。<br>模板方法由两部分组成：</p>
 <ul>
-<li>首先要指定好谁充当发布者；</li>
-<li>然后给发布者添加一个缓存列表，用于存放回调函数以便通知订阅者；</li>
-<li>最后发布消息的时候，发布者会遍历这个缓存列表，依次触发里面存放的订阅者回调函数。</li>
+<li>第一部分是抽象父类</li>
+<li>第二部分是具体的实现子类<br>通常在抽象父类中封装了子类的算法框架，包括实现一些公共方法以及封装子类中所有方法的执行顺序。子类通过继承这个抽象类，也继承了整个算法结构，并且可以选择重写父类的方法。</li>
 </ul>
-<p>另外，我们还可以往回调函数里填入一些参数，订阅者可以接受这些参数，订阅者接受到这些参数后可以进行各自的处理：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var salesOffices = &#123;&#125;; //定义售楼处</span><br><span class="line">salesOffices.clientList = []; //缓存列表，存放订阅者的回调函数</span><br><span class="line">salesOffices.listen = function(fn)&#123; //增加订阅者</span><br><span class="line">    this.clientList.push(fn); //订阅的消息添加进缓存列表</span><br><span class="line">&#125;；</span><br><span class="line">salesOffices.trigger = function()&#123; //发布消息</span><br><span class="line">    for(var i = 0, fn; fn = this.clientList[i++];)&#123;</span><br><span class="line">        fn.apply(this, arguments); //(2)//arguments是发布消息时带上的参数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">salesOffices.listen(function(price, squareMeter)&#123; //小明订阅消息</span><br><span class="line">    console.log(&apos;价格=&apos; + price);</span><br><span class="line">    console.log(&apos;squareMeter= &apos; + squareMeter);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffices.listen(function(price, squareMeter)&#123; //小红订阅消息</span><br><span class="line">    console.log(&apos;价格=&apos; + price);</span><br><span class="line">    console.log(&apos;squareMeter=&apos; + squareMeter);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffices.trigger(200000, 88); // 小明订阅88平米房子的消息</span><br><span class="line">salesOffices.trigger(300000, 110);// 小红订阅110平米房子的消息</span><br></pre></td></tr></table></figure></p>
-<p>至此，我们已经实现了最简单的发布-订阅模式，但这里还存在一些问题。我们看到订阅者接收到了发布者发布的每个消息，虽然小明只想买88平米的房子，但是发布者把110平米的信息也发给了小明，这对小明是不必要的困扰。所以我们有必要增加一个标示key，让订阅者只订阅自己感兴趣的消息。改写后的代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">var salesOffices = &#123;&#125;; //定义售楼处</span><br><span class="line">salesOffices.clientList = &#123;&#125;; //缓存列表，存放订阅者的回调函数</span><br><span class="line">salesOffices.listen = function(key, fn)&#123;</span><br><span class="line">    if(!this.clientList[key])&#123; // 如果还没有订阅过此类消息，给该类消息创建一个缓存列表</span><br><span class="line">        this.clientList[key] = []; </span><br><span class="line">    &#125;</span><br><span class="line">    this.clienList[key].push(fn); //订阅的消息添加进消息缓存列表</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">salesOffices.trigger = function()&#123; //发布消息</span><br><span class="line">    var key = Array.prototype.shift.call(arguments), //取出消息类型</span><br><span class="line">        fns = this.clientList[key]; //取出该消息类型下的回调函数集合</span><br><span class="line">        if(!fns || fns.length === 0)&#123; //如果没有订阅该消息， 则返回</span><br><span class="line">            return false</span><br><span class="line">        &#125;</span><br><span class="line">    for(var i = 0, fn; fn = fns[i++];)&#123;</span><br><span class="line">        fn.apply(this, arguments); //arguments是发布消息时附送的参数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">salesOffices.listen(&apos;squareMeter88&apos;,function(price)&#123; //小明订阅88平米房子的消息</span><br><span class="line">    console.log(price);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffices.listen(&apos;squareMeter110&apos;, function(price)&#123; //小红订阅110平米房子消息</span><br><span class="line">    console.log(price);</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">salesOffice.trigger(&apos;squareMeter88&apos;, 2000000);</span><br><span class="line">salesOffice.trigger(&apos;squareMeter110&apos;, 2000000);</span><br></pre></td></tr></table></figure></p>
+<h2 id="coffee-or-tea"><a href="#coffee-or-tea" class="headerlink" title="coffee or tea"></a>coffee or tea</h2><p>泡一杯咖啡<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">var Coffee = function()&#123;&#125;;</span><br><span class="line">Coffee.prototype.boilWater = function()&#123;</span><br><span class="line">    console.log(&apos;把水煮沸&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Coffee.prototype.brewCoffeeGriends = function()&#123;</span><br><span class="line">    console.log(&apos;用沸水冲泡咖啡&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Coffee.prototype.pourInCup = function()&#123;</span><br><span class="line">    console.log(&apos;把咖啡倒进杯子&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Coffee.prototype.addSugarAndMilk = function()&#123;</span><br><span class="line">    console.log(&apos;加糖和牛奶&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Coffee.prototype.init = function()&#123;</span><br><span class="line">    this.boilWater();</span><br><span class="line">    this.brewCoffeeGriends();</span><br><span class="line">    this.pourInCup();</span><br><span class="line">    this.addSugarAndMilk();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var coffee = new Coffee();</span><br><span class="line"></span><br><span class="line">coffee.init();</span><br></pre></td></tr></table></figure></p>
+<p>泡一壶茶<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">var Tea = function()&#123;&#125;;</span><br><span class="line">Tea.prototype.boilWater = function()&#123;</span><br><span class="line">    console.log(&apos;把水煮沸&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Tea.prototype.steepTeaBag = function()&#123;</span><br><span class="line">    console.log(&apos;用沸水浸泡茶叶&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Tea.prototype.pourInCup = function()&#123;</span><br><span class="line">    console.log(&apos;把茶水倒进杯子&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Tea.prototype.addLemon = function()&#123;</span><br><span class="line">    console.log(&apos;加柠檬&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Tea.prototype.init() = function()&#123;</span><br><span class="line">    this.boilWater();</span><br><span class="line">    this.steepTeaBag();</span><br><span class="line">    this.pourInCup();</span><br><span class="line">    this.addLemon();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var tea = new Tea();</span><br><span class="line">tea.init();</span><br></pre></td></tr></table></figure></p>
+<p>抽出共同点后</p>
+<ul>
+<li>把水煮沸</li>
+<li>用沸水冲泡饮料</li>
+<li>把饮料倒进杯子</li>
+<li>加调料</li>
+</ul>
+<p>Beverage 类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var Beverage = function()&#123;&#125;;</span><br><span class="line">Beverage.prototype.boilWater = function()&#123;</span><br><span class="line">    console.log(&apos;把水煮沸&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Beverage.prototype.brew = function()&#123;&#125;; //空方法， 由子类重写</span><br><span class="line">Beverage.prototype.pourInCup = function()&#123;&#125;; //空方法， 应该由子类重写</span><br><span class="line">Beverage.prototype.addCondiments = function()&#123;&#125;; //空方法，由子类实现</span><br><span class="line">Beverage.prototype.init = function()&#123;</span><br><span class="line">    this.boilWater();</span><br><span class="line">    this.brew();</span><br><span class="line">    this.pourInCup();</span><br><span class="line">    this.addCondiments();</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<h2 id="创建Coffee子类和Tea子类"><a href="#创建Coffee子类和Tea子类" class="headerlink" title="创建Coffee子类和Tea子类"></a>创建Coffee子类和Tea子类</h2><p>Coffee子类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var Coffee = function()&#123;&#125;;</span><br><span class="line">Coffee.prototype = new Beverage(); //继承Beverage类</span><br><span class="line">Coffee.prototype.brew = function()&#123;</span><br><span class="line">    console.log(&apos;用沸水冲泡咖啡&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">Coffee.prototype.pourInCup = function()&#123;</span><br><span class="line">    console.log(&apos;把咖啡倒进杯子&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">Coffee.prototype.addCondiments = function()&#123;</span><br><span class="line">    console.log(&apos;加糖和牛奶&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">var Coffee = new Coffee();</span><br><span class="line">Coffee.init();</span><br></pre></td></tr></table></figure></p>
+<p>Tea子类<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var Tea = function()&#123;&#125;;</span><br><span class="line">Tea.prototype = new Beverage();</span><br><span class="line">Tea.prototype.brew = function()&#123;</span><br><span class="line">    console.log(&apos;用沸水浸泡茶叶&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">Tea.prototype.pourInCup = function()&#123;</span><br><span class="line">    console.log(&apos;把茶倒进杯子&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">Tea.prototype.addCondiments = function()&#123;</span><br><span class="line">    console.log(&apos;加柠檬&apos;);</span><br><span class="line">&#125;;</span><br><span class="line">var tea = new Tea();</span><br><span class="line">tea.init();</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/27/js设计模式与开发实践0801/" data-id="cjv6d1dh5001l5cjbdxuwx6hg" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/05/js设计模式与开发实践1101/" data-id="cjvf16p2x0001804mgd0ktkcp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -519,7 +516,7 @@
 
   <nav id="page-nav">
     
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -530,7 +527,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
     </div>
   </div>
 
@@ -558,23 +555,23 @@
       <ul>
         
           <li>
-            <a href="/2019/05/02/js设计模式与开发实践0903/">第九章 宏命令</a>
+            <a href="/2019/05/09/php设计模式10/">享元模式</a>
           </li>
         
           <li>
-            <a href="/2019/05/02/js设计模式与开发实践0902/">第九章 js中的命令模式</a>
+            <a href="/2019/05/08/php中的坑/">PHP中的坑</a>
           </li>
         
           <li>
-            <a href="/2019/05/02/js设计模式与开发实践0901/">第九章 命令模式</a>
+            <a href="/2019/05/08/js设计模式与开发实践1203/">第十一章 职责链模式</a>
           </li>
         
           <li>
-            <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
+            <a href="/2019/05/08/js设计模式与开发实践1202/">第十一章 享元模式 文件上传</a>
           </li>
         
           <li>
-            <a href="/2019/04/29/优势谈判/">开局谈判技巧</a>
+            <a href="/2019/05/07/js设计模式与开发实践1201/">第十一章 享元模式 基本概念</a>
           </li>
         
       </ul>

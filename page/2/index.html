@@ -62,10 +62,10 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-php设计模式05" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-php设计模式08" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/27/php设计模式05/" class="article-date">
-  <time datetime="2019-04-27T10:46:13.603Z" itemprop="datePublished">2019-04-27</time>
+    <a href="/2019/05/05/php设计模式08/" class="article-date">
+  <time datetime="2019-05-05T10:20:32.453Z" itemprop="datePublished">2019-05-05</time>
 </a>
     
   <div class="article-category">
@@ -80,7 +80,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/27/php设计模式05/">发布-订阅模式</a>
+      <a class="article-title" href="/2019/05/05/php设计模式08/">组合模式</a>
     </h1>
   
 
@@ -88,11 +88,11 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">class Subscriber&#123;</span><br><span class="line">    public function update()&#123;</span><br><span class="line">        echo &apos;更新&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Distributor&#123;</span><br><span class="line">    private $subscribers = [];</span><br><span class="line"></span><br><span class="line">    public function register(Subscriber $sub)&#123;</span><br><span class="line">        array_push($subscribers, $sub);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function notice()&#123;</span><br><span class="line">        foreach($this-&gt;subscribers as $sub) &#123;</span><br><span class="line">            $sub-&gt;update();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">$a = new Subcriber();</span><br><span class="line">$b = new Subcriber();</span><br><span class="line">$dis = new Distributor();</span><br><span class="line">$dis-&gt;register($a);</span><br><span class="line">$dis-&gt;register($b);</span><br><span class="line">$dis-&gt;notice();</span><br></pre></td></tr></table></figure>
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">abstract class Component&#123;</span><br><span class="line">    abstract public function add(Component $child)&#123;&#125;</span><br><span class="line">    abstract public function remove(Component $child)&#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Composite extends Component&#123; //组合对象</span><br><span class="line">    private $childs = [];</span><br><span class="line">    public function add(Component $child)&#123;</span><br><span class="line">        array_push($this-&gt;childs, $child); </span><br><span class="line">    &#125;</span><br><span class="line">    public function remove(Component $theChild)&#123;</span><br><span class="line">        $childs = $this-&gt;childs;</span><br><span class="line">        for($l = count($childs) - 1; $l &gt;= 0; $l --)&#123;</span><br><span class="line">            if($theChild === $childs[$l])&#123;</span><br><span class="line">                array_splice($childs, $l, 1);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Leaf extends Component&#123; //叶对象</span><br><span class="line">    public function add(Component $child)&#123;</span><br><span class="line">        throw new Exception(&apos;叶对象不能再添加子对象&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    public function remove(Component $child)&#123;&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/27/php设计模式05/" data-id="cjv6d1dhq002k5cjbbgmz09s3" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/05/php设计模式08/" data-id="cjvf16p37000j804m7kdvjiqm" class="article-share-link">Share</a>
       
       
     </footer>
@@ -102,51 +102,10 @@
 
 
   
-    <article id="post-php设计模式04" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践1004" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/27/php设计模式04/" class="article-date">
-  <time datetime="2019-04-27T09:20:31.889Z" itemprop="datePublished">2019-04-27</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/27/php设计模式04/">迭代器模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>php内置了iterator迭代器接口，可以通过iterator接口自定义迭代器<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">class myIterator implements Iterator &#123;</span><br><span class="line">    private $position;</span><br><span class="line">    private $array = [</span><br><span class="line">        &apos;first&apos;,</span><br><span class="line">        &apos;second&apos;,</span><br><span class="line">        &apos;third&apos;</span><br><span class="line">    ];</span><br><span class="line"></span><br><span class="line">    public function __construct()&#123;</span><br><span class="line">        $this-&gt;position = 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function current()&#123;</span><br><span class="line">        return $array[$this-&gt;position];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function next()&#123;</span><br><span class="line">        ++ $this-&gt;position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function key()&#123;</span><br><span class="line">        return $this-&gt;position;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function rewind()&#123;</span><br><span class="line">        $this-&gt;position = 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function valid()&#123;</span><br><span class="line">        return isset($this-&gt;array[$this-&gt;position]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$it = new myIterator();</span><br><span class="line"></span><br><span class="line">foreach($it as $k=&gt;$v)&#123;</span><br><span class="line">    var_dump($k, $v);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/27/php设计模式04/" data-id="cjv6d1dhr002m5cjbqy13fx40" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0702" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/27/js设计模式与开发实践0702/" class="article-date">
-  <time datetime="2019-04-27T02:16:00.313Z" itemprop="datePublished">2019-04-27</time>
+    <a href="/2019/05/05/js设计模式与开发实践1004/" class="article-date">
+  <time datetime="2019-05-05T03:33:13.226Z" itemprop="datePublished">2019-05-05</time>
 </a>
     
   <div class="article-category">
@@ -161,7 +120,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/27/js设计模式与开发实践0702/">第七章 迭代器模式 02</a>
+      <a class="article-title" href="/2019/05/05/js设计模式与开发实践1004/">第十章 组合模式 引用父对象</a>
     </h1>
   
 
@@ -169,16 +128,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="倒序迭代器"><a href="#倒序迭代器" class="headerlink" title="倒序迭代器"></a>倒序迭代器</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var reverseEach = function(arr, callback)&#123;</span><br><span class="line">    for(var l = arr.length - 1; l &gt;=0; l--)&#123;</span><br><span class="line">        callback(l, arr[l]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">reverseEach([1,2,3], function(i, n)&#123;</span><br><span class="line">    console.log(n);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-<h2 id="中止迭代器"><a href="#中止迭代器" class="headerlink" title="中止迭代器"></a>中止迭代器</h2><p>迭代器可以像普通for循环中的break一样，提供一种跳出循环的方法。jq中的each函数里有这样一句：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">if(value === false)&#123;</span><br><span class="line">    break;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>这句代码的意思是，约定如果回掉函数的执行结果返回false，则提前终止循环。下面我们把之前的each函数改写以下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var each = function(arr, callback)&#123;</span><br><span class="line">    for(var i = 0, l = arr.length; i &lt; l; i++) &#123;</span><br><span class="line">        if(callback(i, arr[i]) === false) &#123; //callback的执行结果返回false，提前终止迭代</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">each([1,2,3,4,5], function(i, n)&#123;</span><br><span class="line">    if(n &gt; 3) return false;</span><br><span class="line">    console.log(n);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<h2 id="迭代器模式的应用举例"><a href="#迭代器模式的应用举例" class="headerlink" title="迭代器模式的应用举例"></a>迭代器模式的应用举例</h2><p>2013年的一天， 当我在重构某个项目中文件上传模块的代码时，发现了下面这段代码，它的目的是根据不同的浏览器获取相应的上传组件对象：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var getUploadObj = function()&#123;</span><br><span class="line">    try&#123;</span><br><span class="line">        return new ActiveXObject(&quot;TXFTNActiveX.FTNUpload&quot;); //IE上传控件</span><br><span class="line">    &#125;catch(e) &#123;</span><br><span class="line">        if(supportFlash()) &#123;</span><br><span class="line">            var str = &apos;&lt;object type=&quot;application/x-shockwave-flash&quot;&gt;&lt;/object&gt;&apos;;</span><br><span class="line">            return $(str).appendTo($(&apos;body&apos;));</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            var str = &apos;&lt;input name=&quot;file&quot; type=&quot;file&quot;/&gt;&quot;; //表单上传</span><br><span class="line">            return $(str).appendTo($(&apos;body));</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p>上面的代码第一很难阅读，第二是严重违反开闭原则。在开发和调试中，我们需要来回切换不同的上传方式，每次改动都相当痛苦。后来我们还增加支持了一些另外的上传方式，比如HTML5上传，这时候唯一的办法是继续往getUplaodObj函数里增加条件分支。<br>现在来梳理以下问题，目前一共有三种上传方式，我们不知道目前正在使用的浏览器支持哪种。我们可以把每种获取upload对象的方法封装在各自的函数里，然后使用一个迭代器，迭代获取这些upload对象，直到获取到一个可用的为止：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">var getActiveUploadObj = function()&#123;</span><br><span class="line">    try&#123;</span><br><span class="line">        return new ActiveXObject(&apos;TXFTNActiveX.FTNUpload&apos;); //IE上传控件 </span><br><span class="line">    &#125;catch(e) &#123;</span><br><span class="line">        return false;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var getFlashUploadObj = function()&#123; </span><br><span class="line">    if(supportFlash()) &#123; //supportFlash函数未提供</span><br><span class="line">        var str = &apos;&lt;object type=&quot;application/x-shockwave-flash&quot;&gt;&lt;/object&gt;&apos;;</span><br><span class="line">        return $(str).appendTo($(&apos;body&apos;));</span><br><span class="line">    &#125;</span><br><span class="line">    return false;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var getFormUploadObj = function()&#123;</span><br><span class="line">    var str = &apos;&lt;input name=&quot;file&quot; type=&quot;file&quot; class=&quot;ui-file&quot;/&gt;&apos;; //表单上传</span><br><span class="line">    return $(str).appendTo($(&apos;body&apos;));</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var iteratorUploadObj = function()&#123;</span><br><span class="line">    for(var i = 0, fn; fn = arguments[i++];) &#123;</span><br><span class="line">        var uploadObj = fn();</span><br><span class="line">        if(uploadObj !== false) &#123;</span><br><span class="line">            return uploadObj;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">iteratorUploadObj(getActiveUploadObj, getFlashUploadObj, getHtml5UploadOb);</span><br></pre></td></tr></table></figure></p>
+        <p>组合对象保存了它下面的子节点的引用，这是组合模式的特点，此时树结构是从上至下的。但有时候我们需要在子节点上保持对父节点的引用，比如在组合模式中使用职责链时，有可能需要让请求从子节点往父节点上冒泡传递。还有当我们删除某个文件时，实际上是从这个文件所在的上层文件夹中删除该文件的。</p>
+<p>改写folder类和file类，在两个类的构造函数中，增加this.parent属性，并且在调用add方法时，正确设置文件或文件夹的父节点：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br></pre></td><td class="code"><pre><span class="line">var Folder = function(name)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.parent = null; //增加this.parent属性</span><br><span class="line">    this.files = [];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Folder.prototype.add = function(file)&#123;</span><br><span class="line">    file.parent = this; //设置父对象</span><br><span class="line">    this.files.push(file);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Folder.prototype.scan = function()&#123;</span><br><span class="line">    console.log(&apos;开始扫描文件夹：&apos;+this.name);</span><br><span class="line">    for(var i , file files = this.files; file = files[i++];)&#123;</span><br><span class="line">        file.scan();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Folder.prototype.remove = function()&#123;</span><br><span class="line">    if(!this.parent)&#123;</span><br><span class="line">        return ;</span><br><span class="line">    &#125;</span><br><span class="line">    for(var files = this.parent, l = files.length;l &gt;= 0; l --)&#123;</span><br><span class="line">        var file = files[l];</span><br><span class="line">        if(file === this)&#123;</span><br><span class="line">            files.splice(l, 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var File = function(name)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.parent = null;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">File.prototype.add = function()&#123;</span><br><span class="line">    throw new Error(&apos;不能添加文件在下面&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">File.prototype.scan = function()&#123;</span><br><span class="line">    console.log(&apos;开始扫描文件：&apos;+this.name);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">File.prototype.remove = function()&#123;</span><br><span class="line">    if(!this.parent)&#123; //跟节点或者树外的游离节点</span><br><span class="line">        return ;</span><br><span class="line">    &#125;</span><br><span class="line">    for(var files = this.parent.files, l = files.length; l &gt;= 0; l --)&#123;</span><br><span class="line">        if(file === this)&#123;</span><br><span class="line">            files.splice(l, 1);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var folder = new Folder(&apos;math&apos;);</span><br><span class="line">var file = new File(&apos;高等数学&apos;);</span><br><span class="line">folder.add(file);</span><br><span class="line">folder.scan();</span><br><span class="line"></span><br><span class="line">file.remove();</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/27/js设计模式与开发实践0702/" data-id="cjv6d1dh8001p5cjbz1hs9ecn" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/05/js设计模式与开发实践1004/" data-id="cjvf16p2t0000804mz5xa5lkp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -188,69 +144,10 @@
 
 
   
-    <article id="post-小狗钱钱" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践1003" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/26/小狗钱钱/" class="article-date">
-  <time datetime="2019-04-26T13:37:31.832Z" itemprop="datePublished">2019-04-26</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/小狗钱钱/">小狗钱钱</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/26/小狗钱钱/">小狗钱钱</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>钱钱语录：<br><strong>如果你只是带着试试看的心态，那么你最后只会以失败而告终，你会一事无成。尝试纯粹只是一种借口，你还没做，就已经给自己想好退路了。不能试验。你只有两个选择：做，不做。</strong></p>
-<p><strong>你是否能挣到钱，最关键的因素并不在于你是不是有一个好点子。你有多聪明也不是主要原因，决定因素是你的自信程度。一个人把精力集中在自己所能做的，知道的和拥有的东西上的那天起，他的成功就已经拉开了序幕。这也使得一个孩子完全有能力比成人挣到更多的钱。</strong></p>
-<p><strong>你最好想清楚，你喜欢做什么，然后在考虑你怎么用它来挣钱。</strong>我想要知道更多知识，想要知道世界是怎么运作的，并以此赚钱。</p>
-<p><strong>你要每天不间断地去做对你的未来意义重大的事情。你为此花费的时间不会超过10分钟，但是就是这10分钟会让一切变得不同。</strong></p>
-<p><strong>欠债的人应当毁掉所有的信用卡。应当尽可能少的偿还贷款。应当将不用于生活的那部分钱中的一般存起来，另一半用于还贷。最好不要申请消费贷款。每次借贷前问自己：“这真的有必要吗？”</strong></p>
-<p><strong>你为什么不能因为自己做了自己喜欢的事情而挣钱呢？</strong></p>
-<p><strong>当你定下了大目标的时候，就意味着你必须付出比别人多得多的努力。</strong></p>
-<p><strong>假如我没有了我的“鹅”，我就总是得为了赚钱而工作，但是一旦我有了属于自己的“鹅”，我的钱就会自动为我工作。</strong></p>
-<p><strong>幸运其实只是充分准备加上努力工作的结果。</strong></p>
-<p><strong>确定自己希望获得财务上的成功。</strong></p>
-<p><strong>自信，有想法，做自己喜欢做的事。</strong></p>
-<p><strong>把钱分成日常开销、梦想目标和金鹅账户三部分。</strong></p>
-<p><strong>进行明智的投资。</strong></p>
-<p><strong>享受生活。</strong></p>
-<p><strong>如果你没有做今天这件事情，你就永远不会知道，给自己一些压力之后，你就能够做到些什么。一个人觉得最引以为傲的事情，往往是那些做起来最艰难的事情。</strong></p>
-<p><strong>挑选基金时的注意事项：</strong><br><strong>1.基金应该至少有10年历史。加入它在这么长时间内一直有着丰厚的利润，那我们就可以认为，它在未来也会运作良好。</strong><br><strong>2.应该选择大型的跨国股票基金，这种基金在世界各地购买股票，一次分散风险，所以十分安全。</strong><br><strong>3.对基金的走势图进行比较。我们应该观察在过去10年间哪些基金的年终获利最好。</strong><br><strong>用72除以投资的年收益率的百分比，得出的数字就是这笔钱翻一倍所要的年数。</strong></p>
-<p><strong>每当冬天过后，春天到来，接着是夏天，每个夏天过后又跟着是秋天，然后是冬天，年年如此。跟大自然的变化一样，交易所也总有四级更替，循环往复。</strong></p>
-<p><strong>不要为失去的东西而忧伤，而要对拥有它的时光心存感激。</strong></p>
-<p><strong>最重要的是，在人们眼中钱应该是一种再自然、再普通不过的东西了。</strong></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/26/小狗钱钱/" data-id="cjv6d1dim003j5cjbi2ff9vbv" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0701" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/25/js设计模式与开发实践0701/" class="article-date">
-  <time datetime="2019-04-25T08:45:22.526Z" itemprop="datePublished">2019-04-25</time>
+    <a href="/2019/05/05/js设计模式与开发实践1003/" class="article-date">
+  <time datetime="2019-05-05T02:43:53.645Z" itemprop="datePublished">2019-05-05</time>
 </a>
     
   <div class="article-category">
@@ -265,7 +162,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/25/js设计模式与开发实践0701/">第七章 迭代器模式 01</a>
+      <a class="article-title" href="/2019/05/05/js设计模式与开发实践1003/">第十章 组合模式 例子--扫描文件夹</a>
     </h1>
   
 
@@ -273,18 +170,14 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>迭代器模式是指提供一种方法顺序访问一个聚合对象中的各个元素，而又不需要暴露该对象的内部表示。迭代器模式可以把迭代的过程从业务逻辑中分离出来，在使用迭代器模式之后，即使不关心对象的内部构造，也可以按顺序访问其中的每个元素。</p>
-<h2 id="实现自己的迭代器"><a href="#实现自己的迭代器" class="headerlink" title="实现自己的迭代器"></a>实现自己的迭代器</h2><p>实现一个each函数，each函数接受2个参数，第一个为被循环的数组，第二个为循环中的每一步后将被触发的回掉函数：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var each = function(arr, callback) &#123;</span><br><span class="line">    for(var i = 0, l = arr.length; i &lt; l; i++) &#123;</span><br><span class="line">        callback.call(arr[i], i, arr[i]); //把下标和元素当作参数传给callback函数</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">each([1,2,3], function(i, n)&#123;</span><br><span class="line">    console.log([i,n]);</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
-<h2 id="内部迭代器和外部迭代器"><a href="#内部迭代器和外部迭代器" class="headerlink" title="内部迭代器和外部迭代器"></a>内部迭代器和外部迭代器</h2><h3 id="内部迭代器"><a href="#内部迭代器" class="headerlink" title="内部迭代器"></a>内部迭代器</h3><p>上面编写的each函数就是内部迭代器，each函数的内部已经定义好了迭代规则，它完全接受整个迭代过程，外部只需要一次初始调用。由于内部迭代器被提前定义了规则，上面的each函数就无法同时迭代2个数组了。比如现在有个需求，要判断2个数组里元素的值是否完全相等，如果不该写each函数本身的代码，我们能够入手的地方似乎只有each的回掉函数了，代码如下：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var compare = function(arr1, arr2)&#123;</span><br><span class="line">    if(arr1.length !== arr2.length)&#123;</span><br><span class="line">        throw new Error(&apos;arr1和arr2不想等&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">    each(arr1, function(i, n)&#123;</span><br><span class="line">        if(n !== arr2[i])&#123;</span><br><span class="line">            throw new Error(&apos;arr1和arr2不想等&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">    console.log(&apos;arr1和arr2相等&apos;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
-<p> 说实话，这个compare函数一点都算不上好看，我们目前能够顺利完成需求，还要感谢在js里可以把函数当作参数传递的特性，但在其他语言中未必能够实现。</p>
-<h3 id="外部迭代器"><a href="#外部迭代器" class="headerlink" title="外部迭代器"></a>外部迭代器</h3><p> 外部迭代器必须显式地请求迭代下一个元素。外部迭代器增加了迭代器的灵活性，我们可以手工控制迭代的过程或者顺序。<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">var Iterator = function(ob) &#123;</span><br><span class="line">    var current = 0;</span><br><span class="line"></span><br><span class="line">    var next = function() &#123;</span><br><span class="line">        current += 1;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    var isDone = function()&#123;</span><br><span class="line">        return current &gt;= obj.length;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    var getCurrItem = function()&#123;</span><br><span class="line">        return obj[current];</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    var getLength = function()&#123;</span><br><span class="line">        return obj.length;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        next: next,</span><br><span class="line">        isDone: isDone,</span><br><span class="line">        getCurrItem: getCurrItem,</span><br><span class="line">        getLength: getLength</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var compare = function(iterator1, iterator2) &#123;</span><br><span class="line">    if(iterator1.getLength !== iterator2.getLength)</span><br><span class="line">        throw new Error(&apos;iterator1与iterator2不相等&apos;);</span><br><span class="line">    while(!iterator1.isDone() &amp;&amp; !iterator2.isDone()) &#123;</span><br><span class="line">        if(iterator1.getCurrItem() !== iterator2.getCurrItem()) &#123;</span><br><span class="line">            throw new Error(&apos;iterator1与iterator2不相等&apos;);</span><br><span class="line">        &#125;</span><br><span class="line">        iterator1.next();</span><br><span class="line">        iterator2.next();</span><br><span class="line">    &#125;</span><br><span class="line">    console.log(&apos;iterator1与iterator2相等&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var iterator1 = iterator([1,2,3]);</span><br><span class="line">var iterator2 = iterator([1,2,3]);</span><br><span class="line">compare(iterator1, iterator2);</span><br></pre></td></tr></table></figure></p>
-<p> 外部迭代器虽然调用方式相对复杂，但它的适用面更广，也能满足更多变的需求。</p>
-<h2 id="迭代类数组对象和字面量对象"><a href="#迭代类数组对象和字面量对象" class="headerlink" title="迭代类数组对象和字面量对象"></a>迭代类数组对象和字面量对象</h2><p> 迭代器模式不仅可以迭代数组，还可以迭代一些类数组的对象。比如arguments、{“0”:’a’,”1”:’b’}等。通过上面的代码观察到，无论是内部迭代器还是外部迭代器，只要迭代的聚合对象拥有length属性，而且可以用下表访问，那它就可以被迭代。<br> 在js中，for in语句可以用来迭代普通字面量对象的属性。jq中提供了$.each来封装各种迭代行为：<br> <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">$.each = function(obj, callback)&#123;</span><br><span class="line">    var value,</span><br><span class="line">        i = 0,</span><br><span class="line">        length = obj.length,</span><br><span class="line">        isArray = isArraylike(obj); //isArraylist 是jq中的函数</span><br><span class="line">        if(isArray) &#123; //迭代类数组</span><br><span class="line">           for(; i &lt; length; i++)&#123;</span><br><span class="line">               value = callback.call(obj[i], i, obj[i]);</span><br><span class="line">               if(value === false)&#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">           &#125;</span><br><span class="line">        &#125;else &#123;</span><br><span class="line">            for(i in obj) &#123; //迭代object对象</span><br><span class="line">               value = callback.call(obj[i], i obj[i]);</span><br><span class="line">               if(value === false)&#123;</span><br><span class="line">                   break;</span><br><span class="line">               &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    return obj;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+        <p>文件夹和文件之间的关系，非常适合用组合模式来描述。文件夹既可以包含文件，又可以包含其他文件夹，最终可能组合成一棵树，组合模式在文件夹的应用中有以下两层好处。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">/***************** Folder *******************/</span><br><span class="line">var Folder = function(name)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.files = [];</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Folder.prototype.add = function(file)&#123;</span><br><span class="line">    this.files.push(file);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">Folder.prototype.scan = function()&#123;</span><br><span class="line">    console.log(&apos;开始扫描文件夹：&apos; + this.name);</span><br><span class="line">    for(var i = 0, file, files = this.files; file = files[i++];)&#123;</span><br><span class="line">        file.scan();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/********************* File *****************/</span><br><span class="line">var File = function(name)&#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">File.prototype.add = function()&#123;</span><br><span class="line">    throw new Error(&apos;文件下面不能再添加文件&apos;);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">File.prototype.scan = function()&#123;</span><br><span class="line">    console.log(&apos;开始扫描文件&apos;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>接下来创建一些文件夹和文件对象，并且让他们组合成一棵树，这棵树就是我们F盘里的现有文件目录结构:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var folder = new Folder(&apos;学习资料&apos;);</span><br><span class="line">var folder1 = new Folder(&apos;Javascript&apos;);</span><br><span class="line">var folder2 = new Folder(&apos;JQuery&apos;);</span><br><span class="line"></span><br><span class="line">var file = new File(&apos;JS设计模式与开发实践&apos;);</span><br><span class="line">var file1 = new File(&apos;精通JQuery&apos;);</span><br><span class="line">var file2 = new File(&apos;重构与模式&apos;);</span><br><span class="line"></span><br><span class="line">folder1.add(file1);</span><br><span class="line">folder1.add(file);</span><br><span class="line">folder2.add(file2);</span><br><span class="line"></span><br><span class="line">folder.add(folder1);</span><br><span class="line">folder.add(folder2);</span><br><span class="line">folder.add(file3);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0701/" data-id="cjv6d1dh6001n5cjbt6pedfrl" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/05/js设计模式与开发实践1003/" data-id="cjvf16p2z0002804mefm6990g" class="article-share-link">Share</a>
       
       
     </footer>
@@ -294,53 +187,10 @@
 
 
   
-    <article id="post-php设计模式03" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践1002" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/25/php设计模式03/" class="article-date">
-  <time datetime="2019-04-25T03:45:36.723Z" itemprop="datePublished">2019-04-25</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
-  </div>
-
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/25/php设计模式03/">代理模式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>简单代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">//想吃面包又懒得去买的我。</span><br><span class="line">class me &#123;</span><br><span class="line">    public function buyBread()&#123;</span><br><span class="line">        //那就让女朋友去买吧</span><br><span class="line">        (new girlFriend())-&gt;buyBread();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">// 女朋友</span><br><span class="line">class girlFriend &#123;</span><br><span class="line">    public function buyBread()&#123;</span><br><span class="line">       (new shop())-&gt;cuiyiban()；</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//商店</span><br><span class="line">class shop &#123;</span><br><span class="line">    public function cuoyiban()&#123;</span><br><span class="line">        echo &apos;买到搓衣板&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//(^○^) 喔， 好爽。</span><br><span class="line">$me = (new me())-&gt;buyBread();</span><br></pre></td></tr></table></figure></p>
-<p>虚拟代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">// 贾跑跑没有钱，但他很会忽悠</span><br><span class="line">class jiapaopao &#123;</span><br><span class="line">    public function investor()&#123;</span><br><span class="line">        (new investors)-&gt;investor)();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 投资方有钱，但容易被忽悠</span><br><span class="line">class investors &#123;</span><br><span class="line">    public $money;</span><br><span class="line">    public function investor()&#123;</span><br><span class="line">        (new market())-&gt;eat($this-&gt;money);</span><br><span class="line">    &#125; </span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 难预测的市场</span><br><span class="line">class market &#123;</span><br><span class="line">    public function eat($money)&#123;</span><br><span class="line">        echo &apos;好吃&apos;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>策略模式 + 缓存代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br></pre></td><td class="code"><pre><span class="line">class strategies &#123;</span><br><span class="line">    public function mult() &#123;</span><br><span class="line">        echo &apos;计算乘积&apos;;</span><br><span class="line">        echo PHP_EOL;</span><br><span class="line">        $args = explode(&apos;,&apos;, func_get_args()[0]);</span><br><span class="line">        $a = 1;</span><br><span class="line">        foreach($args as $val) &#123;</span><br><span class="line">            $a *= $val;</span><br><span class="line">        &#125;</span><br><span class="line">        return $a;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function plus() &#123;</span><br><span class="line">        echo &apos;计算和&apos;;</span><br><span class="line">        echo PHP_EOL;</span><br><span class="line">        $args = explode(&apos;,&apos;, func_get_args()[0]);</span><br><span class="line">        $a = 1;</span><br><span class="line">        foreach($args as $val)&#123;</span><br><span class="line">            $a += $val;</span><br><span class="line">        &#125;</span><br><span class="line">        return $a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class proxyCache &#123;</span><br><span class="line">    private $cache = [];</span><br><span class="line">    private $strategy;</span><br><span class="line">    private $strategies;</span><br><span class="line"></span><br><span class="line">    public function __construct($strategy)&#123;</span><br><span class="line">        $this-&gt;strategies = new strategies();</span><br><span class="line">        $this-&gt;strategy = $strategy;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function count()&#123;</span><br><span class="line">        $args = implode(&apos;,&apos;, func_get_args()[0]);</span><br><span class="line">        if(array_key_exists($args, $this-&gt;cache))&#123;</span><br><span class="line">            return $this-&gt;cache[$args];</span><br><span class="line">        &#125;</span><br><span class="line">        return $this-&gt;cache[$args] = $this-&gt;strategies-&gt;&#123;$this-&gt;strategy&#125;($args);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function __call($name, $args)&#123;</span><br><span class="line">        return $this-&gt;count($args);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$multProxy = new proxyCache(&apos;mult&apos;);</span><br><span class="line">var_dump($multProxy-&gt;mult(1,2,3,4));</span><br><span class="line">var_dump($multProxy-&gt;mult(1,2,3,4));</span><br><span class="line"></span><br><span class="line">$plusProxy = new proxyCache(&apos;plus&apos;);</span><br><span class="line">var_dump($plusProxy-&gt;plus(1,2,3,4));</span><br><span class="line">var_dump($plusProxy-&gt;plus(1,2,3,4));</span><br></pre></td></tr></table></figure></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/25/php设计模式03/" data-id="cjv6d1dhu002p5cjb0bpt58mq" class="article-share-link">Share</a>
-      
-      
-    </footer>
-  </div>
-  
-</article>
-
-
-  
-    <article id="post-js设计模式与开发实践0604" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2019/04/25/js设计模式与开发实践0604/" class="article-date">
-  <time datetime="2019-04-25T02:17:48.079Z" itemprop="datePublished">2019-04-25</time>
+    <a href="/2019/05/05/js设计模式与开发实践1002/" class="article-date">
+  <time datetime="2019-05-05T02:35:33.337Z" itemprop="datePublished">2019-05-05</time>
 </a>
     
   <div class="article-category">
@@ -355,7 +205,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/25/js设计模式与开发实践0604/">第六章 代理模式 缓存代理</a>
+      <a class="article-title" href="/2019/05/05/js设计模式与开发实践1002/">第十章 组合模式 透明性带来的安全问题</a>
     </h1>
   
 
@@ -363,25 +213,61 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>缓存代理可以为一些开销大的运算结果提供暂时的存储，在下次运算时，如果传递进来的参数跟之前的一致，则可以直接返回千面存储的运算结果</p>
-<h2 id="计算乘积"><a href="#计算乘积" class="headerlink" title="计算乘积"></a>计算乘积</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">var mult = function()&#123;</span><br><span class="line">    console.log(&apos;开始计算乘积&apos;);</span><br><span class="line">    var a = 1;</span><br><span class="line">    for(var i = 0, l = arguments.length; i &lt; l; i++) &#123;</span><br><span class="line">        a = a * arguments[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">mult(2,3); </span><br><span class="line">mult(2,3,4);</span><br></pre></td></tr></table></figure>
-<p>加入缓存代理函数<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var proxyMult = (function()&#123;</span><br><span class="line">    var cache = &#123;&#125;;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var args = Array.prototype.join.call(arguments, &apos;,&apos;);</span><br><span class="line">        if(args in cache) &#123;</span><br><span class="line">            return cache[args];</span><br><span class="line">        &#125;</span><br><span class="line">        return cache[args] = mult.apply(this, arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">proxyMult(2,3);</span><br><span class="line">proxyMult(2,3); //这里会使用缓存</span><br></pre></td></tr></table></figure></p>
-<h2 id="缓存代理用于ajax异步请求数据"><a href="#缓存代理用于ajax异步请求数据" class="headerlink" title="缓存代理用于ajax异步请求数据"></a>缓存代理用于ajax异步请求数据</h2><p>我们常常在项目中遇到分页的需求，同一页的数据理论上只需要去后台拉去一次，这些已经拉取的数据在某个地方缓存之后，下次再请求同一页的时候，便可以直接食用之前的数据。</p>
-<h2 id="用高阶函数动态创建代理"><a href="#用高阶函数动态创建代理" class="headerlink" title="用高阶函数动态创建代理"></a>用高阶函数动态创建代理</h2><p>通过传入高阶函数这种更加灵活的方式，可以为各种计算方法创建缓存代理。现在这些计算方法被当作参数传入一个专门用于创建缓存代理的工厂中，这样以来我们就可以为乘法、加法、减法等创建缓存代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">/************** 计算乘积 *****************/</span><br><span class="line">var mult = function()&#123;</span><br><span class="line">    var a = 1;</span><br><span class="line">    for(var i = 0, l = arguments.length; i &lt; l; i++)&#123;</span><br><span class="line">        a *= argumens[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return a;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">/************ 计算和 *****************/</span><br><span class="line">var plus = function()&#123;</span><br><span class="line">    var a = 0;</span><br><span class="line">    for(var i = 0, l = arguments.length; i &lt; l; i++) &#123;</span><br><span class="line">        a += arguments[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">/************ 创建缓存代理工厂 *********/</span><br><span class="line">var createProxyFactory = function(fn) &#123;</span><br><span class="line">    var cache = &#123;&#125;;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var args = Array.prototype.join.call(arguments, &apos;,&apos;);</span><br><span class="line">        if(args in cache)&#123;</span><br><span class="line">            return cache[args];</span><br><span class="line">        &#125;</span><br><span class="line">        return cache[args] = fn.apply(this, arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var proxyMult = createProxyFactory(mult);</span><br><span class="line">var proxyPlus = createProxyFactory(plus);</span><br><span class="line"></span><br><span class="line">console.log(proxyMult(1,2,3,4));</span><br><span class="line">console.log(proxyMult(1,2,3,4));</span><br><span class="line">console.log(proxyPlus(1,2,3,4));</span><br><span class="line">console.log(proxyPlus(1,2,3,4));</span><br></pre></td></tr></table></figure></p>
-<p>策略模式 + 缓存代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">var strategies = &#123;</span><br><span class="line">    mult: function()&#123;</span><br><span class="line">        var a = 1;</span><br><span class="line">        for(var i = 0, l = arguments.length; i &lt; l; i++)&#123;</span><br><span class="line">            a *= arguments[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return a;</span><br><span class="line">    &#125;,</span><br><span class="line">    plus: function()&#123;</span><br><span class="line">        var a = 1;</span><br><span class="line">        for(var i = 0, l = arguments.length; i &lt; l; i++)&#123;</span><br><span class="line">            a += arguments[i];</span><br><span class="line">        &#125;</span><br><span class="line">        return a;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var createProxyFactory = function(fn)&#123;</span><br><span class="line">    var cache = &#123;&#125;;</span><br><span class="line">    return function()&#123;</span><br><span class="line">        var args = Array.prototype.join.call(arguments. &apos;,&apos;);</span><br><span class="line">        if(args in cache)&#123;</span><br><span class="line">            return cache[args];</span><br><span class="line">        &#125;</span><br><span class="line">        return cache[args] = fn.apply(this, arguments);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var proxyMult = createProxyFactory(strategies.mult);</span><br><span class="line">var proxyMult = createProxyFactory(strategies.plus);</span><br></pre></td></tr></table></figure></p>
-<h2 id="其他代理模式"><a href="#其他代理模式" class="headerlink" title="其他代理模式"></a>其他代理模式</h2><ul>
-<li>防火墙代理： 控制网络资源的访问，保护主题不让“坏人接近“。</li>
-<li>远程代理：为一个对象在不同的地址空间提供局部代表。</li>
-<li>保护代理： 用于对象应该有不同访问权限的情况</li>
-<li>智能引用代理： 取代了简单的指针，它在访问对象时执行一些附加操作，比如计算一个对象被引用的次数。</li>
-<li>写时复制代理：通常用于复制一个庞大对象的情况。写时复制代理延迟了复制的过程，当对象被真正修改时，才对它进行复制操作。写时复制代理是虚拟代理的一种变体。DLL（操作系统中的动态链接库）是其典型运用场景。</li>
+        <p>组合模式使得不用去区分具体的对象，这就是组合模式的透明性。<br>组合对象可以拥有子节点，叶对象下面就没有子节点，所以我们也许会发生一些误操作，比如试图往叶对象中添加子节点。解决方案通常也是给叶对象增加add方法，并且在调用这个方法时，抛出一个异常来及时提醒客户，代码如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">var MacroCommand = function()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        commandsList: [],</span><br><span class="line">        add: function(command)&#123;</span><br><span class="line">            this.commandsList.push(command);</span><br><span class="line">        &#125;,</span><br><span class="line">        execute: function()&#123;</span><br><span class="line">            for(var i = 0, command; command = this.commandsList[i++];)&#123;</span><br><span class="line">                command.execute();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var openTvCommand = &#123;</span><br><span class="line">    execute: function()&#123;</span><br><span class="line">        console.log(&apos;打开电视&apos;);</span><br><span class="line">    &#125;,</span><br><span class="line">    add: function()&#123;</span><br><span class="line">        throw new Error(&apos;叶对象不能添加子节点&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var macroCommand = MacroCommand();</span><br><span class="line">macroCommand.add(openTvCommand);</span><br><span class="line">openTvCommand.add(macroCommand); //叶对象不能添加子节点</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/05/05/js设计模式与开发实践1002/" data-id="cjvf16p34000b804mzsnfhjt5" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践1001" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/02/js设计模式与开发实践1001/" class="article-date">
+  <time datetime="2019-05-02T08:52:39.431Z" itemprop="datePublished">2019-05-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/02/js设计模式与开发实践1001/">第十章 组合模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>组合模式就是用小的对象来构建更大的对象，而这些小的子对象本身也许是由更小的孙对象构成的。<br><img src="/images/组合模式.png" alt="组合模式中的对象由一个或多个叶对象组成"></p>
+<h2 id="更加强大的宏命令"><a href="#更加强大的宏命令" class="headerlink" title="更加强大的宏命令"></a>更加强大的宏命令</h2><p>要实现的功能</p>
+<ul>
+<li>打开空调</li>
+<li>打开电视和音响</li>
+<li>关门、开电脑、登录QQ<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line">&lt;html&gt;</span><br><span class="line">    &lt;body&gt;</span><br><span class="line">        &lt;button id=&quot;button&quot;&gt;按我&lt;/button&gt;</span><br><span class="line">    &lt;/body&gt;</span><br><span class="line">    &lt;script&gt;</span><br><span class="line">        var MacroCommand = function()&#123; //工厂模式</span><br><span class="line">            return &#123;</span><br><span class="line">                commandsList: [],</span><br><span class="line">                add: function(command)&#123;</span><br><span class="line">                    this.commandsList.push(command)</span><br><span class="line">                &#125;,</span><br><span class="line">                execute: function()&#123;</span><br><span class="line">                    for(var i = 0, command; command = this.commandsList[i++];)&#123;</span><br><span class="line">                        command.execute();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        var openAcCommand = &#123;</span><br><span class="line">            execute: function()&#123;</span><br><span class="line">                console.log(&apos;打开空调&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">    //电视和音响连在一起</span><br><span class="line">        var openTvCommand = &#123;</span><br><span class="line">            execute: function()&#123;</span><br><span class="line">                console.log(&apos;打开电视&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        var openSoundCommand = &#123;</span><br><span class="line">            execute: function()&#123;</span><br><span class="line">                console.log(&apos;打开音响&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        var macroCommand1 = MacroCommand();</span><br><span class="line">        macroCommand1.add(openTvCommand);</span><br><span class="line">        macroCommand1.add(openSoundCommand);</span><br><span class="line"></span><br><span class="line">    //关闭、打开电脑和登陆QQ的命令</span><br><span class="line">        var closeDoorCommand = &#123;</span><br><span class="line">            execute: function()&#123;</span><br><span class="line">                console.log(&apos;关门&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        var openPcCommand = &#123;</span><br><span class="line">            execute: function()&#123;</span><br><span class="line">                console.log(&apos;开电脑&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        var openQQCommand = &#123;</span><br><span class="line">            execute: function()&#123;</span><br><span class="line">                console.log(&apos;登陆QQ&apos;);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        var macroCommand2 = MacroCommand();</span><br><span class="line">        macroCommand2.add(closeDoorCommand);</span><br><span class="line">        macroCommand2.add(openPcCommand);</span><br><span class="line">        macroCommand2.add(openQQCommand);</span><br><span class="line">    //现在把所有命令组合成一个超级命令</span><br><span class="line">        var macroCommand = MacroCommand();</span><br><span class="line">        macroCommand.add(openAcCommand);</span><br><span class="line">        macroCommand.add(macroCommand1);</span><br><span class="line">        macroCommand.add(macroCommand2);</span><br><span class="line">    //最后给遥控器绑定“超级命令”</span><br><span class="line">        var setCommand = (function(command)&#123;</span><br><span class="line">            ducoment.getElementById(&apos;button&apos;).onclick = function()&#123;</span><br><span class="line">                command.execute();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;)(macroCommand):</span><br><span class="line">    &lt;/script&gt;</span><br><span class="line">&lt;/html&gt;</span><br></pre></td></tr></table></figure>
+</li>
 </ul>
-<p>尽管代理模式有用，但我们在编写业务代码时，往往不需要去预先猜测是否需要使用代理模式。当真正发现不方便直接访问某个对象的时候，再编写代理也不迟。</p>
+<p>由上面的例子可以看出，基本对象可以被组合成更复杂的组合对象，组合对象又可以被组合，这样不断递归下去，这棵树的结构可以支持任意多的复杂度。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0604/" data-id="cjv6d1dh4001j5cjbgxcd452p" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/02/js设计模式与开发实践1001/" data-id="cjvabolah0000mp4m01xgcpgb" class="article-share-link">Share</a>
       
       
     </footer>
@@ -391,10 +277,90 @@
 
 
   
-    <article id="post-js设计模式与开发实践0603" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-php设计模式07" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/25/js设计模式与开发实践0603/" class="article-date">
-  <time datetime="2019-04-25T01:27:41.856Z" itemprop="datePublished">2019-04-25</time>
+    <a href="/2019/05/02/php设计模式07/" class="article-date">
+  <time datetime="2019-05-02T08:52:29.224Z" itemprop="datePublished">2019-05-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/02/php设计模式07/">命令模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class ArtificialSun &#123; //命令接受着</span><br><span class="line">    public function sunLight()&#123;</span><br><span class="line">        echo &apos;发光&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class getSunLightCommand &#123;</span><br><span class="line">    private $receiver;</span><br><span class="line"></span><br><span class="line">    public function __construct($receiver)&#123;</span><br><span class="line">        $this-&gt;receiver = $receiver;        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function execute()&#123;</span><br><span class="line">        $this-&gt;receiver-&gt;sunLight(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class setCommand &#123; //命令绑定</span><br><span class="line">    private $commands = [];</span><br><span class="line">    public function setUp($tag, $command)&#123;</span><br><span class="line">        $this-&gt;commands[$tag] = $command;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function run($tag)&#123;</span><br><span class="line">        $this-&gt;commands[$tag]-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$receiver = new ArtificialSun();</span><br><span class="line">$command = new getSunLightCommand($receiver);</span><br><span class="line">$setCommand = new setCommand();</span><br><span class="line">$setCommand-&gt;setUp(&apos;command&apos;,$command);</span><br><span class="line">$setCommand-&gt;run(&apos;commmand&apos;);</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/05/02/php设计模式07/" data-id="cjvabolaw0002mp4mwys75ut4" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-php设计模式06" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/02/php设计模式06/" class="article-date">
+  <time datetime="2019-05-02T08:08:35.274Z" itemprop="datePublished">2019-05-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/PHP设计模式/">PHP设计模式</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/05/02/php设计模式06/">命令模式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">class ArtificialSun &#123; //命令接受着</span><br><span class="line">    public function sunLight()&#123;</span><br><span class="line">        echo &apos;发光&apos;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class getSunLightCommand &#123;</span><br><span class="line">    private $receiver;</span><br><span class="line"></span><br><span class="line">    public function __construct($receiver)&#123;</span><br><span class="line">        $this-&gt;receiver = $receiver;        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function execute()&#123;</span><br><span class="line">        $this-&gt;receiver-&gt;sunLight(); </span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class setCommand &#123; //命令绑定</span><br><span class="line">    private $command;</span><br><span class="line">    public function setUp($command)&#123;</span><br><span class="line">        $this-&gt;command = $command;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function run()&#123;</span><br><span class="line">        $this-&gt;command-&gt;execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$receiver = new ArtificialSun();</span><br><span class="line">$command = new getSunLightCommand($receiver);</span><br><span class="line">$setCommand = new setCommand();</span><br><span class="line">$setCommand-&gt;setUp($command);</span><br><span class="line">$setCommand-&gt;run();</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="brczo.github.io/2019/05/02/php设计模式06/" data-id="cjvabolat0001mp4mhyxhwc7v" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-js设计模式与开发实践0903" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/05/02/js设计模式与开发实践0903/" class="article-date">
+  <time datetime="2019-05-02T07:45:00.510Z" itemprop="datePublished">2019-05-02</time>
 </a>
     
   <div class="article-category">
@@ -409,7 +375,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/25/js设计模式与开发实践0603/">第六章 代理模式 虚拟代理合并HTTP请求</a>
+      <a class="article-title" href="/2019/05/02/js设计模式与开发实践0903/">第九章 宏命令</a>
     </h1>
   
 
@@ -417,13 +383,13 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>点一下checkbox发送一次请求<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; id=&quot;1&quot;/&gt;1</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; id=&quot;2&quot;/&gt;2</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; id=&quot;3&quot;/&gt;3</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; id=&quot;4&quot;/&gt;4</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; id=&quot;5&quot;/&gt;5</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; id=&quot;6&quot;/&gt;6</span><br><span class="line">    &lt;input type=&quot;checkbox&quot; id=&quot;7&quot;/&gt;7</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var synchronousFile = function(id)&#123;</span><br><span class="line">        console.log(&apos;开始同步文件，id为：&apos; + id);</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    var checkbox = document.getElementByTagName(&apos;input&apos;);</span><br><span class="line">    for(var i = 0, c; c = checkbox(i++);)&#123;</span><br><span class="line">        c.onclick = function()&#123;</span><br><span class="line">            if(this.checked === true)&#123;</span><br><span class="line">                synchronousFile(this.id);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
-<p>为了减轻服务器压力，我们可以将2秒内的请求一次性发送<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">var synchronousFile = function(id) &#123;</span><br><span class="line">    console.log(&apos;开始同步文件&apos; + id);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var proxySynchronousFile = (function()&#123;</span><br><span class="line">    var cache = [], //保存一段时间内需要同步的ID</span><br><span class="line">        timer;  //定时器</span><br><span class="line">    return function(id) &#123;</span><br><span class="line">        cache.push(id);</span><br><span class="line">        if(timer) &#123; //保证不会覆盖已经启动的定时器</span><br><span class="line">            return;</span><br><span class="line">        &#125;</span><br><span class="line">        timer = setTimeout(function()&#123;</span><br><span class="line">            synchronousFile(cache.join(&apos;,&apos;)); //2秒后向本体发送需要同步的ID集合</span><br><span class="line">            clearTimeOut(timer); //清空定时器</span><br><span class="line">            timer = null;</span><br><span class="line">            cache.length = 0; //晴空ID集合</span><br><span class="line">        &#125;, 2000);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">var checkbox = document.getElementsByTagName(&apos;input&apos;);</span><br><span class="line"></span><br><span class="line">for(var i = 0, c; c = checkbox[i++]) &#123;</span><br><span class="line">    c.onclick = function()&#123;</span><br><span class="line">        if(this.checked === true) &#123;</span><br><span class="line">            proxySynchronousFile(this.id);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+        <p>宏命令是一组命令的集合，通过执行宏命令的方式，可以一次执行一批命令。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var closeDoorCommand = &#123;</span><br><span class="line">    execute: function()&#123;</span><br><span class="line">        console.log(&apos;关门&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var openPcCommand = &#123;</span><br><span class="line">    execute: function()&#123;</span><br><span class="line">        console.log(&apos;开电脑&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var openQQCommand = &#123;</span><br><span class="line">    execute: function()&#123;</span><br><span class="line">        console.log(&apos;登录QQ&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>定义宏命令<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">var MacroCommand = function()&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        commandsList: [],</span><br><span class="line">        add: function(command)&#123;</span><br><span class="line">            this.commandsList.push(command);</span><br><span class="line">        &#125;,</span><br><span class="line">        execute: function()&#123;</span><br><span class="line">            for(var i = 0, command; command = this.commandsList[i++];)&#123;</span><br><span class="line">                command.execute();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var macroCommand = MacroCommand();</span><br><span class="line"></span><br><span class="line">macroCommand.add(closeDoorCommand);</span><br><span class="line">macroCommand.add(openPcCommand);</span><br><span class="line">macroCommand.add(openQQCommand);</span><br><span class="line"></span><br><span class="line">macroCommand.execute();</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/25/js设计模式与开发实践0603/" data-id="cjv6d1dgx001d5cjbpquhyh9i" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/02/js设计模式与开发实践0903/" data-id="cjv6d1dhe001x5cjb672grbu5" class="article-share-link">Share</a>
       
       
     </footer>
@@ -433,10 +399,10 @@
 
 
   
-    <article id="post-js设计模式与开发实践0602" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践0902" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/24/js设计模式与开发实践0602/" class="article-date">
-  <time datetime="2019-04-24T12:24:08.448Z" itemprop="datePublished">2019-04-24</time>
+    <a href="/2019/05/02/js设计模式与开发实践0902/" class="article-date">
+  <time datetime="2019-05-02T07:19:09.999Z" itemprop="datePublished">2019-05-02</time>
 </a>
     
   <div class="article-category">
@@ -451,7 +417,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/js设计模式与开发实践0602/">第六章 代理模式 虚拟代理实现图片预加载</a>
+      <a class="article-title" href="/2019/05/02/js设计模式与开发实践0902/">第九章 js中的命令模式</a>
     </h1>
   
 
@@ -459,20 +425,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在web开发中，图片预加载是一种常用的技术，如果直接给某个img标签节点设置src属性，由于图片过大或者网络不佳，图片的位置往往有段时间会是一片空白。常见的做法是先用一张loading图片占位，然后用异步的方式加载图片，等图片加载好了再把它填充到img节点里，这种场景就很是时候使用虚拟代理。</p>
-<p>创建一个普通的本体对象，这个对象负责往页面创建一个img标签，并且提供一个对外的serSrc接口，便可以给该image标签设置src属性：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var MyImage = (function()&#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;);</span><br><span class="line">    document.body.apppendChild(imgNode);</span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function(src)&#123;</span><br><span class="line">            imgNode.src = src;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">myImage.serSrc(&apos;http://picture.jpg&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>引入代理对象proxyImage，通过这个代理对象，在图片被真正加载好之前，页面中将出现一张占位的菊花图loading.gif，来提示用户图片正在加载。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var myImage = (function()&#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;);</span><br><span class="line">    document.body.appendChild(imgNode);</span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function(src) &#123;</span><br><span class="line">            imgNode.src = src;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var proxyImage = (function()&#123;</span><br><span class="line">    var img = new Image;</span><br><span class="line">    img.onload = function()&#123;</span><br><span class="line">        myImage.serSrc(this.src);</span><br><span class="line">    &#125;</span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function(src) &#123;</span><br><span class="line">            imImage.setSrc(&apos;loading.gif&apos;);</span><br><span class="line">            img.src = src;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">proxyImage.setSrc(&apos;http://someone.jpg&apos;);</span><br></pre></td></tr></table></figure></p>
-<h2 id="代理的意义"><a href="#代理的意义" class="headerlink" title="代理的意义"></a>代理的意义</h2><p>不用代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">var myImage = (function()&#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;);</span><br><span class="line">    document.body.appendChild(&apos;imgNode&apos;);</span><br><span class="line">    var img = new Image;</span><br><span class="line"></span><br><span class="line">    img.onload = function()&#123;</span><br><span class="line">        imgNode.src = img.src;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    return &#123;</span><br><span class="line">        setSrc: function()&#123;</span><br><span class="line">            imgNode.src = &apos;loading.gif&apos;;</span><br><span class="line">            img.src = src;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line">myImage.setSrc(&apos;picture.jpg&apos;);</span><br></pre></td></tr></table></figure></p>
-<p>为了说明代理的意义，我们引入面向对象设计的原则—单一职责原则。<br>单一指责原则指的是，就一个类（通常也包括对象和函数等）而言，应该仅有一个引起它变化的原因。如果一个对象承担了多想职责，就意味着这个对象将变得巨大，引起它变化的原因可能会有多个。面向对象设计鼓励将行为分布到细粒度的对象之中，如果一个对象承当的责任过多，等于把这些职责耦合到了一起，这种耦合会导致脆弱和低内聚的设计。当变化发生时，设计可能会遭到意外的破坏。</p>
-<h2 id="代理和本体接口的一致性"><a href="#代理和本体接口的一致性" class="headerlink" title="代理和本体接口的一致性"></a>代理和本体接口的一致性</h2><p>如果我们有一天不需要预加载，那么就不再需要代理对象，可以选择直接请求本体。其中关键是代理对象和本体都对外提供了setSrc方法，在客户看来，代理对象和本体是一致的，代理接手请求的过程对于用户来说是透明的，用户并不清楚代理和本体的区别，这样做的好处。</p>
-<blockquote>
-<p>用户可以放心的请求代理，他只关心是否能得到想要的结果。<br>在任何使用本体的地方都可以替换成使用代理</p>
-</blockquote>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">var myImage = (function()&#123;</span><br><span class="line">    var imgNode = document.createElement(&apos;img&apos;);</span><br><span class="line">    document.body.appendChild(imgNode);</span><br><span class="line"></span><br><span class="line">    return function(src)&#123;</span><br><span class="line">        imgNode.src = src;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;)();</span><br><span class="line"></span><br><span class="line">var proxyImage = (function()&#123;</span><br><span class="line">    var img = new Image;</span><br><span class="line">    img.onload = function()&#123;</span><br><span class="line">        myImage(this.src);</span><br><span class="line">    &#125;</span><br><span class="line">    return function(src) &#123;</span><br><span class="line">        myImage(&apos;loading.src&apos;);</span><br><span class="line">        img.src = src;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+        <p>在js中，函数是一等对象。可以用回调函数实现命令模式：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">var setCommand = function(button, command)&#123;</span><br><span class="line">    button.onclick = function()&#123;</span><br><span class="line">        commmand.execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var MenuBar = &#123;</span><br><span class="line">    refresh: function()&#123;</span><br><span class="line">        console.log(&apos;刷新菜单界面&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var RefreshMenuBarCommand = function(receiver)&#123;</span><br><span class="line">    return &#123;</span><br><span class="line">        execute: function()&#123;</span><br><span class="line">            receiver.refresh();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var refreshMenuBarCommand = RefreshMenuBarCommand(MenuBar);</span><br><span class="line">setCommand(button1, refreshMenuBarCommand);</span><br></pre></td></tr></table></figure></p>
+
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0602/" data-id="cjv6d1dh2001h5cjb7ms4pmm5" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/02/js设计模式与开发实践0902/" data-id="cjv6d1dhf001z5cjbg8baskyp" class="article-share-link">Share</a>
       
       
     </footer>
@@ -482,10 +440,10 @@
 
 
   
-    <article id="post-js设计模式与开发实践0601" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js设计模式与开发实践0901" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2019/04/24/js设计模式与开发实践0601/" class="article-date">
-  <time datetime="2019-04-24T11:40:25.104Z" itemprop="datePublished">2019-04-24</time>
+    <a href="/2019/05/02/js设计模式与开发实践0901/" class="article-date">
+  <time datetime="2019-05-02T02:39:48.640Z" itemprop="datePublished">2019-05-02</time>
 </a>
     
   <div class="article-category">
@@ -500,7 +458,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/04/24/js设计模式与开发实践0601/">第六章 代理模式</a>
+      <a class="article-title" href="/2019/05/02/js设计模式与开发实践0901/">第九章 命令模式</a>
     </h1>
   
 
@@ -508,17 +466,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>代理模式是为一个对象提供一个代用品或占位符，以便控制对它的访问。代理模式的关键是，当客户不方便直接访问一个对象或不满足需要的时候，提供一个替身来控制对这个对象的访问，客户实际上访问的是替身对象。替身对象对请求做出一些处理之后，再把请求转给本体对象。</p>
-<p>在四月一个晴朗的早晨，小明遇见了他的百分百女孩，我们暂且叫小明的女神为A。两天后，小明决定给A送一束花来表白。刚好小明打听到A和他有一个共同好友B，于是内向的小明决定让B来代替自己完成送花这件事。虽然小明的故事必将以悲剧收场，因为追MM更好的方式是送她一辆宝马。</p>
-<p>不用代理的情况<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">var flower = function()&#123;&#125;;</span><br><span class="line">var xiaoming = &#123;</span><br><span class="line">    sendFlower: function(target) &#123;</span><br><span class="line">        var flower = new Flower();</span><br><span class="line">        target.receiveFlower(flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var A = &#123;</span><br><span class="line">    receiveFlower: function(flower) &#123;</span><br><span class="line">        console.log(&apos;收到花&apos; + flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xiaoming.sendFlower(A);</span><br></pre></td></tr></table></figure></p>
-<p>使用代理<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">var Flower = function()&#123;&#125;;</span><br><span class="line">var xiaoming = &#123;</span><br><span class="line">    sendFlower: function(target)&#123;</span><br><span class="line">        var flower = new Flower();</span><br><span class="line">        target.receiveFlower(flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var B = &#123;</span><br><span class="line">    receiveFlower: function(flower) &#123;</span><br><span class="line">        A.receiveFlower(flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var A = &#123;</span><br><span class="line">    receiveFlower: function(flower) &#123;</span><br><span class="line">        console.log(&apos;收到花&apos; + flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line">xiaoming.sendFlower(B);</span><br></pre></td></tr></table></figure></p>
-<p>B会监听A的心情，在A心情好的时候将花交给A<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">var Flower = function()&#123;&#125;</span><br><span class="line"></span><br><span class="line">var xiaoming = &#123;</span><br><span class="line">    sendFlower: function(target)&#123;</span><br><span class="line">        var flower = new Flower();</span><br><span class="line">        target.recerveFlower(flower);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var B = &#123;</span><br><span class="line">    recerveFlower: function(flower) &#123;</span><br><span class="line">        A.listenGoodMood(function()&#123; //监听A的好心情</span><br><span class="line">            A.receiveFlower(flower); </span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var A = &#123;</span><br><span class="line">    receiveFlower: function(flower) &#123;</span><br><span class="line">        console.log(&apos;收到花&apos; + flower);</span><br><span class="line">    &#125;,</span><br><span class="line">    listenGoodMood: function(fn) &#123;</span><br><span class="line">        setTimeout(function()&#123;  //假设10秒后A的心情变好</span><br><span class="line">            fn();</span><br><span class="line">        &#125;, 10000);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">xiaoming.sendFlower(B);</span><br></pre></td></tr></table></figure></p>
-<h2 id="保护代理和虚拟代理"><a href="#保护代理和虚拟代理" class="headerlink" title="保护代理和虚拟代理"></a>保护代理和虚拟代理</h2><p>代理B可以帮助A过滤掉一些请求，比如送花的人中年龄太大的或者没有宝马的，这种请求就可以直接在代理B处被处理掉。这种代理叫做保护代理。A和B一个充当白脸，一个充当黑脸。白脸A继续保持良好的女神形象，不希望拒绝任何人，于是找到了黑脸B来控制对A的访问。<br>另外，假设现实中的花价格不菲，导致在程序世界里，new Flower也是一个代价昂贵的操作，那么我们可以把new Flower的操作交给代理B去执行，代理B会在A心情好的时候再执行new Flower，这是代理模式的另一种形式，叫做虚拟代理。虚拟代理把一些开销很大的对象，延迟到真正需要它的时候才去创建。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var B = &#123;</span><br><span class="line">    receiveFlower: function()&#123;</span><br><span class="line">        A.listenGoodMood(function()&#123; //监听A的好心情</span><br><span class="line">            var flower = new Flower(); //延迟创建flower对象</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+        <p>命令模式是最简单和优雅的模式之一，命令模式中的命令指的是一个执行某些特定事情的指令。<br>命令模式最常见的<strong>应用场景是</strong>：有时候需要向某些对象发送请求，但是并不知道请求的接受者是谁，也不知道被请求的操作是什么。此时需要用一种松耦合的方法来设计程序，使得请求发送者和请求接收者能够消除彼此之间的耦合关系。<br>拿餐厅来说，客人需要向厨师发送请求，但是完全不知道这些厨师的名字和联系方式，也不知道厨师炒菜的方式和步骤。命令模式把客人订餐的请求封装成command对象，也就是订餐中的订单对象。这个对象可以在程序中被四处传递，就像订单可以从服务员手中传到厨师的手中。这样一来，客人不需要知道厨师的名字，从而解开了请求调用者和请求接收者之间的耦合。<br>另外，相对于过程化的请求调用，command对象拥有<strong>更长的生命周期</strong>。对象的生命周期是跟初始请求无关的，因为这个请求已经封装在了command对象的方法中，成为了这个对象的行为。<br><strong>设计模式的主题总是把不变的事物和变化的事物分离开来。</strong></p>
+<h2 id="命令模式的例子-菜单程序"><a href="#命令模式的例子-菜单程序" class="headerlink" title="命令模式的例子  菜单程序"></a>命令模式的例子  菜单程序</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;body&gt;</span><br><span class="line">    &lt;button id=&quot;button1&quot;&gt;点击按钮1&lt;/button&gt;</span><br><span class="line">    &lt;button id=&quot;button2&quot;&gt;点击按钮2&lt;/button&gt;</span><br><span class="line">    &lt;button id=&quot;button3&quot;&gt;点击按钮3&lt;/button&gt;</span><br><span class="line">&lt;/body&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var button1 = document.getElementById(&apos;button1&apos;);</span><br><span class="line">    var button2 = document.getElementById(&apos;button2&apos;);</span><br><span class="line">    var button3 = document.getElementById(&apos;button3&apos;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>接下来定义setCommand函数，setCommand函数负责往按钮上面安装命令。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var setCommand = function(button, command)&#123;</span><br><span class="line">    button.onclick = function()&#123;</span><br><span class="line">        command.execute();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>命令接受者<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var MenuBar = &#123;</span><br><span class="line">    refresh: function()&#123;</span><br><span class="line">        console.log(&quot;刷新菜单目录&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var SubMenu = &#123;</span><br><span class="line">    add: function()&#123;</span><br><span class="line">        console.log(&apos;增加子菜单&apos;);</span><br><span class="line">    &#125;,</span><br><span class="line">    del: function()&#123;</span><br><span class="line">        console.log(&apos;删除子菜单&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>在让button变得有用之前，我们先把行为都封装在命令类中：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">var RefreshMenuBarCommand = function(receiver)&#123;</span><br><span class="line">    this.receiver = receiver;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">refreshMenuCommand.prototype.execute = function()&#123;</span><br><span class="line">    this.receiver.refresh();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var AddSubMenuCommand = function(receiver)&#123;</span><br><span class="line">    this.receiver = receiver;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">AddSubMenuCommand.prototype.execute = function()&#123;</span><br><span class="line">    this.receiver.add();</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">var DelSubMenuCommand = function(receiver)&#123;</span><br><span class="line">    this.receiver = receiver;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">DelSubMenuCommand.prototype.execute = function()&#123;</span><br><span class="line">    console.log(&apos;删除子菜单&apos;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>最后把命令接受者传入到command对象中，并且把command对象安装到button上面：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var refreshMenuBarCommand = new RefreshMenuBarCommand(MenuBar);</span><br><span class="line">var addSubMenuCommand = new AddSubMenuCommand(SubMenu);</span><br><span class="line">var delSubMenuCommand = new DelSubMenuCommand(SubMenu);</span><br><span class="line"></span><br><span class="line">setCommand(button1, refreshMenuBarCommand);</span><br><span class="line">setCommand(button2, addSubMenuCommand);</span><br><span class="line">setCommand(button3, delSubMenuCommand);</span><br></pre></td></tr></table></figure></p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="brczo.github.io/2019/04/24/js设计模式与开发实践0601/" data-id="cjv6d1dgz001f5cjbf1hjzu33" class="article-share-link">Share</a>
+      <a data-url="brczo.github.io/2019/05/02/js设计模式与开发实践0901/" data-id="cjv6d1dhc001v5cjbnna4yxvj" class="article-share-link">Share</a>
       
       
     </footer>
@@ -532,7 +490,7 @@
 
   <nav id="page-nav">
     
-    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+    <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
   </nav>
 
 </section>
@@ -543,7 +501,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/CMake/">CMake</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP/">PHP</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/PHP设计模式/">PHP设计模式</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/js设计模式与开发实践/">js设计模式与开发实践</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/linux高性能服务器/">linux高性能服务器</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/tinyhttpd源码分析/">tinyhttpd源码分析</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/优势谈判/">优势谈判</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/原则-Ray-Dalio/">原则 Ray Dalio</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/富爸爸穷爸爸/">富爸爸穷爸爸</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/小狗钱钱/">小狗钱钱</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/心流/">心流</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/数据结构/">数据结构</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/高效能人士的七个习惯/">高效能人士的七个习惯</a></li></ul>
     </div>
   </div>
 
@@ -571,23 +529,23 @@
       <ul>
         
           <li>
-            <a href="/2019/05/02/js设计模式与开发实践0903/">第九章 宏命令</a>
+            <a href="/2019/05/09/php设计模式10/">享元模式</a>
           </li>
         
           <li>
-            <a href="/2019/05/02/js设计模式与开发实践0902/">第九章 js中的命令模式</a>
+            <a href="/2019/05/08/php中的坑/">PHP中的坑</a>
           </li>
         
           <li>
-            <a href="/2019/05/02/js设计模式与开发实践0901/">第九章 命令模式</a>
+            <a href="/2019/05/08/js设计模式与开发实践1203/">第十一章 职责链模式</a>
           </li>
         
           <li>
-            <a href="/2019/04/29/高效能人士的七个习惯01/">变化的世界  不变的规则</a>
+            <a href="/2019/05/08/js设计模式与开发实践1202/">第十一章 享元模式 文件上传</a>
           </li>
         
           <li>
-            <a href="/2019/04/29/优势谈判/">开局谈判技巧</a>
+            <a href="/2019/05/07/js设计模式与开发实践1201/">第十一章 享元模式 基本概念</a>
           </li>
         
       </ul>
