@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next muse use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="数据结构,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="基本概念和术语数据：对客观事物符号的表示，在计算机科学中，是指所有能输入到计算机中并被计算机程序处理的符号的总成。数据元素：是数据的基本单位，在计算机中通常作为一个整体进行考虑和处理。有时一个数据元素可由若干个数据项组成。数据项是是数据的不可分割的最小单位。数据对象：是性质相同的数据元素的集合，是数据的一个子集。数据结构：是相互之间存在一种或多种特定关系的数据元素的集合。 算法与算法分析算法：是对">
+<meta name="keywords" content="数据结构">
+<meta property="og:type" content="article">
+<meta property="og:title" content="数据结构">
+<meta property="og:url" content="brczo.github.io/2019/07/16/数据结构/index.html">
+<meta property="og:site_name" content="进化">
+<meta property="og:description" content="基本概念和术语数据：对客观事物符号的表示，在计算机科学中，是指所有能输入到计算机中并被计算机程序处理的符号的总成。数据元素：是数据的基本单位，在计算机中通常作为一个整体进行考虑和处理。有时一个数据元素可由若干个数据项组成。数据项是是数据的不可分割的最小单位。数据对象：是性质相同的数据元素的集合，是数据的一个子集。数据结构：是相互之间存在一种或多种特定关系的数据元素的集合。 算法与算法分析算法：是对">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-12-04T12:32:29.523Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="数据结构">
+<meta name="twitter:description" content="基本概念和术语数据：对客观事物符号的表示，在计算机科学中，是指所有能输入到计算机中并被计算机程序处理的符号的总成。数据元素：是数据的基本单位，在计算机中通常作为一个整体进行考虑和处理。有时一个数据元素可由若干个数据项组成。数据项是是数据的不可分割的最小单位。数据对象：是性质相同的数据元素的集合，是数据的一个子集。数据结构：是相互之间存在一种或多种特定关系的数据元素的集合。 算法与算法分析算法：是对">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Muse',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="brczo.github.io/2019/07/16/数据结构/">
+
+
+
+
+
+  <title>数据结构 | 进化</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">进化</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br>
+            
+            标签
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br>
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="brczo.github.io/2019/07/16/数据结构/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="brczo">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="进化">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">数据结构</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-07-16T16:30:05+08:00">
+                2019-07-16
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/编程/" itemprop="url" rel="index">
+                    <span itemprop="name">编程</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="基本概念和术语"><a href="#基本概念和术语" class="headerlink" title="基本概念和术语"></a>基本概念和术语</h2><p>数据：对客观事物符号的表示，在计算机科学中，是指所有能输入到计算机中并被计算机程序处理的符号的总成。<br>数据元素：是数据的基本单位，在计算机中通常作为一个整体进行考虑和处理。有时一个数据元素可由若干个数据项组成。数据项是是数据的不可分割的最小单位。<br>数据对象：是性质相同的数据元素的集合，是数据的一个子集。<br>数据结构：是相互之间存在一种或多种特定关系的数据元素的集合。</p>
+<h2 id="算法与算法分析"><a href="#算法与算法分析" class="headerlink" title="算法与算法分析"></a>算法与算法分析</h2><p>算法：是对特定问题求解步骤的一种描述，它是指令的有限序列，其中每一条指令表示一个或多个操作。<br>算法的5个特性：</p>
+<ul>
+<li>有穷性 一个算法必须总是在执行有穷步后结束，且每一步都要在有穷时间内完成</li>
+<li>确定性 算法的每一条指令必须有确定的含义，读者理解时不会产生二义性。并且，在任何条件下，算法只有唯一的一条执行路径，即对于相同的输入只能得到相同的输出。</li>
+<li>可行性 一个算法是可行的，即算法中描述的操作都是可以通过已经实现的基本运算执行有限次来实现的。</li>
+<li>输入 一个算法有零个或多个输入，这些输入取自于某个特定的对象的集合。</li>
+<li>输出 一个算法有一个或多个的输出，这些输出是同输入有着某些特定关系的两。</li>
+</ul>
+<p>算法设计的要求</p>
+<ul>
+<li>正确性</li>
+<li>可读性</li>
+<li>健壮性</li>
+<li>效率与低存储量需求</li>
+</ul>
+<p>时间复杂度<br>空间复杂度</p>
+<hr>
+<h2 id="线性表"><a href="#线性表" class="headerlink" title="线性表"></a>线性表</h2><p>线性表是最常用且最简单的一种数据结构。线性表是n个数据元素的有限序列。线性表是一个相当灵活的数据结构，它的长度可根据需要增长或缩短，即对线性表的数据元素不仅可以进行访问，还可以进行插入和删除。<br>抽象数据类型线性表的定义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">ADT List &#123;</span><br><span class="line">    数据对象: D = &#123;a[i] | a[i] ∊ ElemSet, i = 1, 2, ...,n n &gt;= 0&#125;</span><br><span class="line">    数据关系: R1 = &#123; &lt;a[i-1], a[i]&gt;|a[i-1], a[i]∊D, i = 2,...,n &#125;</span><br><span class="line">    基本操作:</span><br><span class="line">        InitList(&amp;L)</span><br><span class="line">            操作结果: 构造一个空的线性表L</span><br><span class="line">        DestroyList(&amp;L)</span><br><span class="line">            初始条件: 线性表L已存在</span><br><span class="line">            操作结果: 销毁线性表L</span><br><span class="line">        ClearList(&amp;L)</span><br><span class="line">            初始条件: 线性表L已存在</span><br><span class="line">            操作结果: 将L重置为空表</span><br><span class="line">        ListEmpty(L)</span><br><span class="line">            初始条件: 线性表L已存在</span><br><span class="line">            操作结果: 若L为空表,则返回True,否则返回FALSE</span><br><span class="line">        ListLength(L)</span><br><span class="line">            初始条件: 线性表L已存在</span><br><span class="line">            操作结果: 返回L中数据元素个数</span><br><span class="line">        GetElem(L, i, &amp;e)</span><br><span class="line">            初始条件: 线性表L已存在,1 &lt;= i &lt;= ListLength(L)</span><br><span class="line">            操作结果: 用e返回L中第i个数据元素的值</span><br><span class="line">        LocateElem(L, e compare())</span><br><span class="line">            初始条件: 线性表L已存在,compare()是数据元素判定函数</span><br><span class="line">            操作结果: 返回L中第一个与e满足关系compare()的数据元素的位序.若这样的数据元素不存在,则返回0</span><br><span class="line">        PriorELem(L, cur_e, &amp;pre_e)</span><br><span class="line">            初始条件: 线性表L已存在</span><br><span class="line">            操作结果: 若cur_e是L的数据元素,且不是第一个,则用pre_e返回它的前驱,否则操作失败,pre_e无定义.</span><br><span class="line">        NextElem(L, cur_e, &amp;next_e)</span><br><span class="line">            初始条件: 线性表L已存在</span><br><span class="line">            操作结果: 若cur_e是L的数据元素,且不是最后一个,则用next_e返回它的后继,否则操作失败,next_e无定义.</span><br><span class="line">        ListInsert(&amp;L, i, e)</span><br><span class="line">            初始条件: 线性表L已存在, 1 &lt;= i &lt;= ListLength(L) + 1</span><br><span class="line">            操作结果: 在L中第i个位置之前插入新的数据元素e,L的长度加1.</span><br><span class="line">        ListDelete(&amp;L, i, &amp;e)</span><br><span class="line">            初始条件: 线性表L已存在且非空, 1 &lt;= i &lt;= ListLength(L)</span><br><span class="line">            操作结果: 删除L的第i个数据元素,并用e返回其值,L的长度减1.</span><br><span class="line">        ListTraverse(L, visit())</span><br><span class="line">            初始条件: 线性表L已存在</span><br><span class="line">            操作结果: 依次对L的每个数据元素点用函数visit().一旦visit()失败,则操作失败</span><br><span class="line">&#125; ADT List</span><br></pre></td></tr></table></figure>
+<p>两个线性表LA和LB分别表示两个集合A和B,求A = A ∪ B.<br>分析: 扩大线性表LA,将存在于线性表LB中而不存在于线性表LA中的数据元素插入到线性表LA中去.只要从线性表LB中依次取得每个数据元素,并依值在线性表LA中进行查访,若不存在,则插入之.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">#define LIST_INIT_SIZE 100 // 线性表存储空间的初始分配量</span><br></pre></td></tr></table></figure></p>
+<hr>
+<h2 id="数组与广义表"><a href="#数组与广义表" class="headerlink" title="数组与广义表"></a>数组与广义表</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br></pre></td><td class="code"><pre><span class="line">// ----------- 数组的顺序存储表示 ---------------</span><br><span class="line">#include &lt;stdarg.h&gt; // 提供宏va_start、va_arg和va_end, 用于存储变长参数表</span><br><span class="line">#include &lt;stdbool.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stddef.h&gt;</span><br><span class="line">#define MAX_ARRAY_DIM 8 //假设数组维数的最大值为8</span><br><span class="line"></span><br><span class="line">typedef struct&#123;</span><br><span class="line">    int *base; // 数组元素基址, 由initArray分配</span><br><span class="line">    int dim; // 数组维数</span><br><span class="line">    int *bounds; // 数组维界基址, 由initArray分配</span><br><span class="line">    int *constants; // 数组映像函数常量基址, 由initArray分配 cn = l, c(i-1) = bi X ci 其中 bi为第i行元素个数</span><br><span class="line">&#125;Array;</span><br><span class="line"></span><br><span class="line">// ----------- 基本操作的函数原型说明 -------------</span><br><span class="line"></span><br><span class="line">// 若维数dim和随后的各维长度合法, 则构造相应的数组A, 并返回ok</span><br><span class="line">bool initArray(Array *a, int dim, ...); //... 表示参数不确定</span><br><span class="line"></span><br><span class="line">// 销毁数组A</span><br><span class="line">bool destroyArray(Array *a);</span><br><span class="line"></span><br><span class="line">//  a是n维数组, e为元素变量, 随后是n个下标值, 若各下标不超界,则将e的值赋给指定的a的元素, 并返回ok.</span><br><span class="line">bool value(Array a, int *e, ...);</span><br><span class="line"></span><br><span class="line">// a是n维数组, e为元素变量, 随后是n个下标值, 若下标不超界, 则将e的值赋给所指定的a的元素,并返回ok.</span><br><span class="line">bool assign(Array *a, int e, ...);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// ---------------- 基本操作的算法描述 ----------------</span><br><span class="line">bool initArray(Array *a, int dim, ...)&#123;</span><br><span class="line">    if(dim &lt; 1 || dim &gt; MAX_ARRAY_DIM) return false;</span><br><span class="line">    a-&gt;dim = dim;</span><br><span class="line">    a-&gt;bounds = (int*)malloc(dim * sizeof(int));</span><br><span class="line">    if(!a-&gt;bounds) exit(0);</span><br><span class="line">    // 若各维长度合法, 则存入a.bounds, 并求出a的元素总数elemtotal</span><br><span class="line">    int elemtotal = 1;</span><br><span class="line">    va_list ap; </span><br><span class="line">    va_start(ap,dim); //以固定参数的地址为起点确定变参的内存起始地址</span><br><span class="line">    for(int i = 0; i &lt; dim; i++)&#123;</span><br><span class="line">        a-&gt;bounds[i] = va_arg(ap, int); // 得到下一个可变参数的值</span><br><span class="line">        if(a-&gt;bounds[i] &lt; 0) return false;</span><br><span class="line">        elemtotal *= a-&gt;bounds[i];</span><br><span class="line">    &#125;</span><br><span class="line">    va_end(ap); // 用完必须调用</span><br><span class="line">    a-&gt;base = (int*)malloc(elemtotal * sizeof(int));</span><br><span class="line">    if(!a-&gt;base) exit(0);</span><br><span class="line">    // 求映像函数的常数ci, 并存入a.constants[i - 1], i = 1 ... dim;</span><br><span class="line">    a-&gt;constants = (int*)malloc(dim * sizeof(int));</span><br><span class="line">    if(!a-&gt;constants) exit(0);</span><br><span class="line">    a-&gt;constants[dim - 1] = 1; // l = 1, 指针的增减以元素的大小为单位</span><br><span class="line">    for(int i = dim - 2; i &gt;= 0; i --)&#123;</span><br><span class="line">        a-&gt;constants[i] = a-&gt;bounds[i + 1] * a-&gt;constants[i + 1];</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool destroyArray(Array *a)&#123;</span><br><span class="line">    if(!a-&gt;base) return false;</span><br><span class="line">    free(a-&gt;base); a-&gt;base = NULL;</span><br><span class="line">    if(!a-&gt;bounds) return false;</span><br><span class="line">    free(a-&gt;bounds); a-&gt;bounds = NULL;</span><br><span class="line">    if(!a-&gt;constants) return false;</span><br><span class="line">    free(a-&gt;constants); a-&gt;constants = NULL;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool locate(Array a, va_list ap, int *off)&#123;</span><br><span class="line">    // 若ap指示的各下标值合法,则求出该元素在a中相对地址off</span><br><span class="line">    int off = 0, ind;</span><br><span class="line">    for(int i = 0; i &lt; a.dim; i++)&#123;</span><br><span class="line">        ind = va_arg(ap, int);</span><br><span class="line">        if(ind &lt; 0 || ind &gt;= a.bounds[i]) return false;</span><br><span class="line">        off += a.constants[i] * ind;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool value(Array a, int *e, ...)&#123;</span><br><span class="line">    // a是n维数组, e为元素变量, 随后是n个下标值. 若各下标不超界, 则e赋值为所指定的a的元素值,并返回ok</span><br><span class="line">    va_list ap;</span><br><span class="line">    int off = 0;</span><br><span class="line">    va_start(ap, e);</span><br><span class="line">    if(!locate(a, ap, &amp;off)) return false;</span><br><span class="line">    *e = *(a.base + off);</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool assign(Array *a, int e, ...)&#123;</span><br><span class="line">    va_list ap;</span><br><span class="line">    int off = 0;</span><br><span class="line">    va_start(ap, e);</span><br><span class="line">    if(!locate(*a, ap, &amp;off)) return false;</span><br><span class="line">    *(a-&gt;base + off) = e;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="三元组顺序表"><a href="#三元组顺序表" class="headerlink" title="三元组顺序表"></a>三元组顺序表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdbool.h&gt;</span><br><span class="line">#include &lt;stddef.h&gt;</span><br><span class="line">#define MAXSIZE 12500 // 假设非零元个数的最大值为12500</span><br><span class="line">typedef struct &#123;</span><br><span class="line">    int i, j; // 该非零元的行下标和列下标</span><br><span class="line">    int e;</span><br><span class="line">&#125;triple;</span><br><span class="line"></span><br><span class="line">typedef struct &#123;</span><br><span class="line">    triple data[MAXSIZE + 1]; // 非零元三元组组表, data[0]未用</span><br><span class="line">    int rn, cn, nzn; // 矩阵的行数、列数和非零元个数</span><br><span class="line">&#125;tSMatrix; </span><br><span class="line"></span><br><span class="line">int transposeSMtrix(tSMatrix m, tSMtrix *t) &#123;</span><br><span class="line">    //采用三元组表存储表示, 求稀疏矩阵m的转置矩阵t.</span><br><span class="line">    t-&gt;rn = m.cn; t-&gt;cn = m.rn; t-&gt;nzn = m.nzn;</span><br><span class="line">    if(t.nzn) &#123;</span><br><span class="line">        int q = 1;</span><br><span class="line">        for(int col = 1; col &lt;= m.rn; col ++)&#123;</span><br><span class="line">            for(int nz = 1; z &lt;= m.nzn; nz ++)&#123;</span><br><span class="line">                if(m.data[z].j == col)&#123;</span><br><span class="line">                    t-&gt;data[q].i = m.data[z].j; </span><br><span class="line">                    t-&gt;data[q].j = m.data[z].i;</span><br><span class="line">                    t-&gt;data[q].e = m.data[z].e;</span><br><span class="line">                    q++;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">// 改进 快速转置</span><br><span class="line">int fastTransposeSMatrix(tSmatrix m, tSMatrix *t)&#123;</span><br><span class="line">    // 采用三元组顺序表存储表示, 求稀疏矩阵m的转置矩阵t</span><br><span class="line">    t-&gt;rn = m.cn; t-&gt;cn = m.rn; t-&gt;nzn = m.nzn;</span><br><span class="line">    int num[m.cn + 1] = &#123;0&#125;, col[nzn + 1];</span><br><span class="line">    if(t.nzn)&#123;</span><br><span class="line">        for(int g = 1; g &lt;= m.nzn; ++g) ++num[m.data[g].j]; //求m中每一列含非0元个数</span><br><span class="line">        cpot[1] = 1;</span><br><span class="line">        // 求第col列中第一个非零元在b.data中的序号</span><br><span class="line">        for(int col = 2; col &lt;= m.rn; ++ col) cpot[col] = cpot[col - 1] + num[col - 1];</span><br><span class="line">        int col, q;</span><br><span class="line">        for(int p = 1; p &lt;= m.nzn; ++p)&#123;</span><br><span class="line">            col = m.data[p].j; </span><br><span class="line">            q = cpot[col];</span><br><span class="line">            t-&gt;data[q].i = m.data[p].j;</span><br><span class="line">            t-&gt;data[q].j = m.data[p].i;</span><br><span class="line">            t-&gt;data[q].e = m.data[p].e;</span><br><span class="line">            ++cpot[col];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="行逻辑链接的顺序表"><a href="#行逻辑链接的顺序表" class="headerlink" title="行逻辑链接的顺序表"></a>行逻辑链接的顺序表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line">    int i,j;</span><br><span class="line">    int e;</span><br><span class="line">&#125;triple;</span><br><span class="line">typedef struct &#123;</span><br><span class="line">    triple data[MAXSIZE + 1]; // 非零元三元组表</span><br><span class="line">    int rpos[MAXRC + 1]; // 各行的第一个非零元的位置表</span><br><span class="line">    int rn, cn, nzn; //  矩阵的行数、列数和非零元个数</span><br><span class="line">&#125;rLSMatrix;</span><br></pre></td></tr></table></figure>
+<h4 id="Q-M-X-N大致可描述如下"><a href="#Q-M-X-N大致可描述如下" class="headerlink" title="Q = M X N大致可描述如下"></a>Q = M X N大致可描述如下</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Q初始化;</span><br><span class="line">if(Q是非零矩阵)&#123; //逐行求积</span><br><span class="line">    for(int arow = 1; arow &lt;= m.rn; ++ arow)&#123; // 处理m的每一行</span><br><span class="line">        ctemp[] = 0; //累加器清零</span><br><span class="line">        // 计算Q中第arow行的积并存入ctemp[]中; 将ctemp[]中非零元压缩存储到Q.data;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Q-M-X-N求精过程"><a href="#Q-M-X-N求精过程" class="headerlink" title="Q = M X N求精过程"></a>Q = M X N求精过程</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">int multSMatrix(rLSMatrix m, rLMatrix n, rLSMatrix *q)&#123;</span><br><span class="line">    // 求矩阵乘积Q = M X N, 采用行逻辑链接存储表示</span><br><span class="line">    int ctemp[m.rn + 1] = &#123;0&#125;;</span><br><span class="line">    if(m.rn != n.cn) return false;</span><br><span class="line">    q-&gt;rn = m.rn; q-&gt;cn = m.cn; q-&gt;nzn = 0; //Q的初始化</span><br><span class="line">    if(m.nzn * n.nzn != 0) &#123; // Q是非零矩阵</span><br><span class="line">        for(int arow = 1; arow &lt;= m.rn; ++arow)&#123; // 处理m的每一行</span><br><span class="line">            ctemp[] = 0; //当前行各元素累加器清零 </span><br><span class="line">            Q.rpos[arow] = Q.nzn + 1;</span><br><span class="line">            if(arow &lt; m.rn) tp = m.rpos[arow + 1];</span><br><span class="line">            else tp = m.nzn + 1;</span><br><span class="line">            for(p = n.rpos[arow]; p &lt; tp; ++p)&#123; //队当前行中的每一个非零元</span><br><span class="line">                brow = m. data[p].j; //找到对应元在n中的行号</span><br><span class="line">                if(brow &lt; n.rn) t= n.rpos[brow + 1];</span><br><span class="line">                else &#123;t = n.tu + 1;&#125;</span><br><span class="line">                for(q = n.rpos[brow]; q &lt; t; ++1)&#123;</span><br><span class="line">                    ccol = n.data[q].j; //乘积元素在q中列号</span><br><span class="line">                    ctemp[ccol] += m.data[p].e * n.data[q].e;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; // 求得Q中第crow( = arow)行的非零元</span><br><span class="line">            for(col = 1; ccol &lt;= q-&gt;cn; ++ccol)&#123; //压缩存储改行零元素</span><br><span class="line">                if(ctemp[ccol])&#123;</span><br><span class="line">                    if(++q.nzn &gt; MAXSIZE) return false;</span><br><span class="line">                    q.data[q.nzn] = (arow, ccol, ctemp[ccol]);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="十字链表"><a href="#十字链表" class="headerlink" title="十字链表"></a>十字链表</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">typedef struct OLNode&#123;</span><br><span class="line">    int i, j; </span><br><span class="line">    int e;</span><br><span class="line">    struct QLNode * right, *down; // 该非零元所在行表和列继的后继链域</span><br><span class="line">&#125;OLNode; *OLink;</span><br><span class="line"></span><br><span class="line">typedef struct &#123;</span><br><span class="line">    OLink *rhead, *chead; //行和列链表头指针向量基址由createSMatrix分配</span><br><span class="line">    int rn, cn, nzn; </span><br><span class="line">&#125;Cros</span><br></pre></td></tr></table></figure>
+<h3 id="广义表的存储结构"><a href="#广义表的存储结构" class="headerlink" title="广义表的存储结构"></a>广义表的存储结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">typedef enum &#123;Atom, List&#125;ElemTag; // 0 -》原子, 0 -》 子表</span><br><span class="line">typedef struct GLNode &#123;</span><br><span class="line">    ElemTag tag; //公共部分, 用于区分原子结点和表结点</span><br><span class="line">    union &#123; //原子结点和表结点的联合部分</span><br><span class="line">        AtomType atom; // atom是原子结点的值域, AtomType由用户定义</span><br><span class="line">        struct&#123;struct GLNode *hp, *tp;&#125;ptr; // ptr是表结点的指针域, ptr.hp和ptr.tp分别指向表头和表尾</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;*GList; //广义表类型</span><br></pre></td></tr></table></figure>
+<h3 id="广义表的扩展线性链表存储表示"><a href="#广义表的扩展线性链表存储表示" class="headerlink" title="广义表的扩展线性链表存储表示"></a>广义表的扩展线性链表存储表示</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">typedef enum&#123;Atom, List&#125;ElemTag;</span><br><span class="line">typedef struct GLNode &#123;</span><br><span class="line">    ELemTag tag; //公共部分, 用于区分原子结点和表结点</span><br><span class="line">    union &#123;</span><br><span class="line">        AtomType atom; //原子结点的值域</span><br><span class="line">        struct GLNode *hp; // 表结点的表头指针</span><br><span class="line">    &#125;;</span><br><span class="line">    struct GLNode *tp; // 相当于线性链表的next,指向下一个元素结点</span><br><span class="line">&#125;*GList; //广义表类型GList是一种扩展的线性链表</span><br></pre></td></tr></table></figure>
+<h2 id="树的定义与基本术语"><a href="#树的定义与基本术语" class="headerlink" title="树的定义与基本术语"></a>树的定义与基本术语</h2><p>树是n哥结点的有限集. 在任意一棵非空树中: </p>
+<ul>
+<li>(1)有且仅有一个特定的称为根的结点; </li>
+<li>(2)当n &gt; 1时, 其余结点可分为m(m &gt; 0)个互不相交的有限集t1,t2,t3,…,tm,其中每个集合本身又是一棵树, 并且称为根的子树.<br>树的结点包含一个数据元素及若干指向其子树的分支.<br>结点拥有的子树数称为结点的度.<br>度为0的结点称为叶子或终端结点.<br>结点的子树的根称为该结点的孩子,相应的该结点称为孩子的双亲.<br>同一个双亲的孩子之间互称兄弟.<br>结点的祖先是从根到该结点所经分支上的所有结点.反之, 以结点为根的子树中的任一结点都成为该结点的子孙.<br>如果将树中结点的各子树看成从左往右是有次序的,则称该树为有序树,否则称为无序树.<br>森林是m(m&gt;=0)棵互不相交的树的集合. 对树中每个结点而言, 其子树的集合称为森林.</li>
+</ul>
+<h2 id="二叉树的性质"><a href="#二叉树的性质" class="headerlink" title="二叉树的性质"></a>二叉树的性质</h2><p>二叉树是另一种树型结构, 它的特点是每个结点至多只有两棵子树, 并且, 二叉树的子树有左右之分, 不能随意颠倒.</p>
+<ul>
+<li><p>在二叉树的第i层上至多有pow(2, i -1)个结点</p>
+</li>
+<li><p>深度为k的二叉树至多有pow(2, i) - 1个结点</p>
+</li>
+<li><p>对任何一棵二叉树t, 如果其终端结点(叶子结点)数为n,度为2的结点数为m, 则 n = m + 1;</p>
+</li>
+<li><p>一棵深度为k且有pow(2, k) - 1个结点的二叉树称为满二叉树.</p>
+</li>
+<li><p>深度为k的, 有n个结点的二叉树,当且仅当其每一个结点都与深度为k的满二叉树编号从1至n的结点一一对应时, 称为完全二叉树.</p>
+</li>
+<li><p>具有n个结点的完全二叉树的深度为floor(log(n,2)) + 1</p>
+</li>
+<li><p>如果对一棵有n个结点的完全二叉树(其深度)为floor(log(n,2))+1)的结点按层序编号(从第一层到第floor(log(n,2)) + 1层, 每层从左到右),则对任一结点i(1&lt;= i &lt;= n),有:</p>
+<ul>
+<li><p>如果i = 1, 则结点i是二叉树的根,无双亲; 如果i &gt; 1,则其双亲parent(i)是结点floor(i/2);</p>
+</li>
+<li><p>如果2i&gt;n,则结点i无左孩子(结点i为叶子结点); 否则其左孩子LCHILD(i))是结点2i;</p>
+</li>
+<li>如果2i + 1 &gt; n, 则结点i无右孩子; 否则其右孩子RCHILD(i)是结点2i + 1</li>
+</ul>
+</li>
+</ul>
+<h3 id="二叉树的存储结构"><a href="#二叉树的存储结构" class="headerlink" title="二叉树的存储结构"></a>二叉树的存储结构</h3><h4 id="顺序存储结构"><a href="#顺序存储结构" class="headerlink" title="顺序存储结构"></a>顺序存储结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">#define MAX_TREE_SIZE 100 // 二叉树的大结点数</span><br><span class="line">typedef TElemType SqBiTree[MAX_TREE_SIZE];  // 0号单元存储根结点</span><br><span class="line">SqBiTree bt;</span><br></pre></td></tr></table></figure>
+<h4 id="链式存储结构"><a href="#链式存储结构" class="headerlink" title="链式存储结构"></a>链式存储结构</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">// -----------  二叉树的二叉链表存储表示 ------------------</span><br><span class="line">typedef struct BiTNode &#123;</span><br><span class="line">    TElemType data;</span><br><span class="line">    struct BiTNode *lchild, *rchild; // 左右孩子指针</span><br><span class="line">&#125;BiTNode, *BiTree;</span><br><span class="line"></span><br><span class="line">// ----------- 基本操作的函数原型说明 ---------------------</span><br><span class="line"></span><br><span class="line">// 按先序次序输入二叉树中结点的值(一个字符), 空格字符表示空树. 构造二叉树链表表示的二叉树t</span><br><span class="line">int createBiTree(BiTree *t); </span><br><span class="line"></span><br><span class="line">// 采用二叉链表存储结构, visit是对结点操作的应用函数. 先序遍历二叉树t, 对每个结点调用函数visit一次且仅一次,一旦visit失败, 则操作失败</span><br><span class="line">int preOrderTraverse(BiTree t, int (*visit)(ElemType e)); </span><br><span class="line"></span><br><span class="line">// 中序遍历</span><br><span class="line">int inOrderTraverse(BiTree t, int(*visit)(ElemType e));</span><br><span class="line"></span><br><span class="line">// 后序遍历</span><br><span class="line">int postOrderTraverse(BiTree t, int (*visit)(ELemType e));</span><br><span class="line"></span><br><span class="line">// 层序遍历</span><br><span class="line">int levelOrderTraverse(BiTree t, int (*visit)(ELemType e))</span><br></pre></td></tr></table></figure>
+<h3 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h3><p>遍历二叉树的递归算法: </p>
+<p>先序遍历二叉树的操作定义<br>若二叉树为空, 则空操作</p>
+<ul>
+<li>访问根结点</li>
+<li>先序遍历左子树</li>
+<li>先序遍历右子树</li>
+</ul>
+<p>中序遍历二叉树的操作定义:<br>若二叉树为空, 则空操作</p>
+<ul>
+<li>中序遍历左子树</li>
+<li>访问根结点</li>
+<li>中序遍历右子树</li>
+</ul>
+<p>后序遍历二叉树的操作定义:<br>若二叉树为空, 则空操作,否则:</p>
+<ul>
+<li>后序遍历左子树</li>
+<li>后序遍历右子树</li>
+<li>访问根结点</li>
+</ul>
+<p>先序遍历 递归版<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">int preOrderTraverse(BiTee t, int(*visit)(Elemtype e))&#123;</span><br><span class="line">    //采用二叉链表存储结构, visit是对数据元素操作的应用函数</span><br><span class="line">    //先序遍历二叉树t的递归算法, 对每个数据元素调用函数visit</span><br><span class="line">    //最简单的visit函数是</span><br><span class="line">    // int printElement(TELemType e) &#123; //输出元素e的值</span><br><span class="line">    //      printf(e); </span><br><span class="line">    //      return 1;</span><br><span class="line">    // &#125;</span><br><span class="line">    if(t) &#123;</span><br><span class="line">        if(visit(t-&gt;data))&#123;</span><br><span class="line">            if(preOrderTraverse(t-&gt;lchild,visit))&#123;</span><br><span class="line">                if(preOrderTraverse(t-&gt;rchild, visit)) return 1;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            return 0;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;else return 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>非递归中序遍历<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">int inOrderTraverse(BiTree t, int(*visit)(TElemType e))&#123;</span><br><span class="line">    // 采用二叉链表存储结构,visit是对数据元素操作的应用函数</span><br><span class="line">    // 中序遍历二叉树t的非递归算法, 对每个数据元素调用函数visit</span><br><span class="line">    initStack(s); push(s, t) ;// 根指针入栈</span><br><span class="line">    while(!stackEmpty(s))&#123;</span><br><span class="line">        while(getTop(s, p) &amp;&amp; p) push(s, p-&gt;lchild); //向左走到尽头</span><br><span class="line">        pop(s,p); // 空指针退栈</span><br><span class="line">        if(!stackEmpty(s)) &#123; //访问结点, 向右一步</span><br><span class="line">            pop(s, p);</span><br><span class="line">            if(!visit(p-&gt;data)) reuturn 0;</span><br><span class="line">            push(s, p-&gt;rchild);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="线索二叉树"><a href="#线索二叉树" class="headerlink" title="线索二叉树"></a>线索二叉树</h2><p>遍历二叉树是以一定规则将二叉树中结点排列成一个线性序列,得到二叉树中结点的先序序列或中序序列或后序序列.这实质上是对一个非线性结构进行线性化操作, 使每个结点每个结点在这些先行序列中有且仅有一个直接前驱和直接后继.</p>
+<h2 id="树和森林"><a href="#树和森林" class="headerlink" title="树和森林"></a>树和森林</h2><h3 id="双亲表示法"><a href="#双亲表示法" class="headerlink" title="双亲表示法"></a>双亲表示法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// ------- 树的双亲表存储表示 ----------</span><br><span class="line">#define MAX_TREE_SIZE 100</span><br><span class="line">typedef struct PTNode &#123; //结点结构</span><br><span class="line">    TElemType data; </span><br><span class="line">    int parent;  //双亲位置域</span><br><span class="line">&#125;PTNode;</span><br><span class="line">typedef struct &#123; //树结构</span><br><span class="line">    PTNode nodes[MAX_TREE_SIZE];</span><br><span class="line">    int r,n; // 根的位置和结点数</span><br><span class="line">&#125;PTree;</span><br></pre></td></tr></table></figure>
+<h3 id="孩子表示法"><a href="#孩子表示法" class="headerlink" title="孩子表示法"></a>孩子表示法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">// ---------- 树的孩子链表存储表示 ----------</span><br><span class="line">typedef struct CTNode &#123; //孩子结点</span><br><span class="line">    ELemType data;</span><br><span class="line">    struct CTNode *next;</span><br><span class="line">&#125;* ChildPtr;</span><br><span class="line"></span><br><span class="line">typedef struct&#123;</span><br><span class="line">    TELemType data;</span><br><span class="line">    ChildPtr firstchild; //孩子链表头指针</span><br><span class="line">&#125;CTBox;</span><br><span class="line"></span><br><span class="line">typedef struct &#123;</span><br><span class="line">    CTBox nodes[MAX_TREE_SIZE];</span><br><span class="line">    int n, r; //结点数和根的位置</span><br><span class="line">&#125;CTree;</span><br></pre></td></tr></table></figure>
+<h3 id="孩子兄弟表示法"><a href="#孩子兄弟表示法" class="headerlink" title="孩子兄弟表示法"></a>孩子兄弟表示法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">typedef struct CSNode &#123;</span><br><span class="line">    ElemType data;</span><br><span class="line">    struct CSNode *firstchild, *nextsibling;</span><br><span class="line">&#125;CSNode, *CSTree;</span><br></pre></td></tr></table></figure>
+<h3 id="森林与二叉树的转换"><a href="#森林与二叉树的转换" class="headerlink" title="森林与二叉树的转换"></a>森林与二叉树的转换</h3><p>利用孩子兄弟表示法可以将森林转换成二叉树.</p>
+<h2 id="huffman树及其应用"><a href="#huffman树及其应用" class="headerlink" title="huffman树及其应用"></a>huffman树及其应用</h2><p>huffman树又称最优树, 是一类带权路径长度最短的树.<br>路径: 从树中一个结点到另一个结点之间的分支构成这两个结点之间的路径, 路径上的分支数目称做路径长度.<br>树的路径长度是从树根到每一个结点的路径长度之和.完全二叉树是路径长度最短的二叉树.<br>若将上述概念推广到一般情况, 考虑带权的结点.结点的带权路径长度为从该结点到树根之间的路径长度与结点上权的乘机.<br>树的带权路径长度为树中所有结点的带权路径长度之和</p>
+<h2 id="查找树"><a href="#查找树" class="headerlink" title="查找树"></a>查找树</h2><h3 id="静态查找表"><a href="#静态查找表" class="headerlink" title="静态查找表"></a>静态查找表</h3><p>抽象数据类型<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">//创建一个含n个数据元素的静态查找表ST</span><br><span class="line">create(*ST, n);</span><br><span class="line"></span><br><span class="line">// 初始条件: 静态查找表ST存在;  </span><br><span class="line">// 操作结果: 销毁表ST</span><br><span class="line">destroy(*ST);</span><br><span class="line"></span><br><span class="line">// 初始条件: 静态查找表ST存在, key为和关键字类型相同的给定值j; </span><br><span class="line">// 操作结果: 若ST中存在关键字等于key的数据元素,则函数值为该元素的值或在表中的位置, 否则为空</span><br><span class="line">search(ST, key);</span><br><span class="line"></span><br><span class="line">//初始条件: 静态查找表ST存在, visit是对元素操作的应用函数</span><br><span class="line">//操作结果; 按某种次序对ST的每个元素调用函数visit()一次且仅一次, 一旦visit()失败, 则操作失败</span><br><span class="line">traverse(ST, visit());</span><br></pre></td></tr></table></figure></p>
+<h3 id="顺序表的查找"><a href="#顺序表的查找" class="headerlink" title="顺序表的查找"></a>顺序表的查找</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">typedef struct &#123;</span><br><span class="line">    ElemType *elem; // 数据元素存储空间基址, 建表时按实际长度分配, 0号单元留空</span><br><span class="line">    int length; // 表长度 j</span><br><span class="line">&#125;SSTable;</span><br><span class="line"></span><br><span class="line">int search_seq(SSTable ST, keyType key)&#123;</span><br><span class="line">    ST.elem[0].key = key; //哨兵</span><br><span class="line">    for(int i = ST.length; !EQ[ST.elem[i].key, key); -- i);</span><br><span class="line">    return i;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<hr>
+<h2 id="串"><a href="#串" class="headerlink" title="串"></a>串</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdbool.h&gt;</span><br><span class="line"></span><br><span class="line">// 串的对分配存储方式</span><br><span class="line">type struct &#123;</span><br><span class="line">    char *ch; // 若是非空串, 则按串长分配存储区,否则为NULL</span><br><span class="line">    int len;</span><br><span class="line">&#125;HString;</span><br><span class="line"></span><br><span class="line">//------ 基本操作的函数原型说明 ------</span><br><span class="line"></span><br><span class="line">// 生成一个其值等于串常量chars的串t</span><br><span class="line">bool strAssign(HString *t, char *chars);</span><br><span class="line"></span><br><span class="line">// 返回串的长度</span><br><span class="line">int strLen(HString s);</span><br><span class="line"></span><br><span class="line">// 若 s &gt; t ,则返回值 &gt; 0, 若s = t, 则返回值 = 0, 若 s &lt; t, 则返回值 &lt; 0</span><br><span class="line">int strCompare(HString s, HString t);</span><br><span class="line"></span><br><span class="line">// 将s清为空串, 并释放s所占空间</span><br><span class="line">bool clearStr(HString *s);</span><br><span class="line"></span><br><span class="line">// 用t返回由s1和s2联接而成的新串</span><br><span class="line">bool concat(HString *t, HString s1, HString s2);</span><br><span class="line"></span><br><span class="line">// 1 &lt;= pos &lt;= strLen(s) &amp;&amp; 0 &lt;= len &lt;= strLen(s) - pos + 1</span><br><span class="line">// 返回串s的第pos个字符起长度为len的子串</span><br><span class="line">HString substr(HString s, int pos, int len);</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">// ------- 基本操作的算法描述 ----------</span><br><span class="line">bool strAssign(HString *t, char *chars)&#123;</span><br><span class="line">    // 生成一个其值等于串常量chars的串t</span><br><span class="line">    if(t-&gt;ch) free(t-&gt;ch);    //  释放原有空间</span><br><span class="line">    for(int i = 0, c = chars; c; i ++, c ++); //求chars的长度i</span><br><span class="line">    if(!i) &#123;t-&gt;ch = NULL; t-&gt;len = 0;&#125;</span><br><span class="line">    else &#123;</span><br><span class="line">        if(!(t-&gt;ch = (char *)malloc(i * sizeof(char)))) exit(OVERFLOW);</span><br><span class="line">        for(int j = 0; j &lt; i; j ++)&#123;</span><br><span class="line">            t-&gt;ch[j] = char[j];</span><br><span class="line">        &#125;</span><br><span class="line">        t-&gt;len = i;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int strLen(HString s)&#123;</span><br><span class="line">    return s.len;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">int strCompare(HString s, HString t)&#123;</span><br><span class="line">    for(i = 0; i &lt; s.len &amp;&amp; i &lt; t.len; i ++)&#123;</span><br><span class="line">        if(s.ch[i] != t.ch[i]) return s.ch[i] - t.ch[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return s.len - t.len;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool clearStr(HString *s)&#123;</span><br><span class="line">    free(s-&gt;ch);</span><br><span class="line">    s-&gt;len = 0;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool concat(HString *t, HString s1, HString s2)&#123;</span><br><span class="line">    if(t-&gt;ch) free(t-&gt;ch); //  释放旧空间</span><br><span class="line">    if(!(t-&gt;ch = (char*)malloc((s1.len + s2.len) * sizeof(char)))) exit(0);</span><br><span class="line">    for(int i = 0; i &lt; s1.len; i ++)&#123;</span><br><span class="line">        t-&gt;ch[i] = s1.ch[i];</span><br><span class="line">    &#125;</span><br><span class="line">    for(int j = 0; j &lt; s2.len; j ++) &#123;</span><br><span class="line">        t-&gt;ch[j + s1.len] = s2.ch[j];</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bool subStr(HString *sub, HString s, int pos, int len)&#123;</span><br><span class="line">    // 用sub返回串s的第pos个字符起长度为len的子串</span><br><span class="line">    // 其中, 1 &lt;= pos &lt;= strLen(s) 且 0 &lt;= len &lt;= strLen(s) - pos + 1</span><br><span class="line">    int lenOfs = strLen(s);</span><br><span class="line">    if(pos &lt; 1 || pos &gt; lenOfs || len &lt; 9 || len &gt; lenOfs - pos +1)</span><br><span class="line">        return false;</span><br><span class="line">    if(sub-&gt;ch) free(sub-&gt;ch);</span><br><span class="line">    if(!len) &#123;sub-&gt;ch = NULL;sub-&gt;len = 0;&#125; //空子串</span><br><span class="line">    else &#123;</span><br><span class="line">        sub-&gt;ch = (char*) malloc(len * sizeof(char));</span><br><span class="line">        for(int i = 0; i &lt; len; i ++)&#123;</span><br><span class="line">            sub-&gt;ch[i] = s.ch[pos - 1 + i];</span><br><span class="line">        &#125;</span><br><span class="line">        sub-&gt;len = len;</span><br><span class="line">    &#125;</span><br><span class="line">    return true;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">//串的块链存储方式不推荐使用. 存储密度低,虽然操作简单,但是内存使用率低, 且当串处理工程需要进行内外存交换的话, 则会会因为内外存交换过多影响处理的效率. 存储密度高, 操作相比前两种存储方式要更加复杂.</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line">#include &lt;stdlib.h&gt;</span><br><span class="line">#include &lt;stdbool.h&gt;</span><br><span class="line"></span><br><span class="line">#define CHUNKSIZE 80    //可由用户定义的块大小</span><br><span class="line">typedef struct chunk &#123;</span><br><span class="line">    char ch[CHUNKSIZE];</span><br><span class="line">    struct chunk * next;</span><br><span class="line">&#125;chunk;</span><br><span class="line"></span><br><span class="line">typedef struct &#123;</span><br><span class="line">    chunk *head, *tail; // 串的头指针和尾指针</span><br><span class="line">    int curlen; 串的当前长度</span><br><span class="line">&#125;lString;</span><br></pre></td></tr></table></figure>
+<h3 id="求子串位置的定位函数"><a href="#求子串位置的定位函数" class="headerlink" title="求子串位置的定位函数"></a>求子串位置的定位函数</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">#define MAXLEN;</span><br><span class="line">typedef unsigned char SString[MAXLEN + 1]</span><br><span class="line">int index(SString s, SString t, int pos)&#123;</span><br><span class="line">    // 返回子串t在主串s中第pos个字符之后的位置. 若不存在, 则函数返回值为0</span><br><span class="line">    //  其中, t非空, 1 &lt;= pos &lt;= strLen(s)</span><br><span class="line">    if(pos &lt; 1) return 0;</span><br><span class="line">    int i = pos, j = 1;</span><br><span class="line">    while(i &lt;= s[0] &amp;&amp; j &lt;= t[0])&#123;</span><br><span class="line">        if(s[i] == t[j]) &#123;i++; j++;&#125; // 继续比较后继字符</span><br><span class="line">        else &#123;i = i - j + 2; j = 1;&#125; // 指针后退重新匹配</span><br><span class="line">    &#125;</span><br><span class="line">    if(j &gt; t[0]) return i - t[0];</span><br><span class="line">    else return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="kmp算法"><a href="#kmp算法" class="headerlink" title="kmp算法"></a>kmp算法</h3><p>kmp的算法复杂度为 o(m + n); kmp算法在每次比较不等时,不需要回溯i指针,而是利用已部分匹配得到的结果将模式滑动尽可能远的一段距离后,继续进行比较.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">void get_next(SString s, int next[])&#123;</span><br><span class="line">    int j = 1, i = j + 1;</span><br><span class="line">    next[1] = 0; </span><br><span class="line">    while(i &lt; s[0]) &#123;</span><br><span class="line">        if(s[i] == s[j])&#123;  // 如果 pi = pj 则 next[i] = next[j] + 1 </span><br><span class="line">            next[i] = next[j] + 1;</span><br><span class="line">            i++; j ++;</span><br><span class="line">        &#125;else&#123; //如果pi != pj, 则把问题看作是p1..pj与p(i-j+1)...pi的模式匹配问题,前者为模式串, 后者为主串</span><br><span class="line">            j = next[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//进一步优化</span><br><span class="line">void get_next(SString t, int next[])&#123;</span><br><span class="line">    // 求模式串t的next函数值并存入数组next</span><br><span class="line">    int i = 1, next[1] = 0, j = 0;</span><br><span class="line">    while(i &lt; t[o])&#123;</span><br><span class="line">        if(j == 0 || t[i] == t[j])&#123;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">            next[i] = j;</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            j = next[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">//进一步优化</span><br><span class="line">void get_next(SString t, int next[])&#123;</span><br><span class="line">    // 求模式串t的next函数值并存入数组next</span><br><span class="line">    int i = 1, next[1] = 0, j = 0;</span><br><span class="line">    while(i &lt; t[o])&#123;</span><br><span class="line">        if(j == 0 || t[i] == t[j])&#123;</span><br><span class="line">            i++;</span><br><span class="line">            j++;</span><br><span class="line">            if(t[i] != t[j]) next[i] = j;</span><br><span class="line">            else next[i] = next[j];</span><br><span class="line">        &#125;else&#123;</span><br><span class="line">            j = next[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">int index_kmp(SString s, SString t, int pos)&#123;</span><br><span class="line">    // 利用模式串t的next函数求t在主串s中第pos个字符之后的位置的kmp算法. 其中, t非空, 1 &lt;= pos &lt;= strLen(s)</span><br><span class="line">    if(pos &lt; 1) return 0;</span><br><span class="line">    int i = pos, j = 1;</span><br><span class="line">    while(i &lt;= s[0] &amp;&amp; j &lt;= t[0])&#123;</span><br><span class="line">        if(j == 0 || s[i] == t[i]) &#123;i ++; j ++;&#125;</span><br><span class="line">        else j = next[j];</span><br><span class="line">    &#125;</span><br><span class="line">    if(j &gt; T[0]) return i - t[0];</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/06/02/计算机组成原理/" rel="next" title="计算机组成原理">
+                <i class="fa fa-chevron-left"></i> 计算机组成原理
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/11/30/c++Primer/" rel="prev" title="c ++ primer">
+                c ++ primer <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <p class="site-author-name" itemprop="name">brczo</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">9</span>
+                  <span class="site-state-item-name">分类</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">8</span>
+                  <span class="site-state-item-name">标签</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#基本概念和术语"><span class="nav-text">基本概念和术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法与算法分析"><span class="nav-text">算法与算法分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线性表"><span class="nav-text">线性表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数组与广义表"><span class="nav-text">数组与广义表</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#三元组顺序表"><span class="nav-text">三元组顺序表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#行逻辑链接的顺序表"><span class="nav-text">行逻辑链接的顺序表</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-M-X-N大致可描述如下"><span class="nav-text">Q = M X N大致可描述如下</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Q-M-X-N求精过程"><span class="nav-text">Q = M X N求精过程</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#十字链表"><span class="nav-text">十字链表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广义表的存储结构"><span class="nav-text">广义表的存储结构</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#广义表的扩展线性链表存储表示"><span class="nav-text">广义表的扩展线性链表存储表示</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树的定义与基本术语"><span class="nav-text">树的定义与基本术语</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树的性质"><span class="nav-text">二叉树的性质</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的存储结构"><span class="nav-text">二叉树的存储结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#顺序存储结构"><span class="nav-text">顺序存储结构</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#链式存储结构"><span class="nav-text">链式存储结构</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的遍历"><span class="nav-text">二叉树的遍历</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线索二叉树"><span class="nav-text">线索二叉树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#树和森林"><span class="nav-text">树和森林</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#双亲表示法"><span class="nav-text">双亲表示法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#孩子表示法"><span class="nav-text">孩子表示法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#孩子兄弟表示法"><span class="nav-text">孩子兄弟表示法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#森林与二叉树的转换"><span class="nav-text">森林与二叉树的转换</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#huffman树及其应用"><span class="nav-text">huffman树及其应用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查找树"><span class="nav-text">查找树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#静态查找表"><span class="nav-text">静态查找表</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序表的查找"><span class="nav-text">顺序表的查找</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#串"><span class="nav-text">串</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#求子串位置的定位函数"><span class="nav-text">求子串位置的定位函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#kmp算法"><span class="nav-text">kmp算法</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">brczo</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a> 强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Muse</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
